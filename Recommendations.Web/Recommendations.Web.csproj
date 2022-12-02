@@ -12,6 +12,7 @@
     </PropertyGroup>
 
     <ItemGroup>
+        <PackageReference Include="AutoMapper.Extensions.Microsoft.DependencyInjection" Version="12.0.0" />
         <PackageReference Include="Microsoft.AspNetCore.SpaProxy" Version="7.0.0" />
     </ItemGroup>
 
@@ -24,6 +25,12 @@
 
     <ItemGroup>
       <Folder Include="Controllers" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <ProjectReference Include="..\Recommendations.Application\Recommendations.Application.csproj" />
+      <ProjectReference Include="..\Recommendations.Domain\Recommendations.Domain.csproj" />
+      <ProjectReference Include="..\Recommendations.Persistence\Recommendations.Persistence.csproj" />
     </ItemGroup>
 
     <Target Name="DebugEnsureNodeEnv" BeforeTargets="Build" Condition=" '$(Configuration)' == 'Debug' And !Exists('$(SpaRoot)node_modules') ">
