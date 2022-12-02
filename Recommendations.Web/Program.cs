@@ -1,6 +1,14 @@
+using System.Reflection;
+using Recommendations.Application.Common.Mappings;
+
 var builder = WebApplication.CreateBuilder(args);
 
 builder.Services.AddControllersWithViews();
+
+builder.Services.AddAutoMapper(config =>
+{
+    config.AddProfile(new AssemblyMappingProfile(Assembly.GetExecutingAssembly()));
+});
 
 var app = builder.Build();
 
