@@ -9,6 +9,7 @@ import {NavMenuComponent} from './nav-menu/nav-menu.component';
 import {HomeComponent} from './home/home.component';
 import {RegistrationComponent} from "./registration/registration.component";
 import {LoginComponent} from "./login/login.component";
+import {ThemeToggleComponent} from "./theme-toggle/theme-toggle.component";
 
 @NgModule({
   declarations: [
@@ -16,7 +17,8 @@ import {LoginComponent} from "./login/login.component";
     NavMenuComponent,
     HomeComponent,
     RegistrationComponent,
-    LoginComponent
+    LoginComponent,
+    ThemeToggleComponent
   ],
   imports: [
     BrowserModule.withServerTransition({appId: 'ng-cli-universal'}),
