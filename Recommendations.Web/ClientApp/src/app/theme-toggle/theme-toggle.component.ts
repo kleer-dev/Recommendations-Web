@@ -1,5 +1,5 @@
-import { Component, OnInit } from '@angular/core';
-import { ThemeService } from 'src/app/services/theme.service';
+import {Component, OnInit} from '@angular/core';
+import {ThemeService} from 'src/app/services/theme.service';
 
 @Component({
   selector: 'app-theme-toggle',
@@ -7,10 +7,12 @@ import { ThemeService } from 'src/app/services/theme.service';
   styleUrls: ['theme-toggle.component.css']
 })
 export class ThemeToggleComponent implements OnInit {
+  savedTheme = ''
+  theme: string = 'bootstrap-dark';
 
-  theme: string = 'bootstrap';
-
-  constructor(private themeService: ThemeService) { }
+  constructor(private themeService: ThemeService) {
+    this.getSavedTheme()
+  }
 
   ngOnInit(): void {
   }
@@ -18,11 +20,28 @@ export class ThemeToggleComponent implements OnInit {
   toggleTheme() {
     if (this.theme === 'bootstrap') {
       this.theme = 'bootstrap-dark';
-    } else  {
+      localStorage.setItem('theme', 'dark')
+    } else {
       this.theme = 'bootstrap';
+      localStorage.setItem('theme', 'light')
     }
 
     this.themeService.setTheme(this.theme)
+  }
+
+  getSavedTheme() {
+    this.savedTheme = localStorage.getItem('theme')!
+    if (this.savedTheme !== undefined) {
+      switch (this.savedTheme) {
+        case 'dark':
+          this.theme = 'bootstrap-dark'
+          break;
+
+        case 'light':
+          this.theme = 'bootstrap'
+          break;
+      }
+    }
   }
 
 }

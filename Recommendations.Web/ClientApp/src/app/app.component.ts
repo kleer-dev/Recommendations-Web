@@ -15,7 +15,7 @@ export class AppComponent {
       if (theme.oldValue) {
         this.renderer.removeClass(document.body, theme.oldValue);
       }
-      this.renderer.addClass(document.body, theme.newValue);
+      this.renderer.addClass(document.body, theme.newValue!);
     })
   }
 }
