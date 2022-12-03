@@ -1,6 +1,6 @@
 <div class="w-100 d-flex justify-content-center align-items-center">
 
-  <form class="col-lg-4 p-0 m-0 w-100" novalidate>
+  <form [formGroup]="registrationForm" (ngSubmit)="onSubmit()" class="col-lg-4 p-0 m-0 w-100">
 
     <h3 class="d-flex justify-content-center">Registration</h3>
 
@@ -10,29 +10,66 @@
 
     <div class="col mb-2">
       <label for="validationCustom01" class="form-label fw-semibold">Login</label>
-      <input type="text" class="form-control" id="validationCustom01" required>
+      <input formControlName="login" maxlength="50" type="text" class="form-control" id="validationCustom01" required>
+      <div class="text-danger" *ngIf="registrationForm.controls.login.errors?.required &&
+                   registrationForm.controls['login'].touched">
+        Login is required
+      </div>
+      <div class="text-danger"
+            *ngIf="registrationForm.controls.login.errors?.minlength &&
+            registrationForm.controls['login'].touched">
+        Minimum length is 4 symbols
+      </div>
     </div>
 
     <div class="col mb-2">
       <label for="validationCustomUsername" class="form-label fw-semibold">Email</label>
       <div class="input-group has-validation">
         <span class="input-group-text" id="inputGroupPrepend">@</span>
-        <input type="text" class="form-control" id="validationCustomUsername" aria-describedby="inputGroupPrepend"
+        <input formControlName="email" type="text" class="form-control" id="validationCustomUsername"
+               aria-describedby="inputGroupPrepend"
                required>
-        <div class="invalid-feedback">
-          Please enter your email.
-        </div>
+      </div>
+
+      <div class="text-danger" *ngIf="registrationForm.controls.email.errors?.required &&
+            registrationForm.controls['email'].touched">
+        Email is required
+      </div>
+      <div class="text-danger" *ngIf="registrationForm.controls.email.errors?.email &&
+                  registrationForm.controls['email'].touched">
+        Is not an email
       </div>
     </div>
 
     <div class="col mb-2">
       <label for="validationCustom03" class="form-label fw-semibold">Password</label>
-      <input type="password" class="form-control" id="validationCustom03" required>
+      <input formControlName="password" type="password" class="form-control" id="validationCustom03">
+
+      <div class="text-danger" *ngIf="registrationForm.controls.password.errors?.required &&
+                                    registrationForm.controls['password'].touched">
+        Password is required
+      </div>
+      <div class="text-danger" *ngIf="registrationForm.controls.password.errors?.minlength &&
+                                  registrationForm.controls['password'].touched">
+        Minimum length is 4 symbols
+      </div>
     </div>
 
     <div class="col mb-3">
       <label for="validationCustom03" class="form-label fw-semibold">Password confirmation</label>
-      <input type="password" class="form-control" id="validationCustom04" required>
+      <input formControlName="passwordConfirmation" type="password"
+             class="form-control" id="validationCustom04" required
+      >
+
+      <div class="text-danger" *ngIf="registrationForm.controls['passwordConfirmation'].errors?.required &&
+                            registrationForm.controls['passwordConfirmation'].touched">
+        Passwords confirmation is required
+      </div>
+
+      <div class="text-danger" *ngIf="registrationForm.hasError('notSame') &&
+                            registrationForm.controls['passwordConfirmation'].touched">
+        Passwords do not match
+      </div>
     </div>
 
     <div class="col-12 m-0 p-0 w-100  row d-flex justify-content-center">
@@ -40,7 +77,7 @@
       <div class="col-12 row w-100 m-0 p-0 d-flex justify-content-center">
         <div class="col">
           <div class="form-check">
-            <input class="form-check-input" type="checkbox" value="" id="invalidCheck" required>
+            <input formControlName="remember" class="form-check-input" type="checkbox" value="false" id="invalidCheck" required>
             <label class="form-check-label fw-semibold" for="invalidCheck">
               Remember me
             </label>
@@ -55,7 +92,7 @@
     </div>
 
     <div class="col-12 mt-3">
-      <button class="btn btn-primary w-100" type="submit">Sign Up</button>
+      <input [disabled]="registrationForm.invalid" class="btn btn-primary w-100" value="Sign Up" type="submit">
     </div>
 
     <div class="col-12 flex-column mt-2">
