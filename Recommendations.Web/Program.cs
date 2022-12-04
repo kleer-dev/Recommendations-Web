@@ -3,6 +3,7 @@ using Recommendations.Application;
 using Recommendations.Application.Common.Interfaces;
 using Recommendations.Application.Common.Mappings;
 using Recommendations.Persistence;
+using Recommendations.Web.Middlewares;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -24,6 +25,8 @@ if (!app.Environment.IsDevelopment())
 {
     app.UseHsts();
 }
+
+app.UseMiddleware<ExceptionHandlingMiddleware>();
 
 app.UseHttpsRedirection();
 app.UseStaticFiles();

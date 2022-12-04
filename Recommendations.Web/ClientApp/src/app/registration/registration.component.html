@@ -8,6 +8,10 @@
       <div class="fw-semibold">Already have an account? <a routerLink="/login">Sign In</a></div>
     </div>
 
+    <div class="text-danger d-flex justify-content-center mb-2">
+      {{ error }}
+    </div>
+
     <div class="col mb-2">
       <label for="validationCustom01" class="form-label fw-semibold">Login</label>
       <input formControlName="login" maxlength="50" type="text" class="form-control" id="validationCustom01" required>
@@ -16,7 +20,7 @@
         Login is required
       </div>
       <div class="text-danger"
-            *ngIf="registrationForm.controls.login.errors?.minlength &&
+           *ngIf="registrationForm.controls.login.errors?.minlength &&
             registrationForm.controls['login'].touched">
         Minimum length is 4 symbols
       </div>

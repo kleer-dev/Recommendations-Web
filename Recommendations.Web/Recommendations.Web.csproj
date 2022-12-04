@@ -24,10 +24,6 @@
     </ItemGroup>
 
     <ItemGroup>
-      <Folder Include="Controllers" />
-    </ItemGroup>
-
-    <ItemGroup>
       <ProjectReference Include="..\Recommendations.Application\Recommendations.Application.csproj" />
       <ProjectReference Include="..\Recommendations.Domain\Recommendations.Domain.csproj" />
       <ProjectReference Include="..\Recommendations.Persistence\Recommendations.Persistence.csproj" />
