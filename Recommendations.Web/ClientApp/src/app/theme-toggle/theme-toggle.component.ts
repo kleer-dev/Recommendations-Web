@@ -8,7 +8,7 @@ import {ThemeService} from 'src/app/services/theme.service';
 })
 export class ThemeToggleComponent implements OnInit {
   savedTheme = ''
-  theme: string = 'bootstrap-dark';
+  theme: string = 'bootstrap';
 
   constructor(private themeService: ThemeService) {
     this.getSavedTheme()
