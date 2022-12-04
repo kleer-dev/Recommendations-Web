@@ -11,7 +11,6 @@ export class RegistrationComponent {
   checkPasswordConfirmation: ValidatorFn = (group: AbstractControl): ValidationErrors | null => {
     const password = group.get('password')?.value;
     const passwordConfirm = group.get('passwordConfirmation')?.value;
-    group.get('remember')?.clearValidators()
 
     return password === passwordConfirm ? null : {notSame: true}
   };
@@ -33,9 +32,7 @@ export class RegistrationComponent {
       Validators.required
     ]),
     'remember': new FormControl(false)
-  }, {
-    validators: this.checkPasswordConfirmation,
-  })
+  }, {validators: this.checkPasswordConfirmation})
 
   onSubmit() {
     console.log(this.registrationForm?.controls.remember)

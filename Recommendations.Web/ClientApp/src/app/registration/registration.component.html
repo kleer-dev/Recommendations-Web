@@ -77,7 +77,7 @@
       <div class="col-12 row w-100 m-0 p-0 d-flex justify-content-center">
         <div class="col">
           <div class="form-check">
-            <input formControlName="remember" class="form-check-input" type="checkbox" value="false" id="invalidCheck" required>
+            <input formControlName="remember" class="form-check-input" type="checkbox" value="false" id="invalidCheck">
             <label class="form-check-label fw-semibold" for="invalidCheck">
               Remember me
             </label>
@@ -92,7 +92,7 @@
     </div>
 
     <div class="col-12 mt-3">
-      <input [disabled]="registrationForm.invalid" class="btn btn-primary w-100" value="Sign Up" type="submit">
+      <input [disabled]="!registrationForm.valid" class="btn btn-primary w-100" value="Sign Up" type="submit">
     </div>
 
     <div class="col-12 flex-column mt-2">
