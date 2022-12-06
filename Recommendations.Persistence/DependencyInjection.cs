@@ -21,7 +21,10 @@ public static class DependencyInjection
         var connectionString = connectionStringManager
             .GetConnectionString();
         
-        services.AddDbContext<RecommendationsDbContext>(options => options.UseNpgsql(connectionString));
+        services.AddDbContext<RecommendationsDbContext>(options => 
+            options.UseNpgsql(connectionString, o => 
+                o.MigrationsAssembly(typeof(RecommendationsDbContext).Assembly.FullName)));
+        
         services.AddScoped<IRecommendationsDbContext, RecommendationsDbContext>();
         services.AddIdentityConfiguration();
         
