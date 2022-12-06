@@ -13,6 +13,9 @@
 
     <ItemGroup>
         <PackageReference Include="AutoMapper.Extensions.Microsoft.DependencyInjection" Version="12.0.0" />
+        <PackageReference Include="Microsoft.AspNetCore.Authentication.Google" Version="7.0.0" />
+        <PackageReference Include="Microsoft.AspNetCore.Identity" Version="2.2.0" />
+        <PackageReference Include="Microsoft.AspNetCore.Mvc.NewtonsoftJson" Version="7.0.0" />
         <PackageReference Include="Microsoft.AspNetCore.SpaProxy" Version="7.0.0" />
     </ItemGroup>
 
@@ -27,6 +30,11 @@
       <ProjectReference Include="..\Recommendations.Application\Recommendations.Application.csproj" />
       <ProjectReference Include="..\Recommendations.Domain\Recommendations.Domain.csproj" />
       <ProjectReference Include="..\Recommendations.Persistence\Recommendations.Persistence.csproj" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <Folder Include="ClientApp\src\app\services\account" />
+      <Folder Include="ClientApp\src\app\services\interceptor" />
     </ItemGroup>
 
     <Target Name="DebugEnsureNodeEnv" BeforeTargets="Build" Condition=" '$(Configuration)' == 'Debug' And !Exists('$(SpaRoot)node_modules') ">
