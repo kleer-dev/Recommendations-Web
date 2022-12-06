@@ -5,7 +5,7 @@ using Recommendations.Domain;
 
 namespace Recommendations.Persistence.DbContexts;
 
-public class RecommendationsDbContext : IdentityDbContext<User>,
+public sealed class RecommendationsDbContext : IdentityDbContext<User>,
     IRecommendationsDbContext
 {
     public DbSet<User> Users { get; set; }
@@ -13,6 +13,6 @@ public class RecommendationsDbContext : IdentityDbContext<User>,
     public RecommendationsDbContext(DbContextOptions<RecommendationsDbContext> options)
         : base(options)
     {
-        Database.EnsureCreated();
+        Database.Migrate();
     }
 }
