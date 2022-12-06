@@ -3,10 +3,13 @@ using Recommendations.Application;
 using Recommendations.Application.Common.Interfaces;
 using Recommendations.Application.Common.Mappings;
 using Recommendations.Persistence;
+using Recommendations.Web.Middlewares;
 
 var builder = WebApplication.CreateBuilder(args);
+var policyOptions = new CookiePolicyOptions { Secure = CookieSecurePolicy.Always };
 
-builder.Services.AddControllersWithViews();
+builder.Services.AddControllersWithViews()
+    .AddNewtonsoftJson();;
 
 builder.Services.AddAutoMapper(config =>
 {
@@ -14,8 +17,7 @@ builder.Services.AddAutoMapper(config =>
     config.AddProfile(new AssemblyMappingProfile(typeof(IRecommendationsDbContext).Assembly));
 });
 
-builder.Services.AddConnectionStringsManager(builder.Configuration);
-builder.Services.AddApplication();
+builder.Services.AddApplication(builder.Configuration);
 builder.Services.AddPersistence(builder.Configuration);
 
 var app = builder.Build();
@@ -25,9 +27,16 @@ if (!app.Environment.IsDevelopment())
     app.UseHsts();
 }
 
+app.UseMiddleware<ExceptionHandlingMiddleware>();
+
 app.UseHttpsRedirection();
+
 app.UseStaticFiles();
 app.UseRouting();
+
+app.UseCookiePolicy(policyOptions);
+app.UseAuthentication();
+app.UseAuthorization();
 
 app.MapControllerRoute(
     name: "default",

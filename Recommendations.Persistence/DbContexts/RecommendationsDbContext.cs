@@ -8,6 +8,8 @@ namespace Recommendations.Persistence.DbContexts;
 public class RecommendationsDbContext : IdentityDbContext<User>,
     IRecommendationsDbContext
 {
+    public DbSet<User> Users { get; set; }
+
     public RecommendationsDbContext(DbContextOptions<RecommendationsDbContext> options)
         : base(options)
     {
