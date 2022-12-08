@@ -6,10 +6,15 @@ using Recommendations.Persistence;
 using Recommendations.Web.Middlewares;
 
 var builder = WebApplication.CreateBuilder(args);
-var policyOptions = new CookiePolicyOptions { Secure = CookieSecurePolicy.Always };
+var policyOptions = new CookiePolicyOptions { Secure = CookieSecurePolicy.SameAsRequest };
+
+builder.Configuration.AddEnvironmentVariables()
+    .AddUserSecrets(Assembly.GetExecutingAssembly(), true);
+builder.Configuration
+    .AddJsonFile("/etc/secrets/secrets.json", true);
 
 builder.Services.AddControllersWithViews()
-    .AddNewtonsoftJson();;
+    .AddNewtonsoftJson();
 
 builder.Services.AddAutoMapper(config =>
 {
@@ -18,7 +23,7 @@ builder.Services.AddAutoMapper(config =>
 });
 
 builder.Services.AddApplication(builder.Configuration);
-builder.Services.AddPersistence(builder.Configuration);
+builder.Services.AddPersistence();
 
 var app = builder.Build();
 
@@ -30,7 +35,6 @@ if (!app.Environment.IsDevelopment())
 app.UseMiddleware<ExceptionHandlingMiddleware>();
 
 app.UseHttpsRedirection();
-
 app.UseStaticFiles();
 app.UseRouting();
 

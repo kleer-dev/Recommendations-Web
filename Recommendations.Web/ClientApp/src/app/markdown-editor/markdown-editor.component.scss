@@ -1,0 +1,40 @@
+:host {
+  border-radius: 3px;
+  border: 2px solid #b7b7b7;
+  outline: none;
+  background: #fff;
+  display: flex;
+  flex-direction: column;
+
+  .text-editor {
+    padding-left: 15px;
+    padding-right: 15px;
+    width: 100% !important;
+    resize: none;
+    //min-height: 200px !important;
+    max-height: 700px !important;
+    height: 500px !important;
+    overflow-y: auto;
+    border-color: transparent;
+
+
+    &:focus {
+      outline: none;
+      border: transparent;
+    }
+  }
+
+  &.focus {
+    border: 2px solid #b7b7b7;
+  }
+}
+
+markdown-toolbar{
+  padding: 5px;
+
+  .btn{
+    margin: 5px;
+  }
+}
+
+

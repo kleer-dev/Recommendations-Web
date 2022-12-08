@@ -2,7 +2,6 @@ import {Component, Inject} from '@angular/core';
 import {AbstractControl, FormControl, FormGroup, ValidationErrors, ValidatorFn, Validators} from "@angular/forms";
 import {HttpClient} from "@angular/common/http";
 import {Router} from "@angular/router";
-import {AccountService} from "../services/account/account.service";
 
 @Component({
   selector: 'app-registration',
@@ -25,22 +24,22 @@ export class RegistrationComponent {
   };
 
   registrationForm = new FormGroup({
-    'login': new FormControl('', [
+    login: new FormControl('', [
       Validators.required,
       Validators.minLength(4)
     ]),
-    'email': new FormControl('', [
+    email: new FormControl('', [
       Validators.required,
       Validators.email
     ]),
-    'password': new FormControl('', [
+    password: new FormControl('', [
       Validators.required,
       Validators.minLength(4)
     ]),
-    'passwordConfirmation': new FormControl('', [
+    passwordConfirmation: new FormControl('', [
       Validators.required
     ]),
-    'remember': new FormControl(false)
+    remember: new FormControl(false)
   }, {validators: this.checkPasswordConfirmation})
 
   onSubmit() {

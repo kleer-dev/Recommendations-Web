@@ -17,15 +17,15 @@ export class LoginComponent {
   }
 
   loginForm = new FormGroup({
-    'email': new FormControl('', [
+    email: new FormControl('', [
       Validators.required,
       Validators.email
     ]),
-    'password': new FormControl('', [
+    password: new FormControl('', [
       Validators.required,
       Validators.minLength(4)
     ]),
-    'remember': new FormControl(false)
+    remember: new FormControl(false)
   })
 
   onSubmit() {

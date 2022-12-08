@@ -2,7 +2,9 @@
 
 namespace Recommendations.Domain;
 
-public class User : IdentityUser
+public class User : IdentityUser<Guid>
 {
+    public override Guid Id { get; set; }
     
+    public List<Review> Reviews { get; set; }
 }

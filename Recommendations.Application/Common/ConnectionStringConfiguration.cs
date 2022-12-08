@@ -1,12 +1,13 @@
 ﻿using Microsoft.Extensions.Configuration;
+using Recommendations.Application.Common.Interfaces;
 
 namespace Recommendations.Application.Common;
 
-public class ConnectionStringManager
+public class ConnectionStringConfiguration : IConnectionStringConfiguration
 {
     private readonly IConfiguration _configuration;
 
-    public ConnectionStringManager(IConfiguration configuration)
+    public ConnectionStringConfiguration(IConfiguration configuration)
     {
         _configuration = configuration;
     }
