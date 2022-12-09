@@ -60,7 +60,7 @@ public class UserController : BaseController
         var authenticationProperties = 
             await _mediator.Send(getAuthenticationPropertiesQuery);
         
-        return new ChallengeResult(provider, authenticationProperties);
+        return Challenge(authenticationProperties, provider);
     }
     
     [HttpGet("external-login-callback")]

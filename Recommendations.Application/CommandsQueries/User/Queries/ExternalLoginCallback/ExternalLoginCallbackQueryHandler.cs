@@ -10,7 +10,7 @@ public class ExternalLoginCallbackQueryHandler : IRequestHandler<ExternalLoginCa
     private readonly SignInManager<Domain.User> _signInManager;
     private readonly UserManager<Domain.User> _userManager;
     
-    private const bool SaveCookiesAfterExitingBrowser = true;
+    private const bool SaveCookiesAfterExitingBrowser = false;
 
     public ExternalLoginCallbackQueryHandler(SignInManager<Domain.User> signInManager,
         UserManager<Domain.User> userManager)

@@ -37,6 +37,11 @@
             reviewForm.controls['title'].touched">
             Title is required
           </div>
+
+          <div class="text-danger" *ngIf="reviewForm.controls.title.hasError('minlength')&&
+            reviewForm.controls['title'].touched">
+            Min length - 5
+          </div>
         </div>
 
         <div class="col mb-2">
@@ -45,6 +50,11 @@
           <div class="text-danger" *ngIf="reviewForm.controls.productName.errors?.required &&
             reviewForm.controls['productName'].touched">
             Product name is required
+          </div>
+
+          <div class="text-danger" *ngIf="reviewForm.controls.productName.hasError('minlength')&&
+            reviewForm.controls['title'].touched">
+            Min length - 5
           </div>
         </div>
 
