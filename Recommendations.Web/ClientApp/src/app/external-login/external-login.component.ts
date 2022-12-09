@@ -1,9 +1,4 @@
-import { Component } from '@angular/core';
-import {Subscription} from "rxjs";
-import {HttpClient} from "@angular/common/http";
-import {AccountService} from "../services/account/account.service";
-import {environment} from "../../environments/environment";
-import {Router} from "@angular/router";
+import {Component} from '@angular/core';
 
 @Component({
   selector: 'app-external-login',
@@ -11,11 +6,11 @@ import {Router} from "@angular/router";
 })
 export class ExternalLoginComponent {
 
-  constructor(private accountService: AccountService, private http: HttpClient) {
+  constructor() {
 
   }
 
-  externalAuth(provider: string){
-    this.accountService.login(provider);
+  externalAuth(provider: string) {
+    window.location.href = `api/user/external-login?provider=${provider}`;
   }
 }

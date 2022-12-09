@@ -9,6 +9,8 @@ public class ExternalLoginCallbackQueryHandler : IRequestHandler<ExternalLoginCa
 {
     private readonly SignInManager<Domain.User> _signInManager;
     private readonly UserManager<Domain.User> _userManager;
+    
+    private const bool SaveCookiesAfterExitingBrowser = false;
 
     public ExternalLoginCallbackQueryHandler(SignInManager<Domain.User> signInManager,
         UserManager<Domain.User> userManager)
@@ -21,8 +23,8 @@ public class ExternalLoginCallbackQueryHandler : IRequestHandler<ExternalLoginCa
     {
         var info = await _signInManager.GetExternalLoginInfoAsync();            
         var result = await _signInManager.ExternalLoginSignInAsync(info!.LoginProvider,
-            info.ProviderKey, isPersistent: true);
-        
+            info.ProviderKey, SaveCookiesAfterExitingBrowser , bypassTwoFactor: true);
+
         if (result.Succeeded) 
             return Unit.Value;
 
@@ -30,9 +32,7 @@ public class ExternalLoginCallbackQueryHandler : IRequestHandler<ExternalLoginCa
                    ?? await CreateUser(info);
         
         await _userManager.AddLoginAsync(user, info);
-        var newUserClaims = info.Principal.Claims.Append(new Claim("userId", user.Id));
-        await _userManager.AddClaimsAsync(user, newUserClaims);        
-        await _signInManager.SignInAsync(user, isPersistent: true);
+        await _signInManager.SignInAsync(user, SaveCookiesAfterExitingBrowser);
         
         return Unit.Value;
     }
@@ -42,8 +42,7 @@ public class ExternalLoginCallbackQueryHandler : IRequestHandler<ExternalLoginCa
         var newUser = new Domain.User
         {
             UserName = info.Principal.FindFirstValue(ClaimTypes.Name),
-            Email = info.Principal.FindFirstValue(ClaimTypes.Email),
-            EmailConfirmed = true
+            Email = info.Principal.FindFirstValue(ClaimTypes.Email)
         };
         var createResult = await _userManager.CreateAsync(newUser);
         

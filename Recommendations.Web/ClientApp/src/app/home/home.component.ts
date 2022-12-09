@@ -1,8 +1,5 @@
-import { Component } from '@angular/core';
-import {Subscription} from "rxjs";
+import {Component} from '@angular/core';
 import {HttpClient} from "@angular/common/http";
-import {AccountService} from "../services/account/account.service";
-import {environment} from "../../environments/environment";
 import {Router} from "@angular/router";
 
 @Component({
@@ -10,21 +7,15 @@ import {Router} from "@angular/router";
   templateUrl: './home.component.html',
 })
 export class HomeComponent {
-  isUserAuthenticated = false;
-  subscription?: Subscription;
-  userName?: string;
-
-  constructor(private httpClient: HttpClient, private accountService: AccountService, private router: Router) {
+  constructor(private http: HttpClient, private router: Router) {
   }
 
+  email?: any;
+
   ngOnInit() {
-    this.subscription = this.accountService.isUserAuthenticated.subscribe(isAuthenticated => {
-      this.isUserAuthenticated = isAuthenticated;
-      if (this.isUserAuthenticated) {
-        this.httpClient.get(`api/home/name`, { responseType: 'text', withCredentials: true }).subscribe(theName => {
-          this.userName = theName;
-        });
-      }
-    });
+    this.http.get<any>('api/home/name')
+      .subscribe({
+        next: (data: any) => this.email = data
+      });
   }
 }

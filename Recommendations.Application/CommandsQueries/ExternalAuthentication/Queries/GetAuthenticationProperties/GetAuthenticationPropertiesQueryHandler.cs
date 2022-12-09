@@ -7,13 +7,10 @@ namespace Recommendations.Application.CommandsQueries.ExternalAuthentication.Que
 public class GetAuthenticationPropertiesQueryHandler : IRequestHandler<GetAuthenticationPropertiesQuery, AuthenticationProperties>
 {
     private readonly SignInManager<Domain.User> _signInManager;
-    private readonly UserManager<Domain.User> _userManager;
 
-    public GetAuthenticationPropertiesQueryHandler(SignInManager<Domain.User> signInManager,
-        UserManager<Domain.User> userManager)
+    public GetAuthenticationPropertiesQueryHandler(SignInManager<Domain.User> signInManager)
     {
         _signInManager = signInManager;
-        _userManager = userManager;
     }
 
     public Task<AuthenticationProperties> Handle(GetAuthenticationPropertiesQuery request,

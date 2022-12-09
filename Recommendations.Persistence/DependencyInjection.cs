@@ -1,23 +1,19 @@
 ﻿using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using Recommendations.Application.Common;
 using Recommendations.Application.Common.Interfaces;
-using Recommendations.Domain;
 using Recommendations.Persistence.DbContexts;
 
 namespace Recommendations.Persistence;
 
 public static class DependencyInjection
 {
-    public static IServiceCollection AddPersistence(this IServiceCollection services,
-        IConfiguration configuration)
+    public static void AddPersistence(this IServiceCollection services)
     {
         var serviceProvider = services.BuildServiceProvider();
         
         var connectionStringManager = serviceProvider
-            .GetRequiredService<ConnectionStringManager>();
+            .GetRequiredService<IConnectionStringConfiguration>();
         var connectionString = connectionStringManager
             .GetConnectionString();
         
@@ -27,16 +23,15 @@ public static class DependencyInjection
         
         services.AddScoped<IRecommendationsDbContext, RecommendationsDbContext>();
         services.AddIdentityConfiguration();
-        
-        return services;
     }
     
-    private static IServiceCollection AddIdentityConfiguration(this IServiceCollection services)
+    private static void AddIdentityConfiguration(this IServiceCollection services)
     {
-        services.AddIdentity<User, IdentityRole>(options =>
+        services.AddIdentity<Domain.User, IdentityRole<Guid>>(options =>
             {
                 options.User.RequireUniqueEmail = true;
                 options.User.AllowedUserNameCharacters = 
+                    "абвгдеёжзийклмнопрстуфхцчшщъыьэюяАБВГДЕЁЖЗИЙКЛМНОПРСТУФХЦЧШЩЪЫЬЭЮЯ" +
                     "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789-._@+/ ";
                 options.Password.RequiredLength = 4;
                 options.Password.RequireDigit = false;
@@ -46,7 +41,5 @@ public static class DependencyInjection
                 options.SignIn.RequireConfirmedEmail = true;
             })
             .AddEntityFrameworkStores<RecommendationsDbContext>();
-
-        return services;
     }
 }

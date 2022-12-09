@@ -1,5 +1,3 @@
-/* You can add global styles to this file, and also import other style files */
-
 /* Provide sufficient contrast against white background */
 a {
   color: #0366d6;
@@ -11,4 +9,37 @@ a {
 
 code {
   color: #e01a76;
+}
+
+table{
+  border: 1px solid #eee;
+  table-layout: fixed;
+  width: 100%;
+  margin-bottom: 20px;
+}
+
+table th {
+  font-weight: bold;
+  padding: 5px;
+  background: #efefef;
+  border: 1px solid #dddddd;
+}
+
+table td{
+  padding: 5px 10px;
+  border: 1px solid #eee;
+  text-align: left;
+}
+
+table tbody tr:nth-child(odd){
+  background: #fff;
+}
+
+table tbody tr:nth-child(even){
+  background: #F7F7F7;
+}
+
+blockquote{
+  border-left: 3px solid black;
+  padding-left: 10px;
 }

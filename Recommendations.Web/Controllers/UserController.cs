@@ -14,7 +14,7 @@ namespace Recommendations.Web.Controllers;
 
 [ApiController]
 [Route("api/user")]
-public class UserController : Controller
+public class UserController : BaseController
 {
     private readonly IMapper _mapper;
     private readonly IMediator _mediator;
@@ -68,6 +68,7 @@ public class UserController : Controller
     {
         var externalLoginCallbackQuery = new ExternalLoginCallbackQuery();
         await _mediator.Send(externalLoginCallbackQuery);
+        
         return Ok();                        
     }
     

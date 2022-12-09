@@ -1,7 +1,7 @@
 import {BrowserModule} from '@angular/platform-browser';
-import {APP_INITIALIZER, NgModule} from '@angular/core';
+import {NgModule, SecurityContext} from '@angular/core';
 import {FormsModule, ReactiveFormsModule} from '@angular/forms';
-import {HTTP_INTERCEPTORS, HttpClientModule} from '@angular/common/http';
+import {HttpClientModule} from '@angular/common/http';
 import {RouterModule} from '@angular/router';
 
 import {AppComponent} from './app.component';
@@ -11,12 +11,19 @@ import {RegistrationComponent} from "./registration/registration.component";
 import {LoginComponent} from "./login/login.component";
 import {ThemeToggleComponent} from "./theme-toggle/theme-toggle.component";
 
-import {SocialLoginModule, SocialAuthServiceConfig} from '@abacritt/angularx-social-login';
-import {AccountService} from "./services/account/account.service";
-import {Interceptor401Service} from "./services/interceptor/interceptor401.service";
-import {checkIfUserIsAuthenticated} from "./services/check-login-intializer";
+import { NgbRatingModule } from '@ng-bootstrap/ng-bootstrap';
+import {NgbModule} from '@ng-bootstrap/ng-bootstrap';
 import {ExternalLoginComponent} from "./external-login/external-login.component";
 import {LoginCallbackComponent} from "./auth-callback/login-callback.component";
+import {CreateReviewComponent} from "./create-review/create-review.component";
+import {NgxDropzoneModule} from "ngx-dropzone";
+import { TagInputModule } from 'ngx-chips';
+import {NgxTagsInputBoxModule} from "ngx-tags-input-box";
+
+import {BrowserAnimationsModule} from "@angular/platform-browser/animations";
+import {MarkdownEditorModule} from "./markdown-editor/markdown-editor.module";
+import {MarkdownModule, MarkedOptions} from 'ngx-markdown';
+import {ReviewFormModule} from "./review-form/review-form.module";
 
 @NgModule({
   declarations: [
@@ -27,7 +34,8 @@ import {LoginCallbackComponent} from "./auth-callback/login-callback.component";
     LoginComponent,
     ThemeToggleComponent,
     LoginCallbackComponent,
-    ExternalLoginComponent
+    ExternalLoginComponent,
+    CreateReviewComponent
   ],
   imports: [
     BrowserModule.withServerTransition({appId: 'ng-cli-universal'}),
@@ -38,13 +46,33 @@ import {LoginCallbackComponent} from "./auth-callback/login-callback.component";
       {path: 'registration', component: RegistrationComponent},
       {path: 'login', component: LoginComponent},
       {path: 'login-callback', component: LoginCallbackComponent},
+      {path: 'create-review', component: CreateReviewComponent},
     ]),
+    NgbModule,
+    ReviewFormModule,
+    NgbRatingModule,
     ReactiveFormsModule,
-    SocialLoginModule,
+    NgxDropzoneModule,
+    TagInputModule,
+    NgxTagsInputBoxModule,
+    BrowserAnimationsModule,
+    MarkdownEditorModule,
+    MarkdownModule.forRoot(({
+      markedOptions: {
+        provide: MarkedOptions,
+        useValue: {
+          gfm: true,
+          breaks: true,
+          pedantic: false,
+          smartLists: true,
+          smartypants: true
+        },
+      },
+      sanitize: SecurityContext.NONE
+    }))
   ],
   providers: [
-    { provide: HTTP_INTERCEPTORS, useClass: Interceptor401Service, multi: true },
-    { provide: APP_INITIALIZER, useFactory: checkIfUserIsAuthenticated, multi: true, deps: [AccountService]}
+
   ],
   bootstrap: [AppComponent]
 })

@@ -9,6 +9,7 @@
         <SpaProxyLaunchCommand>npm start</SpaProxyLaunchCommand>
         <ImplicitUsings>enable</ImplicitUsings>
         <DockerDefaultTargetOS>Linux</DockerDefaultTargetOS>
+        <UserSecretsId>79acabc7-af5e-4c84-8f57-5eeef4078d08</UserSecretsId>
     </PropertyGroup>
 
     <ItemGroup>
@@ -17,11 +18,13 @@
         <PackageReference Include="Microsoft.AspNetCore.Identity" Version="2.2.0" />
         <PackageReference Include="Microsoft.AspNetCore.Mvc.NewtonsoftJson" Version="7.0.0" />
         <PackageReference Include="Microsoft.AspNetCore.SpaProxy" Version="7.0.0" />
+        <PackageReference Include="Microsoft.Extensions.Configuration.UserSecrets" Version="7.0.0" />
     </ItemGroup>
 
     <ItemGroup>
         <!-- Don't publish the SPA source files, but do show them in the project files list -->
         <Content Remove="$(SpaRoot)**" />
+        <Content Include="ClientApp\src\assets\data\states.json" />
         <None Remove="$(SpaRoot)**" />
         <None Include="$(SpaRoot)**" Exclude="$(SpaRoot)node_modules\**" />
     </ItemGroup>
@@ -30,11 +33,6 @@
       <ProjectReference Include="..\Recommendations.Application\Recommendations.Application.csproj" />
       <ProjectReference Include="..\Recommendations.Domain\Recommendations.Domain.csproj" />
       <ProjectReference Include="..\Recommendations.Persistence\Recommendations.Persistence.csproj" />
-    </ItemGroup>
-
-    <ItemGroup>
-      <Folder Include="ClientApp\src\app\services\account" />
-      <Folder Include="ClientApp\src\app\services\interceptor" />
     </ItemGroup>
 
     <Target Name="DebugEnsureNodeEnv" BeforeTargets="Build" Condition=" '$(Configuration)' == 'Debug' And !Exists('$(SpaRoot)node_modules') ">

@@ -8,7 +8,7 @@ namespace Recommendations.Web.Controllers;
 
 [ApiController]
 [Route("api/home")]
-public class HomeController : Controller
+public class HomeController : BaseController
 {
     private readonly IMediator _mediator;
 
@@ -27,7 +27,7 @@ public class HomeController : Controller
     [HttpGet("name")]
     public IActionResult Name()
     {
-        var givenName = User.FindFirstValue(ClaimTypes.Email);
+        var givenName = UserId;
         return Ok(givenName);
     }
     

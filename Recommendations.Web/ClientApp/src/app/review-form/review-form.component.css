@@ -1,0 +1,18 @@
+.ng2-tag-input{
+  background: #e01a76;
+  border-radius: 10px;
+}
+
+.markdown-div{
+  min-height: 608px !important;
+  max-height: 608px !important;
+  overflow-y: auto !important;
+  height: auto;
+  background: white;
+  border-radius: 3px;
+  border: 2px solid #b7b7b7;
+  color: black;
+  padding-left: 10px;
+  padding-right: 10px;
+  width: 95%;
+}

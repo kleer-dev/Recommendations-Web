@@ -1,5 +1,4 @@
 import { Component } from '@angular/core';
-import {AccountService} from "../services/account/account.service";
 
 @Component({
   selector: 'app-nav-menu',
@@ -9,7 +8,7 @@ import {AccountService} from "../services/account/account.service";
 export class NavMenuComponent {
   isExpanded = false;
 
-  constructor(private accountService: AccountService) {
+  constructor() {
 
   }
 
@@ -22,6 +21,6 @@ export class NavMenuComponent {
   }
 
   logout(){
-    this.accountService.logout()
+    window.location.href = "api/user/logout";
   }
 }
