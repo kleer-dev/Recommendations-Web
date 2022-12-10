@@ -4,21 +4,21 @@
         [formGroup]="reviewForm" (ngSubmit)="onSubmit()">
 
     <div class="col d-flex justify-content-between mb-5">
-      <h1>Create review</h1>
-      <input [disabled]="!reviewForm.valid" class="d-flex btn btn-primary" value="Create" type="submit">
+      <h1>{{'ReviewForm.CreateReview' | translate}}</h1>
+      <input [disabled]="!reviewForm.valid" class="d-flex btn btn-primary" value="{{'ReviewForm.Create' | translate}}" type="submit">
     </div>
 
 
     <div class="row d-flex justify-content-center mt-3">
       <div class="col-lg-4 h-100 row mb-3 d-flex justify-content-center">
         <div class="row w-100">
-          <h6>Add image</h6>
+          <h6>{{'ReviewForm.AddImage' | translate}}</h6>
           <ngx-dropzone accept="image/png, image/jpeg" class="w-100 d-flex justify-content-center" (change)="onSelectImage($event)">
             <ngx-dropzone-preview class="w-100" [removable]="true" (removed)="onRemoveImage(file)">
               <ngx-dropzone-label *ngIf="file != undefined" class="w-100">
                 {{ file!.name! }} {{ file!.type! }}
               </ngx-dropzone-label>
-              <ngx-dropzone-label *ngIf="file == undefined" class="w-100">Add image</ngx-dropzone-label>
+              <ngx-dropzone-label *ngIf="file == undefined" class="w-100">{{'ReviewForm.AddImage' | translate}}</ngx-dropzone-label>
             </ngx-dropzone-preview>
           </ngx-dropzone>
         </div>
@@ -31,35 +31,35 @@
 
       <div class="col-lg-8 w-100">
         <div class="col mb-2">
-          <h6>Review title</h6>
+          <h6>{{'ReviewForm.ReviewTitle' | translate}}</h6>
           <input maxlength="100" formControlName="title" class="form-control" type="text">
           <div class="text-danger" *ngIf="reviewForm.controls.title.errors?.required &&
             reviewForm.controls['title'].touched">
-            Title is required
+            {{'Validation.TitleIsRequired' | translate}}
           </div>
 
           <div class="text-danger" *ngIf="reviewForm.controls.title.hasError('minlength')&&
             reviewForm.controls['title'].touched">
-            Min length - 5
+            {{'Validation.MinLength5' | translate}}
           </div>
         </div>
 
         <div class="col mb-2">
-          <h6>Product name</h6>
+          <h6>{{'ReviewForm.ProductName' | translate}}</h6>
           <input maxlength="100" formControlName="productName" class="form-control" type="text">
           <div class="text-danger" *ngIf="reviewForm.controls.productName.errors?.required &&
             reviewForm.controls['productName'].touched">
-            Product name is required
+            {{'Validation.ProductNameIsRequired' | translate}}
           </div>
 
           <div class="text-danger" *ngIf="reviewForm.controls.productName.hasError('minlength')&&
             reviewForm.controls['title'].touched">
-            Min length - 5
+            {{'Validation.MinLength5' | translate}}
           </div>
         </div>
 
         <div class="col mb-2">
-          <h6>Category</h6>
+          <h6>{{'ReviewForm.Category' | translate}}</h6>
           <select required formControlName="category"  class="form-select">
             <option *ngFor="let category of categories" value="{{category}}">
               {{category}}
@@ -68,16 +68,17 @@
           </select>
           <div class="text-danger" *ngIf="reviewForm.controls.category.errors?.required &&
             reviewForm.controls['category'].touched">
-            Category is required
+            {{'Validation.CategoryIsRequired' | translate}}
           </div>
         </div>
 
         <div class="col mb-3">
-          <h6>Tags</h6>
+          <h6>{{'ReviewForm.Tags' | translate}}</h6>
           <div id="tag-block">
             <div class="form-group">
 
-              <tag-input (onRemove)="onTagRemove($event)" (onAdd)="onTagAdd($event)"
+              <tag-input secondaryPlaceholder="{{'ReviewForm.EnterTag' | translate}}"
+                         (onRemove)="onTagRemove($event)" (onAdd)="onTagAdd($event)"
                          [ngModel]="tags" [ngModelOptions]="{standalone: true}"
                          class=".tag-input" theme="dark" [onlyFromAutocomplete]="false">
                 <tag-input-dropdown
@@ -89,7 +90,7 @@
             </div>
 
             <div class="text-danger" *ngIf="reviewForm.controls.tags.errors?.required">
-              Tags are required
+              {{'Validation.TagsAreRequired' | translate}}
             </div>
           </div>
         </div>
@@ -101,15 +102,19 @@
 
     <div class="row w-100 d-flex justify-content-center p-0 m-0">
       <div class="col-lg-6 h-100 row mb-2 d-flex justify-content-center">
-        <h6>Description</h6>
-        <div class="text-danger" *ngIf="reviewForm.controls.description!.value!.length > 20000">
-          Max length - 20 000
+        <h6>{{'ReviewForm.Description' | translate}}</h6>
+        <div class="text-danger mb-2" *ngIf="reviewForm.controls.description!.value!.length > 20000">
+          {{'Validation.MaxLength20000' | translate}}
+        </div>
+        <div class="text-danger mb-2" *ngIf="reviewForm.controls.description!.errors!.required &&
+                                      reviewForm.controls['description'].touched">
+          {{'Validation.DescriptionIsRequired' | translate}}
         </div>
         <markdown-editor [control]="descriptionRawControl"></markdown-editor>
       </div>
 
       <div class="col-lg-6 h-100 row d-flex justify-content-center">
-        <h6>Markdown preview</h6>
+        <h6>{{'ReviewForm.MarkdownPreview' | translate}}</h6>
         <div class="markdown-div">
           <markdown [data]='value'></markdown>
         </div>

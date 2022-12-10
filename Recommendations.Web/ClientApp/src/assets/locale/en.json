@@ -1,0 +1,51 @@
+{
+  "Forms": {
+    "Titles": {
+      "Login": "Login",
+      "Registration": "Registration",
+      "HaveNoAnAccount": "Have no an account yet?",
+      "SignUp": "Sign Up",
+      "Email": "Email",
+      "Password": "Password",
+      "RememberMe": "Remember me",
+      "ForgotPassword": "Forgot password?",
+      "SignIn": "Sign In",
+      "OrSignInWith": "Or sign in with:",
+      "AlreadyHaveAnAccount": "Already have an account?",
+      "PasswordConfirmation": "Password confirmation"
+    }
+  },
+  "Validation": {
+    "EmailIsRequired": "Email is required",
+    "IsNotAnEmail": "Is not an email",
+    "PasswordIsRequired": "Password is required",
+    "MinimumLengthIs4Symbols": "Minimum length is 4 symbols",
+    "LoginIsRequired": "Login is required",
+    "PasswordsConfirmationIsRequired": "Passwords confirmation is required",
+    "PasswordsDoNotMatch": "Passwords do not match",
+    "TitleIsRequired": "Title is required",
+    "MinLength5": "Min length - 5",
+    "ProductNameIsRequired": "Product name is required",
+    "CategoryIsRequired": "Category is required",
+    "TagsAreRequired": "Tags are required",
+    "MaxLength20000": "Max length - 20 000",
+    "DescriptionIsRequired": "Description is required"
+  },
+  "ReviewForm": {
+    "AddImage": "Add Image",
+    "ReviewTitle": "Review Title",
+    "ProductName": "Product name",
+    "Category": "Category",
+    "Tags": "Tags",
+    "EnterTag": "Enter a new tag",
+    "Description": "Description",
+    "MarkdownPreview": "Markdown preview",
+    "CreateReview": "Creating a review",
+    "Create": "Create"
+  },
+  "Menu": {
+    "Theme": "Theme:",
+    "Logout": "Logout",
+    "Language": "Language"
+  }
+}
