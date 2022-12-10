@@ -1,6 +1,5 @@
-import {Component, HostBinding, Input, OnInit} from "@angular/core";
+import {Component, OnInit} from "@angular/core";
 import '@github/markdown-toolbar-element'
-import {FormControl} from "@angular/forms";
 import {environment} from "../../environments/environment";
 import {TranslateService} from "@ngx-translate/core";
 
