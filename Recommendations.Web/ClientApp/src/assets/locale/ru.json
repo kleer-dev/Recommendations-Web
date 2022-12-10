@@ -1,0 +1,51 @@
+{
+  "Forms": {
+    "Titles": {
+      "Login": "Вход",
+      "Registration": "Регистрация",
+      "HaveNoAnAccount": "Ещё нет аккаунта?",
+      "SignUp": "Зарегистрироваться",
+      "Email": "Почта",
+      "Password": "Пароль",
+      "RememberMe": "Запомнить меня",
+      "ForgotPassword": "Забыл пароль?",
+      "SignIn": "Войти",
+      "OrSignInWith": "Или войти через:",
+      "AlreadyHaveAnAccount": "Уже есть аккаунт?",
+      "PasswordConfirmation": "Подтверждение пароля"
+    }
+  },
+  "Validation": {
+    "EmailIsRequired": "Почта - обязательное поле",
+    "IsNotAnEmail": "Не является почтой",
+    "PasswordIsRequired": "Пароль - обязательное поле",
+    "MinimumLengthIs4Symbols": "Минимальная длина поля - 4 символа",
+    "LoginIsRequired": "Логин - обязательное поле",
+    "PasswordsConfirmationIsRequired": "Подтвердите пароль",
+    "PasswordsDoNotMatch": "Пароли не совпадают",
+    "TitleIsRequired": "Заголовок - обязательное поле",
+    "MinLength5": "Минимальная длина поля - 5 символов",
+    "ProductNameIsRequired": "Название произведения - обязательное поле",
+    "CategoryIsRequired": "Категория - обязетельное поле",
+    "TagsAreRequired": "Введите теги",
+    "MaxLength20000": "Максимальноя длина - 20 000 символов",
+    "DescriptionIsRequired": "Введите описание"
+  },
+  "ReviewForm": {
+    "AddImage": "Добавить изображение",
+    "ReviewTitle": "Заголовок обзора",
+    "ProductName": "Произведение",
+    "Category": "Категория",
+    "Tags": "Теги",
+    "EnterTag": "Введите новый тег",
+    "Description": "Описание",
+    "MarkdownPreview": "Markdown превью",
+    "CreateReview": "Создание обзора",
+    "Create": "Создать"
+  },
+  "Menu": {
+    "Theme": "Тема:",
+    "Logout": "Выйти из аккаунта",
+    "Language": "Язык"
+  }
+}

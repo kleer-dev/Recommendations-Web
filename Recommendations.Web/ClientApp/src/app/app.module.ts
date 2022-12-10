@@ -1,7 +1,7 @@
 import {BrowserModule} from '@angular/platform-browser';
 import {NgModule, SecurityContext} from '@angular/core';
 import {FormsModule, ReactiveFormsModule} from '@angular/forms';
-import {HttpClientModule} from '@angular/common/http';
+import {HttpClient, HttpClientModule} from '@angular/common/http';
 import {RouterModule} from '@angular/router';
 
 import {AppComponent} from './app.component';
@@ -24,6 +24,9 @@ import {BrowserAnimationsModule} from "@angular/platform-browser/animations";
 import {MarkdownEditorModule} from "./markdown-editor/markdown-editor.module";
 import {MarkdownModule, MarkedOptions} from 'ngx-markdown';
 import {ReviewFormModule} from "./review-form/review-form.module";
+import {TranslateLoader, TranslateModule} from "@ngx-translate/core";
+import {HttpLoaderFactory} from "../common/functions/httpLoaderFactory";
+import {LanguageDropdownComponent} from "./language-dropdown/language-dropdown.component";
 
 @NgModule({
   declarations: [
@@ -35,7 +38,8 @@ import {ReviewFormModule} from "./review-form/review-form.module";
     ThemeToggleComponent,
     LoginCallbackComponent,
     ExternalLoginComponent,
-    CreateReviewComponent
+    CreateReviewComponent,
+    LanguageDropdownComponent
   ],
   imports: [
     BrowserModule.withServerTransition({appId: 'ng-cli-universal'}),
@@ -69,7 +73,15 @@ import {ReviewFormModule} from "./review-form/review-form.module";
         },
       },
       sanitize: SecurityContext.NONE
-    }))
+    })),
+    TranslateModule.forRoot({
+      loader: {
+        provide: TranslateLoader,
+        useFactory: HttpLoaderFactory,
+        deps: [HttpClient],
+      },
+      useDefaultLang: false,
+    })
   ],
   providers: [
 
@@ -79,3 +91,5 @@ import {ReviewFormModule} from "./review-form/review-form.module";
 export class AppModule {
 
 }
+
+

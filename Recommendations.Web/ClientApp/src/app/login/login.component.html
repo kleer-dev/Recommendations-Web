@@ -2,10 +2,11 @@
 
   <form [formGroup]="loginForm" (ngSubmit)="onSubmit()" class="col-lg-4 p-0 m-0 w-100" novalidate>
 
-    <h3 class="d-flex justify-content-center">Login</h3>
+    <h3 class="d-flex justify-content-center">{{'Forms.Titles.Login' | translate}}</h3>
 
     <div class="col w-100 d-flex justify-content-around mb-3">
-      <div class="fw-semibold">Have no an account yet? <a routerLink="/registration">Sign Up</a></div>
+      <div class="fw-semibold">{{'Forms.Titles.HaveNoAnAccount' | translate}}
+        <a routerLink="/registration">{{'Forms.Titles.SignUp' | translate}}</a></div>
     </div>
 
     <div class="text-danger d-flex justify-content-center mb-2">
@@ -13,35 +14,40 @@
     </div>
 
     <div class="col mb-2">
-      <label for="validationCustomUsername" class="form-label fw-semibold">Email</label>
+      <label for="validationCustomUsername" class="form-label fw-semibold">
+        {{'Forms.Titles.Email' | translate}}
+      </label>
       <div class="input-group has-validation">
         <span class="input-group-text" id="inputGroupPrepend">@</span>
-        <input formControlName="email" type="text" class="form-control" id="validationCustomUsername" aria-describedby="inputGroupPrepend"
+        <input formControlName="email" type="text" class="form-control"
+               id="validationCustomUsername" aria-describedby="inputGroupPrepend"
                required>
       </div>
 
       <div class="text-danger" *ngIf="loginForm.controls.email.errors?.required &&
             loginForm.controls['email'].touched">
-        Email is required
+        {{'Validation.EmailIsRequired' | translate}}
       </div>
       <div class="text-danger" *ngIf="loginForm.controls.email.errors?.email &&
                   loginForm.controls['email'].touched">
-        Is not an email
+        {{'Validation.IsNotAnEmail' | translate}}
       </div>
 
     </div>
 
     <div class="col mb-2">
-      <label for="validationCustom03" class="form-label fw-semibold">Password</label>
+      <label for="validationCustom03" class="form-label fw-semibold">
+        {{'Forms.Titles.Password' | translate}}
+      </label>
       <input formControlName="password" type="password" class="form-control" id="validationCustom03" required>
 
       <div class="text-danger" *ngIf="loginForm.controls.password.errors?.required &&
                                     loginForm.controls['password'].touched">
-        Password is required
+        {{'Validation.PasswordIsRequired' | translate}}
       </div>
       <div class="text-danger" *ngIf="loginForm.controls.password.errors?.minlength &&
                                   loginForm.controls['password'].touched">
-        Minimum length is 4 symbols
+        {{'Validation.MinimumLengthIs4Symbols' | translate}}
       </div>
 
     </div>
@@ -51,26 +57,29 @@
       <div class="col-12 row w-100 m-0 p-0 d-flex justify-content-around">
         <div class="col">
           <div class="form-check">
-            <input formControlName="remember" class="form-check-input" type="checkbox" value="" id="invalidCheck">
+            <input formControlName="remember" class="form-check-input" type="checkbox"
+                   value="" id="invalidCheck">
             <label class="form-check-label fw-semibold" for="invalidCheck">
-              Remember me
+              {{'Forms.Titles.RememberMe' | translate}}
             </label>
           </div>
         </div>
 
         <div class="col d-flex justify-content-end">
-          <a href="">Forgot password?</a>
+          <a href="">{{'Forms.Titles.ForgotPassword' | translate}}</a>
         </div>
       </div>
 
     </div>
 
     <div class="col-12 mt-3">
-      <input value="Sign In" [disabled]="!loginForm.valid" class="btn btn-primary w-100" type="submit">
+      <input value="{{'Forms.Titles.SignIn' | translate}}" [disabled]="!loginForm.valid" class="btn btn-primary w-100" type="submit">
     </div>
 
     <div class="col-12 flex-column mt-2">
-      <span class="w-100 d-flex justify-content-center fw-semibold">Or sign in with:</span>
+      <span class="w-100 d-flex justify-content-center fw-semibold">
+        {{'Forms.Titles.OrSignInWith' | translate}}
+      </span>
     </div>
 
     <app-external-login></app-external-login>

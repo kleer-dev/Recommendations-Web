@@ -7,8 +7,6 @@
   >
     <div class="container">
       <a class="navbar-brand" [routerLink]="['/']">Recommendations.Web</a>
-      <app-theme-toggle></app-theme-toggle>
-
 
       <button
         class="navbar-toggler btn-outline-secondary"
@@ -26,11 +24,21 @@
         class="navbar-collapse collapse d-sm-inline-flex justify-content-end"
         [ngClass]="{ show: isExpanded }"
       >
-        <ul class="navbar-nav flex-grow">
+        <ul class="navbar-nav flex-grow navbar-items">
 
-          <li (click)="logout()" class="nav-item" [routerLinkActive]="['link-active']">
+          <li class="d-flex mr-3">
+            <div class="d-flex align-items-center">{{'Menu.Theme' | translate}}</div>
+              <app-theme-toggle></app-theme-toggle>
+          </li>
+
+          <li class="mr-3 d-flex align-items-center">
+            <language-dropdown></language-dropdown>
+          </li>
+
+          <li (click)="logout()" class="nav-item mr-3 d-flex justify-content-center"
+              [routerLinkActive]="['link-active']">
             <a class="nav-link text-dark" [routerLink]="['/fetch-data']">
-              Logout
+              {{'Menu.Logout' | translate}}
             </a>
           </li>
 

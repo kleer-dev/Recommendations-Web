@@ -7,19 +7,21 @@ import {FormsModule, ReactiveFormsModule} from "@angular/forms";
 import {NgbModule} from "@ng-bootstrap/ng-bootstrap";
 import {NgxDropzoneModule} from "ngx-dropzone";
 import {NgForOf, NgIf} from "@angular/common";
+import {TranslateModule} from "@ngx-translate/core";
 
 @NgModule({
-  imports: [
-    MarkdownModule,
-    MarkdownEditorModule,
-    TagInputModule,
-    FormsModule,
-    NgbModule,
-    NgxDropzoneModule,
-    ReactiveFormsModule,
-    NgIf,
-    NgForOf
-  ],
+    imports: [
+        MarkdownModule,
+        MarkdownEditorModule,
+        TagInputModule,
+        FormsModule,
+        NgbModule,
+        NgxDropzoneModule,
+        ReactiveFormsModule,
+        NgIf,
+        NgForOf,
+        TranslateModule
+    ],
   exports: [ReviewFormComponent],
   declarations: [
     ReviewFormComponent

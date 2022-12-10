@@ -1,5 +1,7 @@
 import {Component, Renderer2} from '@angular/core';
 import {ThemeService} from "src/common/services/theme/theme.service";
+import {TranslateService} from "@ngx-translate/core";
+import {environment} from "../environments/environment";
 
 @Component({
   selector: 'app-root',
@@ -8,7 +10,11 @@ import {ThemeService} from "src/common/services/theme/theme.service";
 export class AppComponent {
   title = 'app';
 
-  constructor (private themeService: ThemeService, private renderer: Renderer2) {}
+  constructor (private themeService: ThemeService,
+               private renderer: Renderer2,
+               private translateService: TranslateService) {
+
+  }
 
   ngOnInit(): void {
     this.themeService.themeChanges().subscribe(theme => {
@@ -17,5 +23,7 @@ export class AppComponent {
       }
       this.renderer.addClass(document.body, theme.newValue!);
     })
+
+    this.translateService.use(environment.defaultLocale)
   }
 }
