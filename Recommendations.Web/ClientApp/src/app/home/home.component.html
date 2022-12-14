@@ -1,14 +1,78 @@
-<h1>Hello, {{email}}!</h1>
-<p>Welcome to your new single-page application, built with:</p>
-<ul>
-  <li><a href='https://get.asp.net/'>ASP.NET Core</a> and <a href='https://msdn.microsoft.com/en-us/library/67ef8sbd.aspx'>C#</a> for cross-platform server-side code</li>
-  <li><a href='https://angular.io/'>Angular</a> and <a href='http://www.typescriptlang.org/'>TypeScript</a> for client-side code</li>
-  <li><a href='http://getbootstrap.com/'>Bootstrap</a> for layout and styling</li>
-</ul>
-<p>To help you get started, we've also set up:</p>
-<ul>
-  <li><strong>Client-side navigation</strong>. For example, click <em>Counter</em> then <em>Back</em> to return here.</li>
-  <li><strong>Angular CLI integration</strong>. In development mode, there's no need to run <code>ng serve</code>. It runs in the background automatically, so your client-side resources are dynamically built on demand and the page refreshes when you modify any file.</li>
-  <li><strong>Efficient production builds</strong>. In production mode, development-time features are disabled, and your <code>dotnet publish</code> configuration automatically invokes <code>ng build</code> to produce minified, ahead-of-time compiled JavaScript files.</li>
-</ul>
-<p>The <code>ClientApp</code> subdirectory is a standard Angular CLI application. If you open a command prompt in that directory, you can run any <code>ng</code> command (e.g., <code>ng test</code>), or use <code>npm</code> to install extra packages into it.</p>
+<div class="w-100 m-0 p-0 row d-flex justify-content-between">
+
+  <div class="row w-100 d-flex justify-content-center align-items-center mb-3 m-0">
+    <h4 class="d-flex w-100 justify-content-center ">Tag cloud:</h4>
+  </div>
+
+  <div class="col-lg-5 flex-column d-flex mb-5">
+
+    <h5 class="mb-3 w-100 d-flex justify-content-center border-1 border-dark">
+      Most rated reviews:
+    </h5>
+
+    <div class="row rated-reviews d-flex flex-row align-items-center justify-content-center">
+
+      <div class="card mb-3 w-100">
+        <div class="card-body d-flex justify-content-center">
+          <img src="https://guruadvisor.net/media/com_yendifevents/events/39/angular-day5bbf6c47ca93d.jpg" class="card-img-top" alt="...">
+        </div>
+        <div class="card-body">
+          <h5 class="card-title fw-bold">Review title</h5>
+          <p class="card-text card-block">
+            Product name
+          </p>
+          <p class="card-text card-block">
+            Category:
+          </p>
+          <p class="card-text card-block">
+            Rate:
+          </p>
+          <p class="card-text card-block">
+            Tags:
+          </p>
+          <a href="#" class="btn btn-primary text-light w-100">Read</a>
+        </div>
+      </div>
+
+    </div>
+
+  </div>
+
+  <div class="col-lg-5 flex-column d-flex">
+
+    <h5 class="mb-3 w-100 d-flex justify-content-center">
+      Last reviews:
+    </h5>
+
+    <div class="row rated-reviews d-flex flex-row align-items-center justify-content-center">
+
+      <div class="card mb-3 w-100" *ngFor="let review of reviews">
+        <form (ngSubmit)="onSubmit()" [formGroup]="reviewForm">
+          <input formControlName="id" type="hidden" value="{{review.id}}">
+          <div class="card-body d-flex justify-content-center">
+            <img src="https://guruadvisor.net/media/com_yendifevents/events/39/angular-day5bbf6c47ca93d.jpg" class="card-img-top" alt="...">
+          </div>
+
+          <div class="card-body" >
+            <h5 class="card-title fw-bold mb-4">{{review.reviewTitle}}</h5>
+            <p class="card-text card-block">
+              {{review.productName}}
+            </p>
+            <p class="card-text card-block">
+              Category: {{review.category}}
+            </p>
+            <p class="card-text card-block">
+              Rate: {{review.averageRate}}
+            </p>
+            <p class="card-text card-block">
+              Tags: {{review.tags}}
+            </p>
+            <input type="submit" value="Read" class="btn btn-primary text-light w-100">
+          </div>
+        </form>
+      </div>
+
+    </div>
+  </div>
+
+</div>

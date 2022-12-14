@@ -27,6 +27,7 @@ import {ReviewFormModule} from "./review-form/review-form.module";
 import {TranslateLoader, TranslateModule} from "@ngx-translate/core";
 import {HttpLoaderFactory} from "../common/functions/httpLoaderFactory";
 import {LanguageDropdownComponent} from "./language-dropdown/language-dropdown.component";
+import {SearchComponent} from "./search/search.component";
 
 @NgModule({
   declarations: [
@@ -39,7 +40,8 @@ import {LanguageDropdownComponent} from "./language-dropdown/language-dropdown.c
     LoginCallbackComponent,
     ExternalLoginComponent,
     CreateReviewComponent,
-    LanguageDropdownComponent
+    LanguageDropdownComponent,
+    SearchComponent
   ],
   imports: [
     BrowserModule.withServerTransition({appId: 'ng-cli-universal'}),

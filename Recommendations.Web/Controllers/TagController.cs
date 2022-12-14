@@ -16,7 +16,7 @@ public class TagController : BaseController
     }
 
     [HttpGet]
-    public async Task<IActionResult> GetAll()
+    public async Task<ActionResult<GetAllTagsDto>> GetAll()
     {
         var getAllTagsQuery = new GetAllTagsQuery();
         var allTagsVm = await _mediator.Send(getAllTagsQuery);

@@ -1,0 +1,31 @@
+.rated-reviews-container{
+
+}
+
+.rated-reviews{
+  overflow-y: auto;
+  max-height: 550px;
+}
+
+.last-reviews{
+  overflow-y: auto;
+  max-height: 550px;
+}
+
+.card{
+  width: 95% !important;
+  height: auto;
+}
+
+.card-block{
+  padding: 10px;
+  border: 1px solid lightgrey;
+  border-radius: 3px;
+}
+
+.card-img-top{
+  margin-top: 10px;
+  border-radius: 3px;
+  border: 1px solid lightgrey;
+  width: 250px;
+}

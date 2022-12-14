@@ -16,7 +16,7 @@ public class CategoryController : BaseController
     }
 
     [HttpGet]
-    public async Task<IActionResult> GetAll()
+    public async Task<ActionResult<GetAllCategoriesDto>> GetAll()
     {
         var getAllCategoriesQuery = new GetAllCategoriesQuery();
         var categoriesVm = await _mediator.Send(getAllCategoriesQuery);

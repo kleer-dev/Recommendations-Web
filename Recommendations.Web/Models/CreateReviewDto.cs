@@ -11,7 +11,7 @@ public class CreateReviewDto : IMapWith<CreateReviewDto>
     public string ProductName { get; set; }
     public string Category { get; set; }
     public string Description { get; set; }
-    public int Rate { get; set; }
+    public int AuthorRate { get; set; }
     public IFormFile? Image { get; set; }
     public string Tags { get; set; }
 
@@ -26,8 +26,8 @@ public class CreateReviewDto : IMapWith<CreateReviewDto>
                 o => o.MapFrom(u => u.Category))
             .ForMember(u => u.Description,
                 o => o.MapFrom(u => u.Description))
-            .ForMember(u => u.Rate,
-                o => o.MapFrom(u => u.Rate))
+            .ForMember(u => u.AuthorRate,
+                o => o.MapFrom(u => u.AuthorRate))
             .ForMember(u => u.Image,
                 o => o.MapFrom(u => u.Image))
             .ForMember(u => u.Tags,
