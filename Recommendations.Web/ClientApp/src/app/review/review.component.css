@@ -1,0 +1,56 @@
+.review-image{
+  width: 700px;
+  border: 1px solid lightgrey;
+  border-radius: 5px;
+  padding: 0;
+}
+
+.rating-bar{
+  display: flex;
+  justify-content: space-between;
+  border: 1px solid lightgrey;
+  padding: 5px 10px;
+  border-radius: 5px;
+}
+
+.comments-container{
+  display: flex;
+  flex-direction: column;
+}
+
+.comment{
+  display: flex;
+  flex-direction: column;
+  border: 1px solid lightgrey;
+  border-radius: 5px;
+  padding: 5px;
+}
+
+.comment-head{
+  display: flex;
+  flex-direction: row;
+  width: 100%;
+}
+
+.write-comment-container{
+  display: flex;
+  flex-direction: column;
+}
+
+.write-comment-container textarea{
+  border: 1px solid lightgrey;
+  border-radius: 5px;
+  resize: none;
+  height: 120px;
+  padding: 5px;
+}
+
+
+:host-context(.bootstrap) textarea {
+  background: white;
+}
+
+:host-context(.bootstrap-dark) textarea {
+  background: #151515;
+  color: white;
+}

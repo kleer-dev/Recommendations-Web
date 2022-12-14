@@ -28,6 +28,7 @@ import {TranslateLoader, TranslateModule} from "@ngx-translate/core";
 import {HttpLoaderFactory} from "../common/functions/httpLoaderFactory";
 import {LanguageDropdownComponent} from "./language-dropdown/language-dropdown.component";
 import {SearchComponent} from "./search/search.component";
+import {ReviewComponent} from "./review/review.component";
 
 @NgModule({
   declarations: [
@@ -41,7 +42,8 @@ import {SearchComponent} from "./search/search.component";
     ExternalLoginComponent,
     CreateReviewComponent,
     LanguageDropdownComponent,
-    SearchComponent
+    SearchComponent,
+    ReviewComponent
   ],
   imports: [
     BrowserModule.withServerTransition({appId: 'ng-cli-universal'}),
@@ -53,6 +55,7 @@ import {SearchComponent} from "./search/search.component";
       {path: 'login', component: LoginComponent},
       {path: 'login-callback', component: LoginCallbackComponent},
       {path: 'create-review', component: CreateReviewComponent},
+      {path: 'review', component: ReviewComponent}
     ]),
     NgbModule,
     ReviewFormModule,

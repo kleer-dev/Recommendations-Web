@@ -19,9 +19,24 @@ html {
 }
 
 .material-symbols-outlined {
-  font-variation-settings:
-    'FILL' 1,
-    'wght' 400,
-    'GRAD' -25,
-    'opsz' 48
+  font-variation-settings: 'FILL' 1,
+  'wght' 400,
+  'GRAD' -25,
+  'opsz' 48
+}
+
+header {
+  position: fixed;
+  width: 100%;
+  left: 0;
+  top: 0;
+  z-index: 100;
+}
+
+:host-context(.bootstrap) nav {
+  background: white;
+}
+
+:host-context(.bootstrap-dark) nav {
+  background: #191d21;
 }
