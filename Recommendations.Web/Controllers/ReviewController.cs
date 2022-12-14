@@ -3,6 +3,7 @@ using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Recommendations.Application.CommandsQueries.Review.Commands.Create;
+using Recommendations.Application.CommandsQueries.Review.Queries.GetAll;
 using Recommendations.Web.Models;
 
 namespace Recommendations.Web.Controllers;
@@ -29,5 +30,17 @@ public class ReviewController : BaseController
         var reviewId = await _mediator.Send(createReviewCommand);
         
         return Ok(reviewId);
+    }
+
+    [HttpGet("get-all")]
+    [AllowAnonymous]
+    public async Task<ActionResult<IEnumerable<GetAllReviewsDto>>> GetAllReviews()
+    {
+        var getAllReviews = new GetAllReviewsQuery();
+        var getAllReviewsVm = await _mediator.Send(getAllReviews);
+
+        var a = getAllReviewsVm.Reviews.ToList();
+        
+        return Ok(a);
     }
 }

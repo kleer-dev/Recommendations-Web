@@ -24,7 +24,6 @@
 
     <ItemGroup>
       <Folder Include="CommandsQueries\Category\Commands" />
-      <Folder Include="CommandsQueries\Review\Queries" />
       <Folder Include="CommandsQueries\Tag\Commands" />
     </ItemGroup>
 

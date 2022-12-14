@@ -5,47 +5,92 @@
   <nav
     class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light border-bottom box-shadow mb-3"
   >
-    <div class="container">
-      <a class="navbar-brand" [routerLink]="['/']">Recommendations.Web</a>
+    <div class="container d-flex justify-content-center">
 
-      <button
-        class="navbar-toggler btn-outline-secondary"
-        type="button"
-        data-toggle="collapse"
-        data-target=".navbar-collapse"
-        aria-label="Toggle navigation"
-        [attr.aria-expanded]="isExpanded"
-        (click)="toggle()"
-      >
-        <span class="material-symbols-outlined btn-outline-secondary">menu</span>
-      </button>
 
-      <div
-        class="navbar-collapse collapse d-sm-inline-flex justify-content-end"
-        [ngClass]="{ show: isExpanded }"
-      >
-        <ul class="navbar-nav flex-grow navbar-items">
-
-          <li class="d-flex mr-3">
-            <div class="d-flex align-items-center">{{'Menu.Theme' | translate}}</div>
-              <app-theme-toggle></app-theme-toggle>
-          </li>
-
-          <li class="mr-3 d-flex align-items-center">
-            <language-dropdown></language-dropdown>
-          </li>
-
-          <li (click)="logout()" class="nav-item mr-3 d-flex justify-content-center"
-              [routerLinkActive]="['link-active']">
-            <a class="nav-link text-dark" [routerLink]="['/fetch-data']">
-              {{'Menu.Logout' | translate}}
-            </a>
-          </li>
-
+      <div class="d-flex w-100 flex-wrap align-items-center justify-content-center justify-content-lg-start">
+        <ul class="nav col-12 col-lg-auto me-lg-auto mb-2 justify-content-center mb-md-0">
+          <li><a class="navbar-brand ml-3" [routerLink]="['/']">Recommendations.Web</a></li>
         </ul>
 
+        <form class="col-12 col-lg-auto mb-3 mb-lg-0 me-lg-3" role="search">
+          <input type="search" class="form-control form-control-dark text-bg"
+                 placeholder="Search..." aria-label="Search">
+        </form>
 
+        <div class="text-end">
+          <ul class="navbar-nav flex-grow navbar-items w-100 justify-content-between">
+
+            <li class="d-flex justify-content-center align-items-center">
+              <div class="d-flex align-items-center">{{'Menu.Theme' | translate}}</div>
+              <app-theme-toggle></app-theme-toggle>
+            </li>
+
+            <li class="w-100 d-flex justify-content-center align-items-center">
+              <language-dropdown></language-dropdown>
+            </li>
+
+            <li (click)="logout()" class=" d-flex text-center"
+                [routerLinkActive]="['link-active']">
+              <a class="nav-link text-dark w-100 d-flex justify-content-center" [routerLink]="['/fetch-data']">
+                {{'Menu.Logout' | translate}}
+              </a>
+            </li>
+
+          </ul>
+        </div>
       </div>
+
+
+
     </div>
   </nav>
 </header>
+
+
+
+
+
+
+
+
+
+<!--<a class="navbar-brand ml-3" [routerLink]="['/']">Recommendations.Web</a>-->
+<!--<app-search class="mr-3"></app-search>-->
+
+<!--<button-->
+<!--  class="navbar-toggler btn-outline-secondary"-->
+<!--  type="button"-->
+<!--  data-toggle="collapse"-->
+<!--  data-target=".navbar-collapse"-->
+<!--  aria-label="Toggle navigation"-->
+<!--  [attr.aria-expanded]="isExpanded"-->
+<!--  (click)="toggle()"-->
+<!--&gt;-->
+<!--  <span class="material-symbols-outlined btn-outline-secondary">menu</span>-->
+<!--</button>-->
+
+<!--<div-->
+<!--  class="navbar-collapse collapse d-sm-inline-flex justify-content-end"-->
+<!--  [ngClass]="{ show: isExpanded }"-->
+<!--&gt;-->
+<!--  <ul class="navbar-nav flex-grow navbar-items">-->
+
+<!--    <li class="d-flex mr-3">-->
+<!--      <div class="d-flex align-items-center">{{'Menu.Theme' | translate}}</div>-->
+<!--      <app-theme-toggle></app-theme-toggle>-->
+<!--    </li>-->
+
+<!--    <li class="mr-3 d-flex align-items-center">-->
+<!--      <language-dropdown></language-dropdown>-->
+<!--    </li>-->
+
+<!--    <li (click)="logout()" class="nav-item mr-3"-->
+<!--        [routerLinkActive]="['link-active']">-->
+<!--      <a class="nav-link text-dark" [routerLink]="['/fetch-data']">-->
+<!--        {{'Menu.Logout' | translate}}-->
+<!--      </a>-->
+<!--    </li>-->
+
+<!--  </ul>-->
+<!--</div>-->

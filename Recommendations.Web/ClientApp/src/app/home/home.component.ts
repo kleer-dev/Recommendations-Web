@@ -1,21 +1,35 @@
 import {Component} from '@angular/core';
 import {HttpClient} from "@angular/common/http";
-import {Router} from "@angular/router";
+import {ReviewModel} from "../../common/models/ReviewModel";
+import {FormControl, FormGroup} from "@angular/forms";
 
 @Component({
   selector: 'app-home',
   templateUrl: './home.component.html',
+  styleUrls: ['home.component.css']
 })
 export class HomeComponent {
-  constructor(private http: HttpClient, private router: Router) {
+
+  reviews: ReviewModel[] = [];
+
+  constructor(private http: HttpClient) {
+
   }
 
-  email?: any;
+  reviewForm = new FormGroup({
+    'id': new FormControl(0)
+  })
+
+  onSubmit(){
+
+  }
 
   ngOnInit() {
-    this.http.get<any>('api/home/name')
+    this.http.get('api/reviews/get-all')
       .subscribe({
-        next: (data: any) => this.email = data
+        next: (data: any) => this.reviews = data,
+        complete: () => console.log(this.reviews)
       });
   }
+
 }

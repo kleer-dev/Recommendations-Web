@@ -1,3 +1,4 @@
+using AutoMapper;
 using MediatR;
 using Microsoft.AspNetCore.Http;
 using Microsoft.EntityFrameworkCore;
@@ -11,13 +12,15 @@ public class CreateReviewCommandHandler : IRequestHandler<CreateReviewCommand, G
     private readonly IRecommendationsDbContext _context;
     private readonly IMediator _mediator;
     private readonly IMegaCloudClient _megaCloudClient;
+    private readonly IMapper _mapper;
 
     public CreateReviewCommandHandler(IRecommendationsDbContext context,
-        IMediator mediator, IMegaCloudClient megaCloudClient)
+        IMediator mediator, IMegaCloudClient megaCloudClient, IMapper mapper)
     {
         _context = context;
         _mediator = mediator;
         _megaCloudClient = megaCloudClient;
+        _mapper = mapper;
     }
 
     public async Task<Guid> Handle(CreateReviewCommand request,
@@ -34,17 +37,14 @@ public class CreateReviewCommandHandler : IRequestHandler<CreateReviewCommand, G
     private async Task<Guid> AddReview(CreateReviewCommand request,
         CancellationToken cancellationToken)
     {
-        var review = new Domain.Review
-        {
-            User = await GetUser(request.UserId, cancellationToken),
-            Category = await GetCategory(request, cancellationToken),
-            Description = request.Description,
-            Rate = request.Rate,
-            Title = request.Title,
-            ProductName = request.ProductName,
-            Tags = await GetTags(request, cancellationToken),
-            ImageUrl = await GetImageUrl(request.Image!)
-        };
+        var review = _mapper.Map<Domain.Review>(request);
+        review.User = await GetUser(request.UserId, cancellationToken);
+        review.Tags = await GetTags(request, cancellationToken);
+        review.Category = await GetCategory(request, cancellationToken);
+        review.ImageUrl = await GetImageUrl(request.Image!);
+        review.Product = new Domain.Product { Name = request.ProductName };
+        review.CreationDate = DateTime.UtcNow;
+        
         await _context.Reviews.AddAsync(review, cancellationToken);
         await _context.SaveChangesAsync(cancellationToken);
 
@@ -77,7 +77,7 @@ public class CreateReviewCommandHandler : IRequestHandler<CreateReviewCommand, G
         var category = await _context.Categories
             .FirstOrDefaultAsync(c => c.Name == request.Category, cancellationToken);
         if (category is null)
-            throw new NullReferenceException("Category not found");
+            throw new NullReferenceException("The category not found");
 
         return category;
     }
