@@ -1,4 +1,4 @@
-namespace Recommendations.Web.Models;
+namespace Recommendations.Web.Models.User;
 
 public class AuthSchemeDto
 {

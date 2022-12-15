@@ -43,9 +43,24 @@
     "CreateReview": "Создание обзора",
     "Create": "Создать"
   },
-  "Menu": {
+  "Header": {
     "Theme": "Тема:",
     "Logout": "Выйти из аккаунта",
-    "Language": "Язык"
+    "Language": "Язык",
+    "Search": "Поиск"
+  },
+  "ReviewPage": {
+    "Author": "Автор:",
+    "CreationDate": "Дата создания:",
+    "RateProduct": "Оцените произведение!",
+    "AverageRating": "Средняя оценка:",
+    "ProductName": "Произведение:",
+    "Category": "Категория:",
+    "AuthorRating": "Оценка автора:",
+    "Tags": "Теги:",
+    "Description": "Описание:",
+    "Comments": "Комментарии:",
+    "LeaveComment": "Оставьте ваш комментарий:",
+    "Send": "Отправить"
   }
 }

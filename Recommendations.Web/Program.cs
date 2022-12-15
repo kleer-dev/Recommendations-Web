@@ -1,5 +1,6 @@
 using System.Reflection;
 using Recommendations.Application;
+using Recommendations.Application.Common.Hubs;
 using Recommendations.Application.Common.Interfaces;
 using Recommendations.Application.Common.Mappings;
 using Recommendations.Persistence;
@@ -15,6 +16,8 @@ builder.Configuration
 
 builder.Services.AddControllersWithViews()
     .AddNewtonsoftJson();
+
+builder.Services.AddSignalR();
 
 builder.Services.AddAutoMapper(config =>
 {
@@ -41,6 +44,8 @@ app.UseRouting();
 app.UseCookiePolicy(policyOptions);
 app.UseAuthentication();
 app.UseAuthorization();
+
+app.MapHub<CommentHub>("/comments");
 
 app.MapControllerRoute(
     name: "default",

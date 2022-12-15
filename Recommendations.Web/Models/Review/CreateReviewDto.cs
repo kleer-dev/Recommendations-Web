@@ -1,15 +1,14 @@
 using AutoMapper;
 using Recommendations.Application.CommandsQueries.Review.Commands.Create;
-using Recommendations.Application.CommandsQueries.User.Queries.Login;
 using Recommendations.Application.Common.Mappings;
 
-namespace Recommendations.Web.Models;
+namespace Recommendations.Web.Models.Review;
 
 public class CreateReviewDto : IMapWith<CreateReviewDto>
 {
     public string Title { get; set; }
     public string ProductName { get; set; }
-    public string Category { get; set; }
+    public string CategoryName { get; set; }
     public string Description { get; set; }
     public int AuthorRate { get; set; }
     public IFormFile? Image { get; set; }
@@ -22,8 +21,8 @@ public class CreateReviewDto : IMapWith<CreateReviewDto>
                 o => o.MapFrom(u => u.Title))
             .ForMember(u => u.ProductName,
                 o => o.MapFrom(u => u.ProductName))
-            .ForMember(u => u.Category,
-                o => o.MapFrom(u => u.Category))
+            .ForMember(u => u.CategoryName,
+                o => o.MapFrom(u => u.CategoryName))
             .ForMember(u => u.Description,
                 o => o.MapFrom(u => u.Description))
             .ForMember(u => u.AuthorRate,

@@ -3,8 +3,11 @@ using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Recommendations.Application.CommandsQueries.Review.Commands.Create;
+using Recommendations.Application.CommandsQueries.Review.Queries.Get;
 using Recommendations.Application.CommandsQueries.Review.Queries.GetAll;
+using Recommendations.Application.CommandsQueries.Review.Queries.GetDto;
 using Recommendations.Web.Models;
+using Recommendations.Web.Models.Review;
 
 namespace Recommendations.Web.Controllers;
 
@@ -28,8 +31,8 @@ public class ReviewController : BaseController
         var createReviewCommand = _mapper.Map<CreateReviewCommand>(dto);
         createReviewCommand.UserId = UserId;
         var reviewId = await _mediator.Send(createReviewCommand);
-        
-        return Ok(reviewId);
+
+        return Created("api/reviews", reviewId);
     }
 
     [HttpGet("get-all")]
@@ -39,8 +42,24 @@ public class ReviewController : BaseController
         var getAllReviews = new GetAllReviewsQuery();
         var getAllReviewsVm = await _mediator.Send(getAllReviews);
 
-        var a = getAllReviewsVm.Reviews.ToList();
-        
-        return Ok(a);
+        var reviews = getAllReviewsVm.Reviews.ToList();
+
+        return Ok(reviews);
     }
+
+    [HttpGet("get")]
+    [AllowAnonymous]
+    public async Task<ActionResult<GetReviewDto>> Get(Guid reviewId)
+    {
+        var getReviewQuery = new GetReviewDtoQuery
+        {
+            ReviewId = reviewId,
+            UserId = UserId
+        };
+        var review = await _mediator.Send(getReviewQuery);
+
+        return Ok(review);
+    }
+
+    
 }

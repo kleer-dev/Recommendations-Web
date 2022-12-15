@@ -9,4 +9,5 @@ public class User : IdentityUser<Guid>
     public List<Review> Reviews { get; set; }
     public List<Rating> Ratings { get; set; }
     public List<Like> Likes { get; set; }
+    public List<Comment> Comments { get; set; }
 }

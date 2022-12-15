@@ -2,7 +2,7 @@ using AutoMapper;
 using Recommendations.Application.CommandsQueries.User.Queries.Login;
 using Recommendations.Application.Common.Mappings;
 
-namespace Recommendations.Web.Models;
+namespace Recommendations.Web.Models.User;
 
 public class UserLoginDto : IMapWith<UserLoginQuery>
 {

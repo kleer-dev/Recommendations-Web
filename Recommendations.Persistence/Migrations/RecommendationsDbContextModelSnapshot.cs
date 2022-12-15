@@ -167,6 +167,34 @@ namespace Recommendations.Persistence.Migrations
                     b.ToTable("Categories");
                 });
 
+            modelBuilder.Entity("Recommendations.Domain.Comment", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uuid");
+
+                    b.Property<DateTime>("CreationDate")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<Guid>("ReviewId")
+                        .HasColumnType("uuid");
+
+                    b.Property<string>("Text")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<Guid>("UserId")
+                        .HasColumnType("uuid");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("ReviewId");
+
+                    b.HasIndex("UserId");
+
+                    b.ToTable("Comments");
+                });
+
             modelBuilder.Entity("Recommendations.Domain.Like", b =>
                 {
                     b.Property<Guid>("Id")
@@ -224,8 +252,8 @@ namespace Recommendations.Persistence.Migrations
                     b.Property<Guid>("UserId")
                         .HasColumnType("uuid");
 
-                    b.Property<int>("Value")
-                        .HasColumnType("integer");
+                    b.Property<double>("Value")
+                        .HasColumnType("double precision");
 
                     b.HasKey("Id");
 
@@ -421,6 +449,25 @@ namespace Recommendations.Persistence.Migrations
                         .IsRequired();
                 });
 
+            modelBuilder.Entity("Recommendations.Domain.Comment", b =>
+                {
+                    b.HasOne("Recommendations.Domain.Review", "Review")
+                        .WithMany("Comments")
+                        .HasForeignKey("ReviewId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("Recommendations.Domain.User", "User")
+                        .WithMany("Comments")
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Review");
+
+                    b.Navigation("User");
+                });
+
             modelBuilder.Entity("Recommendations.Domain.Like", b =>
                 {
                     b.HasOne("Recommendations.Domain.Review", "Review")
@@ -516,6 +563,8 @@ namespace Recommendations.Persistence.Migrations
 
             modelBuilder.Entity("Recommendations.Domain.Review", b =>
                 {
+                    b.Navigation("Comments");
+
                     b.Navigation("Likes");
 
                     b.Navigation("Product")
@@ -524,6 +573,8 @@ namespace Recommendations.Persistence.Migrations
 
             modelBuilder.Entity("Recommendations.Domain.User", b =>
                 {
+                    b.Navigation("Comments");
+
                     b.Navigation("Likes");
 
                     b.Navigation("Ratings");

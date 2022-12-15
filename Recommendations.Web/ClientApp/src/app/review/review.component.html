@@ -1,0 +1,91 @@
+<app-loader *ngIf="!waiter"></app-loader>
+
+<div *ngIf="waiter" class="container w-100 d-flex justify-content-center
+ align-items-center m-0 p-0 row d-flex justify-content-center">
+
+  <div  class="row d-flex justify-content-center w-100">
+
+
+    <div class="mb-3">
+      <div class="d-flex flex-column">
+        <span class="wrap">{{'ReviewPage.Author' | translate}} {{review.authorName}}</span>
+        <span class="wrap">
+          {{'ReviewPage.CreationDate' | translate}} {{review.creationDate | date:'d.M.yy, h:mm a'}}
+        </span>
+      </div>
+
+    </div>
+
+    <div class="row w-100 p-0 d-flex justify-content-center mb-3">
+      <img class="review-image" alt="..." src="https://camo.githubusercontent.com/ddf07e1ed9b55fe8b86f983cc98892f845365b8e3c7100916c0a4b7b1a6bee20/68747470733a2f2f686162726173746f726167652e6f72672f776562742f68752f65712f68392f6875657168396f773462313569766f6e3268356a6168617879636b2e6a706567">
+    </div>
+
+    <div class="row d-flex flex-column p-0 mb-3">
+      <div class="title-container mb-3">
+        <div class="rating-bar mt-2 mb-3 m-0 p-0">
+          <div class="d-flex flex-column">
+            <span>{{'ReviewPage.RateProduct' | translate}}</span>
+            <ngb-rating  (rateChange)="onRateChange($event)"
+                         style="font-size: 25px; padding: 0" [max]="5" [(rate)]="rate" [readonly]="false"></ngb-rating>
+          </div>
+
+          <div class="h-100 d-flex justify-content-center align-items-center flex-column">
+            <button [style.background]="this.review.isLike === true ? 'green' : 'black'"
+                    id="likeBtn" (click)="onLike()" class="btn">
+              <svg style="color: white" xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-heart-fill" viewBox="0 0 16 16">
+                <path fill-rule="evenodd" d="M8 1.314C12.438-3.248 23.534 4.735 8 15-7.534 4.736 3.562-3.248 8 1.314z"/>
+              </svg>
+            </button>
+            <span>{{review.likeCount}}</span>
+          </div>
+        </div>
+
+        <div>
+          <h3 id="review-title" class="mb-2">{{review.reviewTitle}}</h3>
+          <div class="wrap">{{'ReviewPage.AverageRating' | translate}} {{review.averageRate}}</div>
+        </div>
+      </div>
+
+      <h6 class="mb-2 wrap">{{'ReviewPage.ProductName' | translate}} {{review.productName}}</h6>
+      <h6 class="mb-2 wrap">{{'ReviewPage.Category' | translate}} {{review.category}}</h6>
+      <h6 class="mb-2 wrap">{{'ReviewPage.AuthorRating' | translate}} {{review.authorRate}}</h6>
+      <h6 class="wrap">{{'ReviewPage.Tags' | translate}} {{review.tags}}</h6>
+    </div>
+
+  </div>
+
+  <div class="row mb-3 m-0 p-0">
+    <div class="description wrap">
+      <h5>{{'ReviewPage.Description' | translate}}</h5>
+      <markdown class="wrap" [data]='review.description'></markdown>
+    </div>
+  </div>
+
+  <div class="row mb-3 m-0 p-0">
+    <h5 class="mb-2">{{'ReviewPage.Comments' | translate}}</h5>
+
+    <div class="write-comment-container mb-3">
+      <h6 class="mb-3">{{'ReviewPage.LeaveComment' | translate}}</h6>
+      <textarea id="comment" class="mb-2"></textarea>
+      <input (click)="sendComment()" type="button" class="btn btn-success" value="{{'ReviewPage.Send' | translate}}">
+    </div>
+
+    <div class="comments-container">
+
+      <div class="comment mb-2" *ngFor="let comment of this.signalrService.comments">
+        <span class="comment-head mb-2">
+          <div class="mr-3 wrap">{{comment.authorName}}</div>
+          <div class="wrap">{{comment.creationDate | date:'d.M.yy, h:mm a'}}</div>
+        </span>
+        <div class="comment-text-container wrap">
+          {{comment.text}}
+        </div>
+      </div>
+
+
+    </div>
+
+  </div>
+
+
+</div>

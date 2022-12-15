@@ -2,7 +2,7 @@ using AutoMapper;
 using Recommendations.Application.CommandsQueries.User.Commands.Registration;
 using Recommendations.Application.Common.Mappings;
 
-namespace Recommendations.Web.Models;
+namespace Recommendations.Web.Models.User;
 
 public class UserRegistrationDto : IMapWith<UserRegistrationCommand>
 {

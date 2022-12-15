@@ -2,7 +2,9 @@ using AutoMapper;
 using MediatR;
 using Microsoft.AspNetCore.Http;
 using Microsoft.EntityFrameworkCore;
+using Recommendations.Application.CommandsQueries.Category.Queries.GetByName;
 using Recommendations.Application.CommandsQueries.Tag.Commands.Create;
+using Recommendations.Application.CommandsQueries.User.Queries.Get;
 using Recommendations.Application.Common.Interfaces;
 
 namespace Recommendations.Application.CommandsQueries.Review.Commands.Create;
@@ -54,10 +56,11 @@ public class CreateReviewCommandHandler : IRequestHandler<CreateReviewCommand, G
     private async Task<Domain.User> GetUser(Guid? userId,
         CancellationToken cancellationToken)
     {
-        var user = await _context.Users
-            .FirstOrDefaultAsync(u => u.Id == userId, cancellationToken);
-        if (user is null)
-            throw new NullReferenceException("The user does not exist");
+        var getUserQuery = new GetUserQuery
+        {
+            UserId = userId
+        };
+        var user = await _mediator.Send(getUserQuery, cancellationToken);
 
         return user;
     }
@@ -66,7 +69,8 @@ public class CreateReviewCommandHandler : IRequestHandler<CreateReviewCommand, G
         CancellationToken cancellationToken)
     {
         var tags = await _context.Tags
-            .Where(t => request.Tags.Any(n => n == t.Name)).ToListAsync(cancellationToken);
+            .Where(t => request.Tags.Any(n => n == t.Name))
+            .ToListAsync(cancellationToken);
 
         return tags;
     }
@@ -74,10 +78,11 @@ public class CreateReviewCommandHandler : IRequestHandler<CreateReviewCommand, G
     private async Task<Domain.Category> GetCategory(CreateReviewCommand request, 
         CancellationToken cancellationToken)
     {
-        var category = await _context.Categories
-            .FirstOrDefaultAsync(c => c.Name == request.Category, cancellationToken);
-        if (category is null)
-            throw new NullReferenceException("The category not found");
+        var getCategoryByNameQuery = new GetCategoryByNameQuery
+        {
+            Name = request.CategoryName
+        };
+        var category = await _mediator.Send(getCategoryByNameQuery, cancellationToken);
 
         return category;
     }
@@ -86,8 +91,8 @@ public class CreateReviewCommandHandler : IRequestHandler<CreateReviewCommand, G
     {
         if (file is null)
             return string.Empty;
-        
         var imageUrl = await _megaCloudClient.UploadFile(file);
+        
         return imageUrl;
     }
 }

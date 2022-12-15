@@ -1,5 +1,5 @@
 import {BrowserModule} from '@angular/platform-browser';
-import {NgModule, SecurityContext} from '@angular/core';
+import {APP_INITIALIZER, NgModule, SecurityContext} from '@angular/core';
 import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 import {HttpClient, HttpClientModule} from '@angular/common/http';
 import {RouterModule} from '@angular/router';
@@ -28,6 +28,8 @@ import {TranslateLoader, TranslateModule} from "@ngx-translate/core";
 import {HttpLoaderFactory} from "../common/functions/httpLoaderFactory";
 import {LanguageDropdownComponent} from "./language-dropdown/language-dropdown.component";
 import {SearchComponent} from "./search/search.component";
+import {ReviewComponent} from "./review/review.component";
+import {LoaderComponent} from "./loader/loader.component";
 
 @NgModule({
   declarations: [
@@ -41,7 +43,9 @@ import {SearchComponent} from "./search/search.component";
     ExternalLoginComponent,
     CreateReviewComponent,
     LanguageDropdownComponent,
-    SearchComponent
+    SearchComponent,
+    ReviewComponent,
+    LoaderComponent
   ],
   imports: [
     BrowserModule.withServerTransition({appId: 'ng-cli-universal'}),
@@ -53,6 +57,7 @@ import {SearchComponent} from "./search/search.component";
       {path: 'login', component: LoginComponent},
       {path: 'login-callback', component: LoginCallbackComponent},
       {path: 'create-review', component: CreateReviewComponent},
+      {path: 'review/:id', component: ReviewComponent}
     ]),
     NgbModule,
     ReviewFormModule,

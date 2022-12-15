@@ -27,7 +27,7 @@ export class CreateReviewComponent {
       Validators.minLength(5),
       Validators.maxLength(100)
     ]),
-    category: new FormControl('', [
+    categoryName: new FormControl('', [
       Validators.required,
       Validators.minLength(2)
     ]),
@@ -39,7 +39,7 @@ export class CreateReviewComponent {
       Validators.minLength(100),
       Validators.maxLength(20000)
     ]),
-    rate: new FormControl(1),
+    authorRate: new FormControl(1),
     image: new FormControl(new File([], ''))
   })
 
