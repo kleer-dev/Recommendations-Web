@@ -29,6 +29,7 @@ import {HttpLoaderFactory} from "../common/functions/httpLoaderFactory";
 import {LanguageDropdownComponent} from "./language-dropdown/language-dropdown.component";
 import {SearchComponent} from "./search/search.component";
 import {ReviewComponent} from "./review/review.component";
+import {LoaderComponent} from "./loader/loader.component";
 
 @NgModule({
   declarations: [
@@ -43,7 +44,8 @@ import {ReviewComponent} from "./review/review.component";
     CreateReviewComponent,
     LanguageDropdownComponent,
     SearchComponent,
-    ReviewComponent
+    ReviewComponent,
+    LoaderComponent
   ],
   imports: [
     BrowserModule.withServerTransition({appId: 'ng-cli-universal'}),

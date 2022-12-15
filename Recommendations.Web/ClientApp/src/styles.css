@@ -54,3 +54,12 @@ blockquote{
   -ms-hyphens: auto;
   hyphens: auto;
 }
+
+app-loader{
+  z-index: 999;
+  position: absolute;
+  height: 100vh;
+  width: 100% ;
+  top: 0;
+  left:0
+}

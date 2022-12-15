@@ -11,6 +11,7 @@ import {CommentsSignalrService} from "../../common/services/signalr/comments-sig
 })
 export class ReviewComponent implements OnInit {
 
+  waiter!: Promise<boolean>;
   review!: ReviewModel;
   reviewId: number = 0;
   rate: number = 0;
@@ -34,7 +35,10 @@ export class ReviewComponent implements OnInit {
     this.reviewId = this.activateRoute.snapshot.params['id']
     this.http.get<ReviewModel>(`api/reviews/get?reviewId=${this.reviewId}`)
       .subscribe({
-        next: data => this.review = data,
+        next: data => {
+          this.review = data
+          this.waiter = Promise.resolve(true)
+        },
         complete: () => {
           this.rate = this.review.userRating
         }
