@@ -1,9 +1,9 @@
 :host {
-  border-radius: 3px;
-  border: 2px solid #b7b7b7;
+  border-radius: 5px;
+  border: 1px solid lightgrey;
   outline: none;
-  background: #fff;
   display: flex;
+  color: white;
   flex-direction: column;
 
   .text-editor {
@@ -25,16 +25,34 @@
   }
 
   &.focus {
-    border: 2px solid #b7b7b7;
+    border: 1px solid lightgrey;
   }
 }
 
 markdown-toolbar{
+  display: flex;
+  flex-wrap: wrap;
   padding: 5px;
 
   .btn{
     margin: 5px;
   }
 }
+
+textarea{
+  background: none;
+  margin-bottom: 15px;
+}
+
+:host-context(.bootstrap) textarea {
+  color: black;
+}
+
+:host-context(.bootstrap-dark) textarea {
+  color: white;
+}
+
+
+
 
 

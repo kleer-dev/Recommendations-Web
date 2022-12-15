@@ -67,12 +67,17 @@
   flex-direction: column;
 }
 
+.description{
+
+}
+
 .write-comment-container textarea{
   border: 1px solid lightgrey;
   border-radius: 5px;
   height: 120px;
   padding: 5px;
 }
+
 
 :host-context(.bootstrap) textarea {
   background: white;
@@ -82,6 +87,7 @@
   background: #151515;
   color: white;
 }
+
 
 ::ng-deep markdown p{
   width: 100%;

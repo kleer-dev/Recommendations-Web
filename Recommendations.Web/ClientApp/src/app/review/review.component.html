@@ -8,8 +8,10 @@
 
     <div class="mb-3">
       <div class="d-flex flex-column">
-        <span class="wrap">Author: {{review.authorName}}</span>
-        <span class="wrap">Creation date: {{review.creationDate | date:'d.M.yy, h:mm a'}}</span>
+        <span class="wrap">{{'ReviewPage.Author' | translate}} {{review.authorName}}</span>
+        <span class="wrap">
+          {{'ReviewPage.CreationDate' | translate}} {{review.creationDate | date:'d.M.yy, h:mm a'}}
+        </span>
       </div>
 
     </div>
@@ -22,13 +24,14 @@
       <div class="title-container mb-3">
         <div class="rating-bar mt-2 mb-3 m-0 p-0">
           <div class="d-flex flex-column">
-            <span>Rate this product!</span>
+            <span>{{'ReviewPage.RateProduct' | translate}}</span>
             <ngb-rating  (rateChange)="onRateChange($event)"
                          style="font-size: 25px; padding: 0" [max]="5" [(rate)]="rate" [readonly]="false"></ngb-rating>
           </div>
 
           <div class="h-100 d-flex justify-content-center align-items-center flex-column">
-            <button [style.background]="this.review.isLike === true ? 'green' : 'black'" id="likeBtn" (click)="onLike()" class="btn">
+            <button [style.background]="this.review.isLike === true ? 'green' : 'black'"
+                    id="likeBtn" (click)="onLike()" class="btn">
               <svg style="color: white" xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-heart-fill" viewBox="0 0 16 16">
                 <path fill-rule="evenodd" d="M8 1.314C12.438-3.248 23.534 4.735 8 15-7.534 4.736 3.562-3.248 8 1.314z"/>
               </svg>
@@ -39,32 +42,32 @@
 
         <div>
           <h3 id="review-title" class="mb-2">{{review.reviewTitle}}</h3>
-          <div class="wrap">Average rating: {{review.averageRate}}</div>
+          <div class="wrap">{{'ReviewPage.AverageRating' | translate}} {{review.averageRate}}</div>
         </div>
       </div>
 
-      <h6 class="mb-2 wrap">Product name: {{review.productName}}</h6>
-      <h6 class="mb-2 wrap">Category: {{review.category}}</h6>
-      <h6 class="mb-2 wrap">Author rating: {{review.authorRate}}</h6>
-      <h6 class="wrap">Tags: {{review.tags}}</h6>
+      <h6 class="mb-2 wrap">{{'ReviewPage.ProductName' | translate}} {{review.productName}}</h6>
+      <h6 class="mb-2 wrap">{{'ReviewPage.Category' | translate}} {{review.category}}</h6>
+      <h6 class="mb-2 wrap">{{'ReviewPage.AuthorRating' | translate}} {{review.authorRate}}</h6>
+      <h6 class="wrap">{{'ReviewPage.Tags' | translate}} {{review.tags}}</h6>
     </div>
 
   </div>
 
   <div class="row mb-3 m-0 p-0">
-    <div class=" description wrap">
-      <h5 >Description:</h5>
+    <div class="description wrap">
+      <h5>{{'ReviewPage.Description' | translate}}</h5>
       <markdown class="wrap" [data]='review.description'></markdown>
     </div>
   </div>
 
   <div class="row mb-3 m-0 p-0">
-    <h5 class="mb-2">Comments:</h5>
+    <h5 class="mb-2">{{'ReviewPage.Comments' | translate}}</h5>
 
     <div class="write-comment-container mb-3">
-      <h6 class="mb-3">Leave your comment:</h6>
+      <h6 class="mb-3">{{'ReviewPage.LeaveComment' | translate}}</h6>
       <textarea id="comment" class="mb-2"></textarea>
-      <input (click)="sendComment()" type="button" class="btn btn-success" value="Send">
+      <input (click)="sendComment()" type="button" class="btn btn-success" value="{{'ReviewPage.Send' | translate}}">
     </div>
 
     <div class="comments-container">

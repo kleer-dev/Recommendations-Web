@@ -43,9 +43,24 @@
     "CreateReview": "Creating a review",
     "Create": "Create"
   },
-  "Menu": {
+  "Header": {
     "Theme": "Theme:",
     "Logout": "Logout",
-    "Language": "Language"
+    "Language": "Language",
+    "Search": "Search"
+  },
+  "ReviewPage": {
+    "Author": "Author:",
+    "CreationDate": "Creation date:",
+    "RateProduct": "Rate this product!",
+    "AverageRating": "Average rating:",
+    "ProductName": "Product name:",
+    "Category": "Category:",
+    "AuthorRating": "Author rating:",
+    "Tags": "Tags:",
+    "Description": "Description:",
+    "Comments": "Comments:",
+    "LeaveComment": "Leave your comment:",
+    "Send": "Send"
   }
 }
