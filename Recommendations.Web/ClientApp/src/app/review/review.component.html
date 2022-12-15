@@ -49,19 +49,19 @@
 
     <div class="write-comment-container mb-3">
       <h6 class="mb-3">Leave your comment:</h6>
-      <textarea class="mb-2"></textarea>
-      <input type="submit" class="btn btn-success" value="Send">
+      <textarea id="comment" class="mb-2"></textarea>
+      <input (click)="sendComment()" type="button" class="btn btn-success" value="Send">
     </div>
 
     <div class="comments-container">
 
-      <div class="comment mb-2">
+      <div class="comment mb-2" *ngFor="let comment of this.signalrService.comments">
         <span class="comment-head mb-2">
-          <div class="mr-3">Author</div>
-          <div>14.12.2022 15:12</div>
+          <div class="mr-3">{{comment.authorName}}</div>
+          <div>{{comment.creationDate | date:'d.M.yy, h:mm a'}}</div>
         </span>
-        <div class="w-100">
-          Lorem ipsum dolor sit amet, consectetur adipisicing elit. Alias amet aperiam beatae dolor dolores ea esse hic laudantium magnam natus perferendis praesentium, quae, quam quo quod ratione, ullam. Deserunt, tempora?
+        <div class="comment-text-container">
+          {{comment.text}}
         </div>
       </div>
 

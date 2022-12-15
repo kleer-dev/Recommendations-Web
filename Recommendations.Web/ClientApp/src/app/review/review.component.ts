@@ -2,7 +2,7 @@ import {Component, OnInit} from "@angular/core";
 import {ActivatedRoute} from "@angular/router";
 import {HttpClient} from "@angular/common/http";
 import {ReviewModel} from "../../common/models/ReviewModel";
-import {Log} from "oidc-client";
+import {CommentsSignalrService} from "../../common/services/signalr/comments-signalr.service";
 
 @Component({
   selector: 'app-review',
@@ -13,24 +13,28 @@ export class ReviewComponent implements OnInit {
 
   review!: ReviewModel;
   reviewId: number = 0;
-
   rate: number = 0;
+
   style: string = 'btn-dark'
 
   constructor(private activateRoute: ActivatedRoute,
-              private http: HttpClient) {
-
+              private http: HttpClient,
+              public signalrService: CommentsSignalrService) {
+    this.getReview()
+    this.getAllComments()
   }
 
-  ngOnInit(): void {
-    this.getReview()
+  async ngOnInit(){
+    await this.signalrService.connect()
+    await this.signalrService.connectToGroup(this.reviewId.toString())
+
   }
 
   getReview() {
     this.reviewId = this.activateRoute.snapshot.params['id']
-    this.http.get(`api/reviews/get?reviewId=${this.reviewId}`)
+    this.http.get<ReviewModel>(`api/reviews/get?reviewId=${this.reviewId}`)
       .subscribe({
-        next: (data: any) => this.review = data,
+        next: data => this.review = data,
         complete: () => {
           this.rate = this.review.userRating
         }
@@ -57,10 +61,23 @@ export class ReviewComponent implements OnInit {
       this.review.likeCount -= 1;
 
     this.http.post('api/likes', {reviewId: this.reviewId, isLike: this.review.isLike})
+      .subscribe()
+  }
+
+  getAllComments(){
+    this.http.get(`api/comments?reviewId=${this.reviewId}`)
       .subscribe({
-        error: err => {
-          if (err.status === 404)
-            console.error('The review not found')
+        next: (comments: any) => this.signalrService.comments = comments
+      });
+  }
+
+  async sendComment(){
+    let commentText = (<HTMLTextAreaElement>document.getElementById('comment')).value
+    this.http.post<string>('api/comments', {reviewId: this.reviewId, text: commentText})
+      .subscribe({
+        next: async (commentId) => {
+          this.getAllComments()
+          await this.signalrService.NotifyAboutComment(this.reviewId.toString(), commentId)
         }
       })
   }

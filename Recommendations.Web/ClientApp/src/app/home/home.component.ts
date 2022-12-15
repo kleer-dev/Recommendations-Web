@@ -27,8 +27,7 @@ export class HomeComponent {
   ngOnInit() {
     this.http.get('api/reviews/get-all')
       .subscribe({
-        next: (data: any) => this.reviews = data,
-        complete: () => console.log(this.reviews)
+        next: (data: any) => this.reviews = data
       });
   }
 

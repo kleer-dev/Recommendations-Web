@@ -21,15 +21,28 @@
 .comment{
   display: flex;
   flex-direction: column;
+  word-wrap: normal;
   border: 1px solid lightgrey;
   border-radius: 5px;
   padding: 5px;
+  min-height: 80px;
+  height: auto;
+  width: 100%;
 }
 
 .comment-head{
   display: flex;
   flex-direction: row;
   width: 100%;
+}
+
+.comment-text-container{
+  flex-wrap: wrap;
+  word-break: break-all;
+  overflow-y: auto;
+  width: 100%;
+  height: auto;
+  max-height: 200px;
 }
 
 .write-comment-container{
@@ -40,10 +53,10 @@
 .write-comment-container textarea{
   border: 1px solid lightgrey;
   border-radius: 5px;
-  resize: none;
   height: 120px;
   padding: 5px;
 }
+
 
 
 :host-context(.bootstrap) textarea {

@@ -12,12 +12,15 @@ const PROXY_CONFIG = [
       "/api/tags",
       "/api/likes",
       "/api/ratings",
+      "/api/comments",
       "/api/categories",
       "/signin-google",
-      "/signin-spotify"
+      "/signin-spotify",
+      "/comments"
    ],
     target: target,
     secure: false,
+    ws: true,
     headers: {
       Connection: 'Keep-Alive'
     }

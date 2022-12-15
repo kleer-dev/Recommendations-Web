@@ -1,6 +1,6 @@
 export interface ReviewModel {
-  authorName: string
   averageRate: number
+  authorName: string
   likeCount: number
   reviewTitle: string
   productName: string

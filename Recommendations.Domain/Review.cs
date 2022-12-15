@@ -14,4 +14,5 @@ public class Review
     public Category Category { get; set; }
     public Product Product { get; set; } = new();
     public List<Like> Likes { get; set; } = new();
+    public List<Comment> Comments { get; set; }
 }
