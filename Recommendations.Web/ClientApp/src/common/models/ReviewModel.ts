@@ -11,4 +11,5 @@ export interface ReviewModel {
   creationDate: Date
   isLike: boolean
   userRating: number
+  description: string
 }

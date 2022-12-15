@@ -6,45 +6,57 @@
 
     <div class="mb-3">
       <div class="d-flex flex-column">
-        <span>Author: {{review.authorName}}</span>
-        <span>Creation date: {{review.creationDate | date:'d.M.yy, h:mm a'}}</span>
+        <span class="wrap">Author: {{review.authorName}}</span>
+        <span class="wrap">Creation date: {{review.creationDate | date:'d.M.yy, h:mm a'}}</span>
       </div>
-      <div>Average rating: {{review.averageRate}}</div>
+
     </div>
 
-
-    <div class="row w-100 p-0 d-flex justify-content-center">
+    <div class="row w-100 p-0 d-flex justify-content-center mb-3">
       <img class="review-image" alt="..." src="https://camo.githubusercontent.com/ddf07e1ed9b55fe8b86f983cc98892f845365b8e3c7100916c0a4b7b1a6bee20/68747470733a2f2f686162726173746f726167652e6f72672f776562742f68752f65712f68392f6875657168396f773462313569766f6e3268356a6168617879636b2e6a706567">
     </div>
 
-    <div class="rating-bar mt-3 mb-3">
-      <div class="d-flex flex-column">
-        <span>Rate this product!</span>
-        <ngb-rating  (rateChange)="onRateChange($event)"
-                    style="font-size: 25px; padding: 0" [max]="5" [(rate)]="rate" [readonly]="false"></ngb-rating>
+    <div class="row d-flex flex-column p-0 mb-3">
+      <div class="title-container mb-3">
+        <div class="rating-bar mt-2 mb-3 m-0 p-0">
+          <div class="d-flex flex-column">
+            <span>Rate this product!</span>
+            <ngb-rating  (rateChange)="onRateChange($event)"
+                         style="font-size: 25px; padding: 0" [max]="5" [(rate)]="rate" [readonly]="false"></ngb-rating>
+          </div>
+
+          <div class="h-100 d-flex justify-content-center align-items-center flex-column">
+            <button [style.background]="this.review.isLike === true ? 'green' : 'black'" id="likeBtn" (click)="onLike()" class="btn">
+              <svg style="color: white" xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-heart-fill" viewBox="0 0 16 16">
+                <path fill-rule="evenodd" d="M8 1.314C12.438-3.248 23.534 4.735 8 15-7.534 4.736 3.562-3.248 8 1.314z"/>
+              </svg>
+            </button>
+            <span>{{review.likeCount}}</span>
+          </div>
+        </div>
+
+        <div>
+          <h3 id="review-title" class="mb-2">{{review.reviewTitle}}</h3>
+          <div class="wrap">Average rating: {{review.averageRate}}</div>
+        </div>
       </div>
 
-      <div class="h-100 d-flex justify-content-center align-items-center flex-column">
-        <button [style.background]="this.review.isLike === true ? 'green' : 'black'" id="likeBtn" (click)="onLike()" class="btn">
-          <svg style="color: white" xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-heart-fill" viewBox="0 0 16 16">
-            <path fill-rule="evenodd" d="M8 1.314C12.438-3.248 23.534 4.735 8 15-7.534 4.736 3.562-3.248 8 1.314z"/>
-          </svg>
-        </button>
-        <span>{{review.likeCount}}</span>
-      </div>
-    </div>
-
-    <div class="row d-flex flex-column p-0">
-      <h3 class="mb-2">{{review.reviewTitle}}</h3>
-      <h6 class="mb-2">Product name: {{review.productName}}</h6>
-      <h6 class="mb-2">Category: {{review.category}}</h6>
-      <h6 class="mb-2">Author rating: {{review.authorRate}}</h6>
-      <h6 class="">Tags: {{review.tags}}</h6>
+      <h6 class="mb-2 wrap">Product name: {{review.productName}}</h6>
+      <h6 class="mb-2 wrap">Category: {{review.category}}</h6>
+      <h6 class="mb-2 wrap">Author rating: {{review.authorRate}}</h6>
+      <h6 class="wrap">Tags: {{review.tags}}</h6>
     </div>
 
   </div>
 
-  <div class="row mt-3 mb-3">
+  <div class="row mb-3 m-0 p-0">
+    <div class=" description wrap">
+      <h5 >Description:</h5>
+      <markdown class="wrap" [data]='review.description'></markdown>
+    </div>
+  </div>
+
+  <div class="row mb-3 m-0 p-0">
     <h5 class="mb-2">Comments:</h5>
 
     <div class="write-comment-container mb-3">
@@ -57,10 +69,10 @@
 
       <div class="comment mb-2" *ngFor="let comment of this.signalrService.comments">
         <span class="comment-head mb-2">
-          <div class="mr-3">{{comment.authorName}}</div>
-          <div>{{comment.creationDate | date:'d.M.yy, h:mm a'}}</div>
+          <div class="mr-3 wrap">{{comment.authorName}}</div>
+          <div class="wrap">{{comment.creationDate | date:'d.M.yy, h:mm a'}}</div>
         </span>
-        <div class="comment-text-container">
+        <div class="comment-text-container wrap">
           {{comment.text}}
         </div>
       </div>

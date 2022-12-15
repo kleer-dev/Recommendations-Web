@@ -13,6 +13,7 @@ public class GetReviewDto : IMapWith<Domain.Review>
     public string ReviewTitle { get; set; }
     public string ProductName { get; set; }
     public string Category { get; set; }
+    public string Description { get; set; }
     public int AuthorRate { get; set; }
     public string[] Tags { get; set; }
     public string ImageUrl { get; set; }
@@ -38,6 +39,8 @@ public class GetReviewDto : IMapWith<Domain.Review>
                 o => o.MapFrom(u => u.ImageUrl))
             .ForMember(u => u.CreationDate,
                 o => o.MapFrom(u => u.CreationDate))
+            .ForMember(u => u.Description,
+                o => o.MapFrom(u => u.Description))
             .ForMember(u => u.LikeCount,
                 o => o.MapFrom(u => u.Likes
                     .Count(l => l.Status)))

@@ -72,14 +72,15 @@ export class ReviewComponent implements OnInit {
   }
 
   async sendComment(){
-    let commentText = (<HTMLTextAreaElement>document.getElementById('comment')).value
-    this.http.post<string>('api/comments', {reviewId: this.reviewId, text: commentText})
+    let commentText = (<HTMLTextAreaElement>document.getElementById('comment'))
+    this.http.post<string>('api/comments', {reviewId: this.reviewId, text: commentText.value})
       .subscribe({
         next: async (commentId) => {
           this.getAllComments()
           await this.signalrService.NotifyAboutComment(this.reviewId.toString(), commentId)
         }
       })
+    commentText.value = ''
   }
 }
 
