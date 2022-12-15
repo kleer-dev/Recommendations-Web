@@ -9,7 +9,7 @@ public class GetAllReviewsDto : IMapWith<Domain.Review>
     public string ReviewTitle { get; set; }
     public string ProductName { get; set; }
     public string Category { get; set; }
-    public int AverageRate { get; set; }
+    public double AverageRate { get; set; }
     public List<string> Tags { get; set; }
     
     public void Mapping(Profile profile)
@@ -19,6 +19,9 @@ public class GetAllReviewsDto : IMapWith<Domain.Review>
                 o => o.MapFrom(u => u.Id))
             .ForMember(u => u.ReviewTitle,
                 o => o.MapFrom(u => u.Title))
+            .ForMember(u => u.AverageRate,
+                o => o.MapFrom(u => u.Product.UserRatings
+                    .Select(r => r.Value).DefaultIfEmpty().Average()))
             .ForMember(u => u.Category,
                 o => o.MapFrom(u => u.Category.Name))
             .ForMember(u => u.Tags,

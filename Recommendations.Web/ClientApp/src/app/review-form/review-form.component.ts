@@ -90,7 +90,7 @@ export class ReviewFormComponent {
   onRateChange(e: number) {
     this.rate = e
     this.reviewForm.patchValue({
-      rate: this.rate
+      authorRate: this.rate
     })
   }
 

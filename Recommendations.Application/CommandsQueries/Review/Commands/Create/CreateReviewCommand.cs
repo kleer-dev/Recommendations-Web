@@ -10,7 +10,7 @@ public class CreateReviewCommand : IRequest<Guid>, IMapWith<Domain.Review>
     public Guid? UserId { get; set; }
     public string Title { get; set; }
     public string ProductName { get; set; }
-    public string Category { get; set; }
+    public string CategoryName { get; set; }
     public string Description { get; set; }
     public int AuthorRate { get; set; }
     public IFormFile? Image { get; set; }
@@ -22,7 +22,7 @@ public class CreateReviewCommand : IRequest<Guid>, IMapWith<Domain.Review>
             .ForMember(u => u.Title,
                 o => o.MapFrom(u => u.Title))
             .ForMember(u => u.Category,
-                o => o.MapFrom(u => u.Category))
+                o => o.MapFrom(u => u.CategoryName))
             .ForMember(u => u.Description,
                 o => o.MapFrom(u => u.Description))
             .ForMember(u => u.AuthorRate,

@@ -1,7 +1,7 @@
 import {Component} from '@angular/core';
 import {HttpClient} from "@angular/common/http";
-import {ReviewModel} from "../../common/models/ReviewModel";
 import {FormControl, FormGroup} from "@angular/forms";
+import {ReviewPreviewModel} from "src/common/models/ReviewPreviewModel";
 
 @Component({
   selector: 'app-home',
@@ -10,7 +10,7 @@ import {FormControl, FormGroup} from "@angular/forms";
 })
 export class HomeComponent {
 
-  reviews: ReviewModel[] = [];
+  reviews: ReviewPreviewModel[] = [];
 
   constructor(private http: HttpClient) {
 

@@ -60,14 +60,14 @@
 
         <div class="col mb-2">
           <h6>{{'ReviewForm.Category' | translate}}</h6>
-          <select required formControlName="category"  class="form-select">
+          <select required formControlName="categoryName"  class="form-select">
             <option *ngFor="let category of categories" value="{{category}}">
               {{category}}
             </option>
 
           </select>
-          <div class="text-danger" *ngIf="reviewForm.controls.category.errors?.required &&
-            reviewForm.controls['category'].touched">
+          <div class="text-danger" *ngIf="reviewForm.controls.categoryName.errors?.required &&
+            reviewForm.controls['categoryName'].touched">
             {{'Validation.CategoryIsRequired' | translate}}
           </div>
         </div>

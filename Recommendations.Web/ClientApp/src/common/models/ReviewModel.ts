@@ -1,8 +1,14 @@
 export interface ReviewModel {
-  id: string
+  authorName: string
+  averageRate: number
+  likeCount: number
   reviewTitle: string
   productName: string
   category: string
-  averageRate: number
+  authorRate: number
   tags: string[]
+  imageUrl: string
+  creationDate: Date
+  isLike: boolean
+  userRating: number
 }

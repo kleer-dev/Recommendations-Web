@@ -23,7 +23,6 @@
     </ItemGroup>
 
     <ItemGroup>
-      <Folder Include="CommandsQueries\Category\Commands" />
       <Folder Include="CommandsQueries\Tag\Commands" />
     </ItemGroup>
 

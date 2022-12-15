@@ -55,7 +55,7 @@ import {ReviewComponent} from "./review/review.component";
       {path: 'login', component: LoginComponent},
       {path: 'login-callback', component: LoginCallbackComponent},
       {path: 'create-review', component: CreateReviewComponent},
-      {path: 'review', component: ReviewComponent}
+      {path: 'review/:id', component: ReviewComponent}
     ]),
     NgbModule,
     ReviewFormModule,

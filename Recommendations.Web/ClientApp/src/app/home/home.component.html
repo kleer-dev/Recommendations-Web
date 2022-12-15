@@ -67,7 +67,7 @@
             <p class="card-text card-block">
               Tags: {{review.tags}}
             </p>
-            <input type="submit" value="Read" class="btn btn-primary text-light w-100">
+            <a [routerLink]="['/review', review.id]" class="btn btn-primary text-light w-100">Read</a>
           </div>
         </form>
       </div>

@@ -9,6 +9,7 @@ using Recommendations.Application.CommandsQueries.User.Queries.ExternalLoginCall
 using Recommendations.Application.CommandsQueries.User.Queries.Login;
 using Recommendations.Domain;
 using Recommendations.Web.Models;
+using Recommendations.Web.Models.User;
 
 namespace Recommendations.Web.Controllers;
 

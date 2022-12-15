@@ -1,12 +1,17 @@
 <div class="container w-100 d-flex justify-content-center
  align-items-center m-0 p-0 row d-flex justify-content-center">
 
-  <div class="row d-flex justify-content-center">
+  <div class="row d-flex justify-content-center w-100">
 
-    <h6 class="mb-3 w-100 d-flex justify-content-between">
-      <div>Author: QWrtrtyj</div>
-      <div>Average rating: 0</div>
-    </h6>
+
+    <div class="mb-3">
+      <div class="d-flex flex-column">
+        <span>Author: {{review.authorName}}</span>
+        <span>Creation date: {{review.creationDate | date:'d.M.yy, h:mm a'}}</span>
+      </div>
+      <div>Average rating: {{review.averageRate}}</div>
+    </div>
+
 
     <div class="row w-100 p-0 d-flex justify-content-center">
       <img class="review-image" alt="..." src="https://camo.githubusercontent.com/ddf07e1ed9b55fe8b86f983cc98892f845365b8e3c7100916c0a4b7b1a6bee20/68747470733a2f2f686162726173746f726167652e6f72672f776562742f68752f65712f68392f6875657168396f773462313569766f6e3268356a6168617879636b2e6a706567">
@@ -14,26 +19,27 @@
 
     <div class="rating-bar mt-3 mb-3">
       <div class="d-flex flex-column">
-        <span>Rate this review!</span>
-        <ngb-rating formControlName="rate" (rateChange)="onRateChange($event)"
+        <span>Rate this product!</span>
+        <ngb-rating  (rateChange)="onRateChange($event)"
                     style="font-size: 25px; padding: 0" [max]="5" [(rate)]="rate" [readonly]="false"></ngb-rating>
       </div>
 
-      <div class="h-100 d-flex justify-content-center align-items-center">
-        <button id="likeBtn" (click)="onLike()" class="btn btn-dark">
-          <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-heart-fill" viewBox="0 0 16 16">
+      <div class="h-100 d-flex justify-content-center align-items-center flex-column">
+        <button [style.background]="this.review.isLike === true ? 'green' : 'black'" id="likeBtn" (click)="onLike()" class="btn">
+          <svg style="color: white" xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-heart-fill" viewBox="0 0 16 16">
             <path fill-rule="evenodd" d="M8 1.314C12.438-3.248 23.534 4.735 8 15-7.534 4.736 3.562-3.248 8 1.314z"/>
           </svg>
         </button>
+        <span>{{review.likeCount}}</span>
       </div>
     </div>
 
     <div class="row d-flex flex-column p-0">
-      <h4 class="mb-2">Review title</h4>
-      <h6 class="mb-2">Product name: QWrtrtyj</h6>
-      <h6 class="mb-2">Category: Books</h6>
-      <h6 class="mb-2">Author rating: 0</h6>
-      <h6 class="">Tags: q, w, e</h6>
+      <h3 class="mb-2">{{review.reviewTitle}}</h3>
+      <h6 class="mb-2">Product name: {{review.productName}}</h6>
+      <h6 class="mb-2">Category: {{review.category}}</h6>
+      <h6 class="mb-2">Author rating: {{review.authorRate}}</h6>
+      <h6 class="">Tags: {{review.tags}}</h6>
     </div>
 
   </div>

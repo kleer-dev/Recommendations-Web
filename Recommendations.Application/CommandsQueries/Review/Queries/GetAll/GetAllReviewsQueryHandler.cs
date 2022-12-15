@@ -24,6 +24,7 @@ public class GetAllReviewsQueryHandler : IRequestHandler<GetAllReviewsQuery, Get
         var reviews = await _context.Reviews
             .Include(r => r.Tags)
             .Include(r => r.Category)
+            .Include(r => r.Product.UserRatings)
             .ProjectTo<GetAllReviewsDto>(_mapper.ConfigurationProvider)
             .ToListAsync(cancellationToken);
 
