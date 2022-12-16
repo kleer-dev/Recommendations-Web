@@ -3,10 +3,10 @@ using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Recommendations.Application.CommandsQueries.Review.Commands.Create;
+using Recommendations.Application.CommandsQueries.Review.Queries;
 using Recommendations.Application.CommandsQueries.Review.Queries.Get;
-using Recommendations.Application.CommandsQueries.Review.Queries.GetAll;
 using Recommendations.Application.CommandsQueries.Review.Queries.GetDto;
-using Recommendations.Web.Models;
+using Recommendations.Application.CommandsQueries.Review.Queries.GetReviewsByParam;
 using Recommendations.Web.Models.Review;
 
 namespace Recommendations.Web.Controllers;
@@ -37,12 +37,15 @@ public class ReviewController : BaseController
 
     [HttpGet("get-all")]
     [AllowAnonymous]
-    public async Task<ActionResult<IEnumerable<GetAllReviewsDto>>> GetAllReviews()
+    public async Task<ActionResult<IEnumerable<GetAllReviewsDto>>> GetAllReviews(string filtrate, int count)
     {
-        var getAllReviews = new GetAllReviewsQuery();
-        var getAllReviewsVm = await _mediator.Send(getAllReviews);
-
-        var reviews = getAllReviewsVm.Reviews.ToList();
+        var getReviewsByParam = new GetReviewsByParamQuery
+        {
+            Count = count,
+            Filtrate = filtrate
+        };
+        var getReviewsByParamVm = await _mediator.Send(getReviewsByParam);
+        var reviews = getReviewsByParamVm.Reviews.ToList();
 
         return Ok(reviews);
     }
@@ -60,6 +63,4 @@ public class ReviewController : BaseController
 
         return Ok(review);
     }
-
-    
 }

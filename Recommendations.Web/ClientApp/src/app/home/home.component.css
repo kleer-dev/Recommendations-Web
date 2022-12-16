@@ -1,31 +1,40 @@
-.rated-reviews-container{
-
-}
-
-.rated-reviews{
-  overflow-y: auto;
-  max-height: 550px;
-}
-
-.last-reviews{
-  overflow-y: auto;
-  max-height: 550px;
-}
-
-.card{
-  width: 95% !important;
-  height: auto;
-}
-
-.card-block{
-  padding: 10px;
+.review{
+  display: flex;
+  justify-content: center;
+  align-items: center;
   border: 1px solid lightgrey;
-  border-radius: 3px;
+  border-radius: 5px;
+  padding: 15px;
+  max-width: 300px;
+  min-width: 300px;
 }
 
-.card-img-top{
-  margin-top: 10px;
-  border-radius: 3px;
-  border: 1px solid lightgrey;
-  width: 250px;
+.review-img{
+  width: 100%;
+  border: 1px solid #3f3f3f;
+  border-radius: 5px;
+}
+
+.wrap{
+  -webkit-hyphens: auto;
+  -moz-hyphens: auto;
+  -ms-hyphens: auto;
+  hyphens: auto;
+  overflow-wrap: break-word;
+}
+
+.control-btn{
+  width: 120px;
+}
+
+.clip{
+  white-space: nowrap; /* Отменяем перенос текста */
+  overflow: hidden; /* Обрезаем содержимое */
+  text-overflow: ellipsis;
+  max-width: 260px;
+}
+
+#count-input{
+  width: 110px;
+  height: 100%;
 }
