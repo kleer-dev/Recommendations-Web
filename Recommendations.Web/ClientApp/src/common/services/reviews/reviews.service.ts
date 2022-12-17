@@ -13,12 +13,15 @@ export class ReviewsService {
   count: number | null = 10;
   public reviews: ReviewPreviewModel[] = [];
 
+  waiter!: Promise<boolean>
+
   constructor(private http: HttpClient, private activateRoute: ActivatedRoute,
               private router: Router) {
 
   }
 
   async setParams(filtrate: string | null, count: number | null) {
+    this.waiter = Promise.resolve(false)
     this.filtrate = filtrate;
     this.count = count;
     await this.changeRoute()
@@ -52,6 +55,7 @@ export class ReviewsService {
       .subscribe({
         next: data => {
           this.reviews = data
+          this.waiter = Promise.resolve(true)
         }
       });
   }

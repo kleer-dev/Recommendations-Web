@@ -62,5 +62,16 @@
     "Comments": "Comments:",
     "LeaveComment": "Leave your comment:",
     "Send": "Send"
+  },
+  "HomePage": {
+    "TagCloud": "Tag cloud:",
+    "Recent": "Recent",
+    "MostRated": "MostRated",
+    "Count": "Count",
+    "AverageRate": "Average rate:",
+    "Product": "Product:",
+    "Category": "Category:",
+    "Tags": "Tags:",
+    "Read": "Read"
   }
 }

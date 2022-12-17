@@ -1,27 +1,29 @@
 <div class="w-100 m-0 p-0 row d-flex justify-content-center">
 
   <div class="row w-100 d-flex justify-content-center align-items-center mb-3 m-0">
-    <h6 class="d-flex w-100 justify-content-center ">Tag cloud:</h6>
+    <h6 class="d-flex w-100 justify-content-center ">{{'HomePage.TagCloud' | translate}}</h6>
   </div>
 
-  <div class="container d-flex justify-content-center mb-2">
+  <div class="container d-flex justify-content-center mb-2 flex-wrap">
     <button
         (click)="getRecentReviews()"
-       class="btn btn-outline-success control-btn mr-3">
-      Recent
+       class="btn btn-outline-success control-btn mr-2 mb-2">
+      {{'HomePage.Recent' | translate}}
     </button>
     <button
        (click)="getMostRatedReviews()"
-       class="btn btn-outline-success control-btn mr-3">
-      Most rated
+       class="btn btn-outline-success control-btn mr-2 mb-2">
+      {{'HomePage.MostRated' | translate}}
     </button>
-    <form [formGroup]="countInput">
-      <input (change)="checkCountInput()" formControlName="count"  type="number"
-             class="form-control" id="count-input" placeholder="Count">
+    <form [formGroup]="countInput" class=" mb-2">
+      <input (change)="checkCountInput()" min="1" formControlName="count"  type="number"
+             class="form-control" id="count-input" placeholder="{{'HomePage.Count' | translate}}">
     </form>
   </div>
 
-  <div class="row w-100 d-flex align-items-center justify-content-center p-0 m-0" >
+  <app-fullscreen-loader *ngIf="!this.reviewService.waiter"></app-fullscreen-loader>
+
+  <div *ngIf="this.reviewService.waiter" class="row w-100 d-flex align-items-center justify-content-center p-0 m-0" >
     <div class="col m-2 d-flex flex-column review" *ngFor="let review of reviewService.reviews">
       <form [formGroup]="reviewForm">
         <h6 class="w-100 d-flex justify-content-center">
@@ -31,13 +33,16 @@
         <div class="mb-2 d-flex flex-column w-100 p-2">
           <input formControlName="id" type="hidden" value="{{review.id}}">
           <span class="clip mb-1 w-100 fw-bold fs-6">{{review.reviewTitle}}</span>
-          <span class="wrap mb-1">Average rate: {{review.averageRate}}</span>
-          <span class="clip mb-1">Product: {{review.productName}}</span>
-          <span class="wrap mb-1">Category: {{review.category}}</span>
-          <span class="wrap mb-1">Tags: {{review.tags}}</span>
+          <span class="wrap mb-1"> {{'HomePage.AverageRate' | translate}} {{review.averageRate}}</span>
+          <span class="clip mb-1"> {{'HomePage.Product' | translate}} {{review.productName}}</span>
+          <span class="clip mb-1"> {{'HomePage.Category' | translate}} {{review.category}}</span>
+          <span class="clip mb-1"> {{'HomePage.Tags' | translate}} {{review.tags}}</span>
         </div>
 
-        <a [routerLink]="['/review', review.id]" class="btn btn-primary text-light w-100">Read</a>
+        <a [routerLink]="['/review', review.id]"
+           class="btn btn-primary text-light w-100">
+          {{'HomePage.Read' | translate}}
+        </a>
       </form>
     </div>
   </div>

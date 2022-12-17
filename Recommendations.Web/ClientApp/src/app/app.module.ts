@@ -29,7 +29,8 @@ import {HttpLoaderFactory} from "../common/functions/httpLoaderFactory";
 import {LanguageDropdownComponent} from "./language-dropdown/language-dropdown.component";
 import {SearchComponent} from "./search/search.component";
 import {ReviewComponent} from "./review/review.component";
-import {LoaderComponent} from "./loader/loader.component";
+import {FullscreenLoaderComponent} from "./loaders/fullscreen-loader/fullscreen-loader.component";
+import {DataLoaderComponent} from "./loaders/data-loader/data-loader.component";
 
 @NgModule({
   declarations: [
@@ -45,7 +46,8 @@ import {LoaderComponent} from "./loader/loader.component";
     LanguageDropdownComponent,
     SearchComponent,
     ReviewComponent,
-    LoaderComponent
+    FullscreenLoaderComponent,
+    DataLoaderComponent
   ],
   imports: [
     BrowserModule.withServerTransition({appId: 'ng-cli-universal'}),

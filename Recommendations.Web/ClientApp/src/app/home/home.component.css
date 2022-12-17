@@ -7,6 +7,8 @@
   padding: 15px;
   max-width: 300px;
   min-width: 300px;
+  min-height: 420px;
+  max-height: 420px;
 }
 
 .review-img{
@@ -31,10 +33,11 @@
   white-space: nowrap; /* Отменяем перенос текста */
   overflow: hidden; /* Обрезаем содержимое */
   text-overflow: ellipsis;
-  max-width: 260px;
+  max-width: 250px;
 }
 
 #count-input{
-  width: 110px;
+  width: auto;
+  max-width: 150px;
   height: 100%;
 }

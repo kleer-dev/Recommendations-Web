@@ -13,8 +13,6 @@ import {ReviewsService} from "../../common/services/reviews/reviews.service";
 })
 export class HomeComponent {
 
-
-
   constructor(public reviewService: ReviewsService,
               private activateRoute: ActivatedRoute, private router: Router) {
 
@@ -33,12 +31,14 @@ export class HomeComponent {
   }
 
   async getRecentReviews() {
-    await this.reviewService.setParams(FilteringParameters.recent, this.reviewService.count)
+    await this.reviewService.setParams(FilteringParameters.recent,
+      this.reviewService.count)
     await this.checkCountInput()
   }
 
   async getMostRatedReviews() {
-    await this.reviewService.setParams(FilteringParameters.mostRated, this.reviewService.count)
+    await this.reviewService.setParams(FilteringParameters.mostRated,
+      this.reviewService.count)
     await this.checkCountInput()
   }
 
