@@ -1,77 +1,51 @@
-<div class="w-100 m-0 p-0 row d-flex justify-content-between">
+<div class="w-100 m-0 p-0 row d-flex justify-content-center">
 
   <div class="row w-100 d-flex justify-content-center align-items-center mb-3 m-0">
-    <h4 class="d-flex w-100 justify-content-center ">Tag cloud:</h4>
+    <h6 class="d-flex w-100 justify-content-center ">{{'HomePage.TagCloud' | translate}}</h6>
   </div>
 
-  <div class="col-lg-5 flex-column d-flex mb-5">
-
-    <h5 class="mb-3 w-100 d-flex justify-content-center border-1 border-dark">
-      Most rated reviews:
-    </h5>
-
-    <div class="row rated-reviews d-flex flex-row align-items-center justify-content-center">
-
-      <div class="card mb-3 w-100">
-        <div class="card-body d-flex justify-content-center">
-          <img src="https://guruadvisor.net/media/com_yendifevents/events/39/angular-day5bbf6c47ca93d.jpg" class="card-img-top" alt="...">
-        </div>
-        <div class="card-body">
-          <h5 class="card-title fw-bold">Review title</h5>
-          <p class="card-text card-block">
-            Product name
-          </p>
-          <p class="card-text card-block">
-            Category:
-          </p>
-          <p class="card-text card-block">
-            Rate:
-          </p>
-          <p class="card-text card-block">
-            Tags:
-          </p>
-          <a href="#" class="btn btn-primary text-light w-100">Read</a>
-        </div>
-      </div>
-
-    </div>
-
+  <div class="container d-flex justify-content-center mb-2 flex-wrap">
+    <button
+        (click)="getRecentReviews()"
+       class="btn btn-outline-success control-btn mr-2 mb-2">
+      {{'HomePage.Recent' | translate}}
+    </button>
+    <button
+       (click)="getMostRatedReviews()"
+       class="btn btn-outline-success control-btn mr-2 mb-2">
+      {{'HomePage.MostRated' | translate}}
+    </button>
+    <form [formGroup]="countInput" class=" mb-2">
+      <input (change)="checkCountInput()" min="1" formControlName="count"  type="number"
+             class="form-control" id="count-input" placeholder="{{'HomePage.Count' | translate}}">
+    </form>
   </div>
 
-  <div class="col-lg-5 flex-column d-flex">
 
-    <h5 class="mb-3 w-100 d-flex justify-content-center">
-      Last reviews:
-    </h5>
+  <app-data-loader class="h-100 w-100" *ngIf="!this.reviewService.waiter"></app-data-loader>
 
-    <div class="row rated-reviews d-flex flex-row align-items-center justify-content-center">
+  <div *ngIf="this.reviewService.waiter" class="row w-100 d-flex align-items-center justify-content-center p-0 m-0" >
+    <div class="col m-2 d-flex flex-column review" *ngFor="let review of reviewService.reviews">
 
-      <div class="card mb-3 w-100" *ngFor="let review of reviews">
-        <form (ngSubmit)="onSubmit()" [formGroup]="reviewForm">
+      <form  [formGroup]="reviewForm">
+        <h6 class="w-100 d-flex justify-content-center">
+          {{review.creationDate | date:'d.M.yy, HH:MM'}}
+        </h6>
+        <img class="review-img mb-2" src="https://i.playground.ru/p/YObfBCTfBy13HqoM7Ijk7Q.jpeg" alt="">
+        <div class="mb-2 d-flex flex-column w-100 p-2">
           <input formControlName="id" type="hidden" value="{{review.id}}">
-          <div class="card-body d-flex justify-content-center">
-            <img src="https://guruadvisor.net/media/com_yendifevents/events/39/angular-day5bbf6c47ca93d.jpg" class="card-img-top" alt="...">
-          </div>
+          <span class="clip mb-1 w-100 fw-bold fs-6">{{review.reviewTitle}}</span>
+          <span class="wrap mb-1"> {{'HomePage.AverageRate' | translate}} {{review.averageRate}}</span>
+          <span class="clip mb-1"> {{'HomePage.Product' | translate}} {{review.productName}}</span>
+          <span class="clip mb-1"> {{'HomePage.Category' | translate}} {{review.category}}</span>
+          <span class="clip mb-1"> {{'HomePage.Tags' | translate}} {{review.tags}}</span>
+        </div>
 
-          <div class="card-body" >
-            <h5 class="card-title fw-bold mb-4">{{review.reviewTitle}}</h5>
-            <p class="card-text card-block">
-              {{review.productName}}
-            </p>
-            <p class="card-text card-block">
-              Category: {{review.category}}
-            </p>
-            <p class="card-text card-block">
-              Rate: {{review.averageRate}}
-            </p>
-            <p class="card-text card-block">
-              Tags: {{review.tags}}
-            </p>
-            <a [routerLink]="['/review', review.id]" class="btn btn-primary text-light w-100">Read</a>
-          </div>
-        </form>
-      </div>
-
+        <a [routerLink]="['/review', review.id]"
+           class="btn btn-primary text-light w-100">
+          {{'HomePage.Read' | translate}}
+        </a>
+      </form>
     </div>
   </div>
 

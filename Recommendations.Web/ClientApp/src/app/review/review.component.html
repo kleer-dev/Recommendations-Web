@@ -1,4 +1,4 @@
-<app-loader *ngIf="!waiter"></app-loader>
+<app-fullscreen-loader *ngIf="!waiter"></app-fullscreen-loader>
 
 <div *ngIf="waiter" class="container w-100 d-flex justify-content-center
  align-items-center m-0 p-0 row d-flex justify-content-center">
@@ -10,7 +10,7 @@
       <div class="d-flex flex-column">
         <span class="wrap">{{'ReviewPage.Author' | translate}} {{review.authorName}}</span>
         <span class="wrap">
-          {{'ReviewPage.CreationDate' | translate}} {{review.creationDate | date:'d.M.yy, h:mm a'}}
+          {{'ReviewPage.CreationDate' | translate}} {{review.creationDate | date:'d.M.yy, HH:MM'}}
         </span>
       </div>
 

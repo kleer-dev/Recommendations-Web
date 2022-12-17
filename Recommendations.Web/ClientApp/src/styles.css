@@ -55,7 +55,7 @@ blockquote{
   hyphens: auto;
 }
 
-app-loader{
+app-fullscreen-loader{
   z-index: 999;
   position: absolute;
   height: 100vh;

@@ -19,7 +19,7 @@ public class UserController : BaseController
 {
     private readonly IMapper _mapper;
     private readonly IMediator _mediator;
-    private readonly SignInManager<Domain.User> _signInManager;
+    private readonly SignInManager<User> _signInManager;
 
     public UserController(IMapper mapper, IMediator mediator,
         SignInManager<User> signInManager)
