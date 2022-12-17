@@ -21,11 +21,13 @@
     </form>
   </div>
 
-  <app-fullscreen-loader *ngIf="!this.reviewService.waiter"></app-fullscreen-loader>
+
+  <app-data-loader class="h-100 w-100" *ngIf="!this.reviewService.waiter"></app-data-loader>
 
   <div *ngIf="this.reviewService.waiter" class="row w-100 d-flex align-items-center justify-content-center p-0 m-0" >
     <div class="col m-2 d-flex flex-column review" *ngFor="let review of reviewService.reviews">
-      <form [formGroup]="reviewForm">
+
+      <form  [formGroup]="reviewForm">
         <h6 class="w-100 d-flex justify-content-center">
           {{review.creationDate | date:'d.M.yy, HH:MM'}}
         </h6>
