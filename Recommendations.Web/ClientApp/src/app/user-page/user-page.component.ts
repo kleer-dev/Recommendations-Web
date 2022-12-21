@@ -54,7 +54,7 @@ export class UserPageComponent implements OnInit {
     this.rows = this.filtrationService.filtrateData(filterType, filterValue, this.reviews)
   }
 
-  restoreFiltration(){
+  resetFiltration(){
     this.rows = this.reviews
   }
 

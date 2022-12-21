@@ -59,6 +59,7 @@ blockquote{
   -moz-hyphens: auto;
   -ms-hyphens: auto;
   hyphens: auto;
+  overflow-wrap: break-word;
 }
 
 app-fullscreen-loader{
