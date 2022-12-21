@@ -28,12 +28,11 @@ export class ReviewComponent implements OnInit {
   async ngOnInit(){
     await this.signalrService.connect()
     await this.signalrService.connectToGroup(this.reviewId.toString())
-
   }
 
   getReview() {
     this.reviewId = this.activateRoute.snapshot.params['id']
-    this.http.get<ReviewModel>(`api/reviews/get?reviewId=${this.reviewId}`)
+    this.http.get<ReviewModel>(`api/reviews?reviewId=${this.reviewId}`)
       .subscribe({
         next: data => {
           this.review = data
@@ -69,7 +68,7 @@ export class ReviewComponent implements OnInit {
   }
 
   getAllComments(){
-    this.http.get(`api/comments?reviewId=${this.reviewId}`)
+    this.http.get(`api/comments/${this.reviewId}`)
       .subscribe({
         next: (comments: any) => this.signalrService.comments = comments
       });

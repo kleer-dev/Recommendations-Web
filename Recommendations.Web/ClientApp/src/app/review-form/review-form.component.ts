@@ -16,7 +16,7 @@ import {ReviewFormModel} from "src/common/models/ReviewFormModel";
 export class ReviewFormComponent {
   file?: File;
   rate = 1;
-  tags: string[] = []
+  @Input() @Output() tags!: string[]
   categories!: string[]
 
   @Input() @Output() reviewForm!: ReviewFormModel;
@@ -71,17 +71,17 @@ export class ReviewFormComponent {
 
   onTagAdd(tag: TagModel) {
     this.tags.push((<any>tag).value);
+    console.log(this.tags)
     this.reviewForm.patchValue({
       tags: this.tags
     })
   }
 
   onTagRemove(tag: any) {
-    let index = this.tags.indexOf((<any>tag).value)
+    let index = this.tags.indexOf(tag)
     if (index != -1) {
       this.tags.splice(index, 1)
     }
-
     this.reviewForm.patchValue({
       tags: this.tags
     })

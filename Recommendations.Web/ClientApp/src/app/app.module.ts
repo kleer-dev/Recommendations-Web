@@ -1,5 +1,5 @@
 import {BrowserModule} from '@angular/platform-browser';
-import {APP_INITIALIZER, NgModule, SecurityContext} from '@angular/core';
+import {NgModule, SecurityContext} from '@angular/core';
 import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 import {HttpClient, HttpClientModule} from '@angular/common/http';
 import {RouterModule} from '@angular/router';
@@ -31,6 +31,9 @@ import {SearchComponent} from "./search/search.component";
 import {ReviewComponent} from "./review/review.component";
 import {FullscreenLoaderComponent} from "./loaders/fullscreen-loader/fullscreen-loader.component";
 import {DataLoaderComponent} from "./loaders/data-loader/data-loader.component";
+import {UserPageComponent} from "./user-page/user-page.component";
+import {UpdateReviewComponent} from "./update-review/update-review.component";
+import { NgxDatatableModule } from '@swimlane/ngx-datatable';
 
 @NgModule({
   declarations: [
@@ -47,7 +50,9 @@ import {DataLoaderComponent} from "./loaders/data-loader/data-loader.component";
     SearchComponent,
     ReviewComponent,
     FullscreenLoaderComponent,
-    DataLoaderComponent
+    DataLoaderComponent,
+    UpdateReviewComponent,
+    UserPageComponent
   ],
   imports: [
     BrowserModule.withServerTransition({appId: 'ng-cli-universal'}),
@@ -59,7 +64,9 @@ import {DataLoaderComponent} from "./loaders/data-loader/data-loader.component";
       {path: 'login', component: LoginComponent},
       {path: 'login-callback', component: LoginCallbackComponent},
       {path: 'create-review', component: CreateReviewComponent},
-      {path: 'review/:id', component: ReviewComponent}
+      {path: 'update-review/:id', component: UpdateReviewComponent},
+      {path: 'review/:id', component: ReviewComponent},
+      {path: 'profile', component: UserPageComponent}
     ]),
     NgbModule,
     ReviewFormModule,
@@ -70,6 +77,7 @@ import {DataLoaderComponent} from "./loaders/data-loader/data-loader.component";
     NgxTagsInputBoxModule,
     BrowserAnimationsModule,
     MarkdownEditorModule,
+    NgxDatatableModule,
     MarkdownModule.forRoot(({
       markedOptions: {
         provide: MarkedOptions,

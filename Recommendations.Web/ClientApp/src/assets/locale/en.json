@@ -41,7 +41,8 @@
     "Description": "Description",
     "MarkdownPreview": "Markdown preview",
     "CreateReview": "Creating a review",
-    "Create": "Create"
+    "ChangeReview": "Change the review",
+    "Send": "Send"
   },
   "Header": {
     "Theme": "Theme:",

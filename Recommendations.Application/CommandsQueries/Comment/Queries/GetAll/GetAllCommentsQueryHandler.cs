@@ -28,6 +28,7 @@ public class GetAllCommentsQueryHandler : IRequestHandler<GetAllCommentsQuery, G
             .Include(c => c.Review)
             .Include(c => c.User)
             .Where(c => c.Review.Id == request.ReviewId)
+            .OrderBy(c => c.CreationDate)
             .ProjectTo<GetAllCommentsDto>(_mapper.ConfigurationProvider)
             .ToListAsync(cancellationToken);
 

@@ -41,7 +41,8 @@
     "Description": "Описание",
     "MarkdownPreview": "Markdown превью",
     "CreateReview": "Создание обзора",
-    "Create": "Создать"
+    "ChangeReview": "Изменить обзор",
+    "Send": "Отправить"
   },
   "Header": {
     "Theme": "Тема:",

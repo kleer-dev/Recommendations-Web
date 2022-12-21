@@ -31,7 +31,7 @@ public class CommentController : BaseController
         return Ok(commentId);
     }
 
-    [HttpGet]
+    [HttpGet("{reviewId:guid}")]
     [AllowAnonymous]
     public async Task<ActionResult<IEnumerable<GetAllCommentsDto>>> GetAll(Guid reviewId)
     {
