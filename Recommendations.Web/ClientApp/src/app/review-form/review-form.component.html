@@ -60,7 +60,7 @@
         <div class="col mb-2">
           <h6>{{'ReviewForm.Category' | translate}}</h6>
           <select required formControlName="categoryName"  class="form-select">
-            <option [selected]="categories[0]" *ngFor="let category of categories" value="{{category}}">
+            <option *ngFor="let category of categories" value="{{category}}">
               {{category}}
             </option>
 
