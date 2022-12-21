@@ -41,7 +41,8 @@
     "Description": "Описание",
     "MarkdownPreview": "Markdown превью",
     "CreateReview": "Создание обзора",
-    "Create": "Создать"
+    "ChangeReview": "Изменить обзор",
+    "Send": "Отправить"
   },
   "Header": {
     "Theme": "Тема:",
@@ -73,5 +74,26 @@
     "Category": "Категория:",
     "Tags": "Теги:",
     "Read": "Прочитать"
+  },
+  "Profile": {
+    "AccountActions": "Действия с аккаунтом",
+    "Logout": "Выйти",
+    "Filtration": "Фильтрация",
+    "ReviewTitle": "Заголовок обзора",
+    "CreationDate": "Дата создания",
+    "Category": "Категория",
+    "Product": "Произведение",
+    "LikeCount": "Кол-во лайков",
+    "CommentsCount": "Кол-во комментариев",
+    "AverageRate": "Средняя оценка",
+    "Actions": "Действия",
+    "Delete": "Удалить",
+    "Update": "Изменить",
+    "View": "Прочитать",
+    "Reviews": "Обзор",
+    "New": "Новый",
+    "EnterFilterText": "Введите текст фильтрации",
+    "Filter": "Отфильтровать",
+    "Reset": "Сбросить"
   }
 }

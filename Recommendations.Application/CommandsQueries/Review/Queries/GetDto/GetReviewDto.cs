@@ -1,7 +1,7 @@
 using AutoMapper;
 using Recommendations.Application.Common.Mappings;
 
-namespace Recommendations.Application.CommandsQueries.Review.Queries.Get;
+namespace Recommendations.Application.CommandsQueries.Review.Queries.GetDto;
 
 public class GetReviewDto : IMapWith<Domain.Review>
 {

@@ -1,0 +1,10 @@
+<app-fullscreen-loader *ngIf="!waiter"></app-fullscreen-loader>
+
+<div class="row w-100 p-0 m-0 mb-2">
+  <h1>{{'ReviewForm.ChangeReview' | translate}}</h1>
+</div>
+
+<app-review-form *ngIf="waiter" [onSubmitForm]="onSubmitForm"
+                 [reviewForm]="reviewForm"
+                 [tags]="reviewForm.get('tags')!.value">
+</app-review-form>

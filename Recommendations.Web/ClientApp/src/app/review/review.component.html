@@ -41,7 +41,7 @@
         </div>
 
         <div>
-          <h3 id="review-title" class="mb-2">{{review.reviewTitle}}</h3>
+          <h4 id="review-title" class="mb-2 wrap">{{review.reviewTitle}}</h4>
           <div class="wrap">{{'ReviewPage.AverageRating' | translate}} {{review.averageRate}}</div>
         </div>
       </div>
@@ -67,7 +67,8 @@
     <div class="write-comment-container mb-3">
       <h6 class="mb-3">{{'ReviewPage.LeaveComment' | translate}}</h6>
       <textarea id="comment" class="mb-2"></textarea>
-      <input (click)="sendComment()" type="button" class="btn btn-success" value="{{'ReviewPage.Send' | translate}}">
+      <input (click)="sendComment()" type="button" class="btn btn-success"
+             value="{{'ReviewPage.Send' | translate}}">
     </div>
 
     <div class="comments-container">
@@ -75,7 +76,7 @@
       <div class="comment mb-2" *ngFor="let comment of this.signalrService.comments">
         <span class="comment-head mb-2">
           <div class="mr-3 wrap">{{comment.authorName}}</div>
-          <div class="wrap">{{comment.creationDate | date:'d.M.yy, h:mm a'}}</div>
+          <div class="wrap">{{comment.creationDate | date:'d.M.yy, HH:mm'}}</div>
         </span>
         <div class="comment-text-container wrap">
           {{comment.text}}

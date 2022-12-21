@@ -1,4 +1,10 @@
-/* Provide sufficient contrast against white background */
+@import '~@swimlane/ngx-datatable/index.css';
+@import '~@swimlane/ngx-datatable/themes/bootstrap.css';
+@import '~@swimlane/ngx-datatable/themes/material.css';
+@import '~@swimlane/ngx-datatable/themes/dark.css';
+@import '~@swimlane/ngx-datatable/assets/icons.css';
+
+
 a {
   color: #0366d6;
 }
@@ -53,6 +59,7 @@ blockquote{
   -moz-hyphens: auto;
   -ms-hyphens: auto;
   hyphens: auto;
+  overflow-wrap: break-word;
 }
 
 app-fullscreen-loader{

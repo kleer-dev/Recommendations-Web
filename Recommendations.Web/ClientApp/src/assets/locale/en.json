@@ -41,7 +41,8 @@
     "Description": "Description",
     "MarkdownPreview": "Markdown preview",
     "CreateReview": "Creating a review",
-    "Create": "Create"
+    "ChangeReview": "Change the review",
+    "Send": "Send"
   },
   "Header": {
     "Theme": "Theme:",
@@ -73,5 +74,26 @@
     "Category": "Category:",
     "Tags": "Tags:",
     "Read": "Read"
+  },
+  "Profile": {
+    "AccountActions": "Account actions",
+    "Logout": "Logout",
+    "Filtration": "Filtration",
+    "ReviewTitle": "Review title",
+    "CreationDate": "Creation date",
+    "Category": "Category",
+    "Product": "Product",
+    "LikeCount": "Like count",
+    "CommentsCount": "Comments count",
+    "AverageRate": "Average rate",
+    "Actions": "Actions",
+    "Delete": "Delete",
+    "Update": "Update",
+    "View": "View",
+    "Reviews": "Review",
+    "New": "New",
+    "EnterFilterText": "Enter filter text",
+    "Filter": "Filter",
+    "Reset": "Reset"
   }
 }

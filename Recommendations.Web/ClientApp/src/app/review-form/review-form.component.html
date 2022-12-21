@@ -3,9 +3,8 @@
   <form class=" flex-column" (input)="onChangeMarkdownEditor()"
         [formGroup]="reviewForm" (ngSubmit)="onSubmit()">
 
-    <div class="col d-flex justify-content-between mb-5">
-      <h1>{{'ReviewForm.CreateReview' | translate}}</h1>
-      <input [disabled]="!reviewForm.valid" class="d-flex btn btn-primary" value="{{'ReviewForm.Create' | translate}}" type="submit">
+    <div class="col d-flex justify-content-end mb-5">
+      <input [disabled]="!reviewForm.valid" class="d-flex btn btn-primary" value="{{'ReviewForm.Send' | translate}}" type="submit">
     </div>
 
 

@@ -4,6 +4,8 @@ import {ActivatedRoute, Router} from "@angular/router";
 import {ReviewPreviewModel} from "../../models/ReviewPreviewModel";
 import {FilteringParameters} from "../../consts/FilteringParameters";
 import {ReviewModel} from "../../models/ReviewModel";
+import {ReviewUserPageModel} from "../../models/ReviewUserPageModel";
+import {Observable} from "rxjs";
 
 @Injectable({
   providedIn: 'root'
@@ -11,7 +13,7 @@ import {ReviewModel} from "../../models/ReviewModel";
 export class ReviewsService {
   filtrate: string | null = FilteringParameters.recent;
   count: number | null = 10;
-  public reviews: ReviewPreviewModel[] = [];
+  public reviews: any;
 
   waiter!: Promise<boolean>
 
@@ -51,12 +53,20 @@ export class ReviewsService {
   getAllReviews() {
     this.getParams()
 
-    this.http.get<any>(`api/reviews/get-all?filtrate=${this.filtrate}&count=${this.count}`)
+    this.http.get<ReviewPreviewModel>(`api/reviews/get-all?filtrate=${this.filtrate}&count=${this.count}`)
       .subscribe({
         next: data => {
           this.reviews = data
           this.waiter = Promise.resolve(true)
         }
       });
+  }
+
+  getReviewsByUserId(): Observable<ReviewUserPageModel[]>{
+    return this.http.get<ReviewUserPageModel[]>(`api/reviews/get-by-user`)
+  }
+
+  deleteReview(reviewId: number){
+    return this.http.delete(`api/reviews/${reviewId}`)
   }
 }

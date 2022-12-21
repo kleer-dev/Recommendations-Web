@@ -46,7 +46,7 @@ export class CreateReviewComponent {
   onSubmitForm() {
     this.http.post("api/reviews", formToFormData(this.reviewForm.value))
       .subscribe({
-        next: _ => this.router.navigate(['/']),
+        next: _ => this.router.navigate(['/profile']),
         error: err => {
           console.error(err)
         }

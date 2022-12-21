@@ -3,10 +3,13 @@ using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Recommendations.Application.CommandsQueries.Review.Commands.Create;
+using Recommendations.Application.CommandsQueries.Review.Commands.Delete;
+using Recommendations.Application.CommandsQueries.Review.Commands.Update;
 using Recommendations.Application.CommandsQueries.Review.Queries;
-using Recommendations.Application.CommandsQueries.Review.Queries.Get;
 using Recommendations.Application.CommandsQueries.Review.Queries.GetDto;
 using Recommendations.Application.CommandsQueries.Review.Queries.GetReviewsByParam;
+using Recommendations.Application.CommandsQueries.Review.Queries.GetReviewsByUserId;
+using Recommendations.Application.CommandsQueries.Review.Queries.GetUpdate;
 using Recommendations.Web.Models.Review;
 
 namespace Recommendations.Web.Controllers;
@@ -25,18 +28,8 @@ public class ReviewController : BaseController
         _mediator = mediator;
     }
 
-    [HttpPost]
-    public async Task<IActionResult> Create([FromForm] CreateReviewDto dto)
-    {
-        var createReviewCommand = _mapper.Map<CreateReviewCommand>(dto);
-        createReviewCommand.UserId = UserId;
-        var reviewId = await _mediator.Send(createReviewCommand);
-
-        return Created("api/reviews", reviewId);
-    }
-
-    [HttpGet("get-all")]
     [AllowAnonymous]
+    [HttpGet("get-all")]
     public async Task<ActionResult<IEnumerable<GetAllReviewsDto>>> GetAllReviews(string filtrate, int count)
     {
         var getReviewsByParam = new GetReviewsByParamQuery
@@ -50,8 +43,8 @@ public class ReviewController : BaseController
         return Ok(reviews);
     }
 
-    [HttpGet("get")]
     [AllowAnonymous]
+    [HttpGet]
     public async Task<ActionResult<GetReviewDto>> Get(Guid reviewId)
     {
         var getReviewQuery = new GetReviewDtoQuery
@@ -62,5 +55,60 @@ public class ReviewController : BaseController
         var review = await _mediator.Send(getReviewQuery);
 
         return Ok(review);
+    }
+
+    [HttpGet("get-by-user")]
+    public async Task<ActionResult<IEnumerable<GetReviewsByUserIdDto>>> GetReviewsByCurrentUser()
+    {
+        var getReviewsByUserIdQuery = new GetReviewsByUserIdQuery
+        {
+            UserId = UserId
+        };
+        var reviewsVm = await _mediator.Send(getReviewsByUserIdQuery);
+
+        return Ok(reviewsVm.Reviews);
+    }
+
+    [HttpGet("get-update-review/{reviewId:guid}")]
+    public async Task<ActionResult> GetUpdateReview(Guid reviewId)
+    {
+        var getUpdateReviewQuery = new GetUpdateReviewQuery
+        {
+            ReviewId = reviewId
+        };
+        var review = await _mediator.Send(getUpdateReviewQuery);
+
+        return Ok(review);
+    }
+
+    [HttpPost, DisableRequestSizeLimit]
+    public async Task<IActionResult> Create([FromForm] CreateReviewDto dto)
+    {
+        var createReviewCommand = _mapper.Map<CreateReviewCommand>(dto);
+        createReviewCommand.UserId = UserId;
+        var reviewId = await _mediator.Send(createReviewCommand);
+
+        return Created("api/reviews", reviewId);
+    }
+
+    [HttpPut, DisableRequestSizeLimit]
+    public async Task<ActionResult> Update([FromForm] UpdateReviewDto reviewDto)
+    {
+        var updateReviewCommand = _mapper.Map<UpdateReviewCommand>(reviewDto);
+        await _mediator.Send(updateReviewCommand);
+        
+        return NoContent();
+    }
+
+    [HttpDelete("{reviewId:guid}")]
+    public async Task<ActionResult> Delete(Guid reviewId)
+    {
+        var deleteReviewCommand = new DeleteReviewCommand
+        {
+            ReviewId = reviewId
+        };
+        await _mediator.Send(deleteReviewCommand);
+
+        return NoContent();
     }
 }
