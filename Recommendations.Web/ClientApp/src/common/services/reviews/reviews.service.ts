@@ -24,7 +24,6 @@ export class ReviewsService {
   }
 
   async setParams(filtrate?: string | null, count?: number | undefined, tag?: string | undefined) {
-    console.log(count)
     this.waiter = Promise.resolve(false)
     this.filtrate = filtrate;
     this.count = count;
@@ -40,7 +39,6 @@ export class ReviewsService {
     });
 
     if (this.filtrate === undefined || this.count === undefined) {
-      console.log('qqqqqqqqqq')
       this.filtrate = FilteringParameters.recent;
       this.count = 10
       this.tag = undefined
@@ -59,9 +57,8 @@ export class ReviewsService {
 
   getAllReviews() {
     this.getParams()
-    let getUrl = ''
 
-    getUrl = this.tag === undefined
+    let getUrl = this.tag === undefined
       ? `api/reviews/get-all?filtrate=${this.filtrate}&count=${this.count}`
       : `api/reviews/get-all?filtrate=${this.filtrate}&count=${this.count}&tag=${this.tag}`;
 

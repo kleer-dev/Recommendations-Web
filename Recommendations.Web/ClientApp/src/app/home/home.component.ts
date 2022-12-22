@@ -50,6 +50,13 @@ export class HomeComponent {
     await this.checkCountInput()
   }
 
+  async resetTag(){
+    this.reviewService.tag = undefined
+    await this.reviewService.setParams(this.reviewService.filtrate,
+      this.reviewService.count, undefined)
+    this.reviewService.getAllReviews()
+  }
+
   async checkCountInput() {
     let count = this.countInput.get('count')?.value
     if (count == 0 || count == null) {

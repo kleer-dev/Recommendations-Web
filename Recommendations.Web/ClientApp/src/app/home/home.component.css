@@ -46,13 +46,16 @@
   display: flex;
   justify-content: center;
   align-items: center;
-  min-width: 40px;
+  width: auto;
+  flex-wrap: wrap;
+  min-width: 20px;
   background: black;
   border-radius: 3px;
   padding: 5px;
   margin: 5px;
   cursor: pointer;
   transition: .1s all linear;
+  max-height: 50px;
 }
 
 .tag:hover{
@@ -62,5 +65,5 @@
 
 .tag-container{
   overflow-y: auto;
-  height: 180px;
+  height: auto;
 }

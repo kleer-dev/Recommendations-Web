@@ -73,7 +73,8 @@
     "Product": "Product:",
     "Category": "Category:",
     "Tags": "Tags:",
-    "Read": "Read"
+    "Read": "Read",
+    "Reset": "Reset"
   },
   "Profile": {
     "AccountActions": "Account actions",
