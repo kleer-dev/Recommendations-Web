@@ -58,7 +58,7 @@ public class ReviewController : BaseController
 
         return Ok(review);
     }
-
+    
     [HttpGet("get-by-user")]
     public async Task<ActionResult<IEnumerable<GetReviewsByUserIdDto>>> GetReviewsByCurrentUser()
     {
@@ -84,7 +84,7 @@ public class ReviewController : BaseController
     }
 
     [HttpPost, DisableRequestSizeLimit]
-    public async Task<IActionResult> Create([FromForm] CreateReviewDto dto)
+    public async Task<ActionResult> Create([FromForm] CreateReviewDto dto)
     {
         var createReviewCommand = _mapper.Map<CreateReviewCommand>(dto);
         createReviewCommand.UserId = UserId;

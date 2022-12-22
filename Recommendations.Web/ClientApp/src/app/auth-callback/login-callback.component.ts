@@ -1,6 +1,7 @@
 import {Component, Inject} from '@angular/core';
 import {HttpClient} from "@angular/common/http";
 import {Router} from "@angular/router";
+import {UserService} from "../../common/services/user/user.service";
 
 @Component({
   selector: 'app-login-callback',
@@ -10,11 +11,15 @@ import {Router} from "@angular/router";
 export class LoginCallbackComponent {
   error?: string;
 
-  constructor(private http: HttpClient, private router: Router) {
+  constructor(private http: HttpClient, private router: Router,
+              private userService: UserService) {
 
     this.http.get('api/user/external-login-callback')
       .subscribe({
-        next: _ => this.router.navigate(['/']),
+        next: () => {
+          this.userService.isAuthenticated = true
+          this.router.navigate(['/'])
+        },
         error: error => this.error = error
     });
   }

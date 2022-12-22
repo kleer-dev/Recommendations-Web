@@ -1,7 +1,5 @@
 import {Component} from '@angular/core';
-import {HttpClient} from "@angular/common/http";
 import {FormControl, FormGroup} from "@angular/forms";
-import {ReviewPreviewModel} from "src/common/models/ReviewPreviewModel";
 import {FilteringParameters} from "../../common/consts/FilteringParameters";
 import {ActivatedRoute, Route, Router} from "@angular/router";
 import {ReviewsService} from "../../common/services/reviews/reviews.service";

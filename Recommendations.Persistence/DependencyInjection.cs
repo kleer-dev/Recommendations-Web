@@ -1,4 +1,6 @@
-﻿using Microsoft.AspNetCore.Identity;
+﻿using Microsoft.AspNetCore.Authentication.Cookies;
+using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 using Recommendations.Application.Common.Interfaces;
@@ -10,8 +12,14 @@ public static class DependencyInjection
 {
     public static void AddPersistence(this IServiceCollection services)
     {
+        services.AddDbContextConfiguration();
+        services.AddIdentityConfiguration();
+        services.AddCookieConfiguration();
+    }
+
+    private static void AddDbContextConfiguration(this IServiceCollection services)
+    {
         var serviceProvider = services.BuildServiceProvider();
-        
         var connectionStringManager = serviceProvider
             .GetRequiredService<IConnectionStringConfiguration>();
         var connectionString = connectionStringManager
@@ -19,13 +27,12 @@ public static class DependencyInjection
         
         services.AddDbContext<RecommendationsDbContext>(options => 
             options.UseNpgsql(connectionString, o =>
-                {
-                    o.MigrationsAssembly(typeof(RecommendationsDbContext).Assembly.FullName);
-                    o.UseQuerySplittingBehavior(QuerySplittingBehavior.SplitQuery);
-                }));
+            {
+                o.MigrationsAssembly(typeof(RecommendationsDbContext).Assembly.FullName);
+                o.UseQuerySplittingBehavior(QuerySplittingBehavior.SplitQuery);
+            }));
         
         services.AddScoped<IRecommendationsDbContext, RecommendationsDbContext>();
-        services.AddIdentityConfiguration();
     }
     
     private static void AddIdentityConfiguration(this IServiceCollection services)
@@ -44,5 +51,27 @@ public static class DependencyInjection
                 options.SignIn.RequireConfirmedEmail = true;
             })
             .AddEntityFrameworkStores<RecommendationsDbContext>();
+    }
+    
+    private static void AddCookieConfiguration(this IServiceCollection services)
+    {
+        services.ConfigureApplicationCookie(options =>
+        {
+            options.Events = new CookieAuthenticationEvents
+            {
+                OnRedirectToLogin = context =>
+                {
+                    context.Response.Clear();
+                    context.Response.StatusCode = 401;
+                    return Task.FromResult(0);
+                },
+                OnRedirectToAccessDenied = context =>
+                {
+                    context.Response.Clear();
+                    context.Response.StatusCode = 401;
+                    return Task.FromResult(0);
+                }
+            };
+        });
     }
 }

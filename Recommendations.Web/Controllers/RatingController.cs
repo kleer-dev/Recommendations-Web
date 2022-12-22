@@ -1,5 +1,6 @@
 using AutoMapper;
 using MediatR;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Recommendations.Application.CommandsQueries.Rating.Commands.Set;
 using Recommendations.Web.Models.Rating;
@@ -7,6 +8,7 @@ using Recommendations.Web.Models.Rating;
 namespace Recommendations.Web.Controllers;
 
 [ApiController]
+[Authorize]
 [Route("api/ratings")]
 public class RatingController : BaseController
 {
@@ -20,7 +22,7 @@ public class RatingController : BaseController
     }
 
     [HttpPost]
-    public async Task<IActionResult> SetRating([FromBody] SetRatingDto dto)
+    public async Task<ActionResult> SetRating([FromBody] SetRatingDto dto)
     {
         var setRatingCommand = _mapper.Map<SetRatingCommand>(dto);
         setRatingCommand.UserId = UserId;

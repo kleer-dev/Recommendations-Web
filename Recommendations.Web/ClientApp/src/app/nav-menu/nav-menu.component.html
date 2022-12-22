@@ -40,12 +40,26 @@
             <language-dropdown></language-dropdown>
           </li>
 
-<!--          <li (click)="logout()" class="nav-item mr-3"-->
-<!--              [routerLinkActive]="['link-active']">-->
-<!--            <a class="nav-link text-dark" [routerLink]="['/fetch-data']">-->
-<!--              {{'Header.Logout' | translate}}-->
-<!--            </a>-->
-<!--          </li>-->
+          <li *ngIf="userService.isAuthenticated" class="nav-item mr-3"
+              [routerLinkActive]="['link-active']">
+            <a class="nav-link" [routerLink]="['/profile']">
+              Profile
+            </a>
+          </li>
+
+          <li *ngIf="!userService.isAuthenticated" class="nav-item mr-3"
+              [routerLinkActive]="['link-active']">
+            <a class="navbar-btn" [routerLink]="['/login']">
+              Login
+            </a>
+          </li>
+
+          <li *ngIf="!userService.isAuthenticated" class="nav-item mr-3"
+              [routerLinkActive]="['link-active']">
+            <a class="navbar-btn" [routerLink]="['/registration']">
+              Registration
+            </a>
+          </li>
 
         </ul>
       </div>

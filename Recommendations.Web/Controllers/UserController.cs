@@ -29,9 +29,13 @@ public class UserController : BaseController
         _signInManager = signInManager;
     }
 
+    [HttpGet("check-auth")]
+    public ActionResult<bool> CheckAuth() =>
+        Ok(User.Identity.IsAuthenticated);
+
     [AllowAnonymous]
     [HttpPost("registration")]
-    public async Task<IActionResult> Registration([FromBody] UserRegistrationDto dto)
+    public async Task<ActionResult> Registration([FromBody] UserRegistrationDto dto)
     {
         var registrationCommand = _mapper.Map<UserRegistrationCommand>(dto);
         await _mediator.Send(registrationCommand);
@@ -41,17 +45,17 @@ public class UserController : BaseController
 
     [AllowAnonymous]
     [HttpPost("login")]
-    public async Task<IActionResult> Login([FromBody] UserLoginDto dto)
+    public async Task<ActionResult> Login([FromBody] UserLoginDto dto)
     {
         var loginQuery = _mapper.Map<UserLoginQuery>(dto);
         await _mediator.Send(loginQuery);
-
+    
         return Ok();
     }
-
+    
     [AllowAnonymous]
     [HttpGet("external-login")]
-    public async Task<IActionResult> ExternalLogin(string provider)
+    public async Task<ActionResult> ExternalLogin(string provider)
     {
         var getAuthenticationPropertiesQuery = new GetAuthenticationPropertiesQuery 
         { 
@@ -65,7 +69,7 @@ public class UserController : BaseController
     }
     
     [HttpGet("external-login-callback")]
-    public async Task<IActionResult> HandleExternalLogin()
+    public async Task<ActionResult> HandleExternalLogin()
     {
         var externalLoginCallbackQuery = new ExternalLoginCallbackQuery();
         await _mediator.Send(externalLoginCallbackQuery);
@@ -73,8 +77,8 @@ public class UserController : BaseController
         return Ok();                        
     }
     
-    [HttpGet("logout")]
-    public async Task<IActionResult> Logout()
+    [HttpPost("logout")]
+    public async Task<ActionResult> Logout()
     {
         await _signInManager.SignOutAsync();
         return Ok();                        
