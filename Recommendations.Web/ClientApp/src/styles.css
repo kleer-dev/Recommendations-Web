@@ -4,7 +4,6 @@
 @import '~@swimlane/ngx-datatable/themes/dark.css';
 @import '~@swimlane/ngx-datatable/assets/icons.css';
 
-
 a {
   color: #0366d6;
 }
@@ -52,6 +51,7 @@ blockquote{
 
 .container-sm{
   margin-top: 100px;
+  margin-bottom: 20px;
 }
 
 .wrap{

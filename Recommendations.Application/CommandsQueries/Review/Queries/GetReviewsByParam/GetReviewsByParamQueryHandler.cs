@@ -33,6 +33,9 @@ public class GetReviewsByParamQueryHandler
             _ => await GetAllReviews(cancellationToken)
         };
 
+        if (request.Tag != null)
+            reviews = reviews.Where(r => r.Tags.Contains(request.Tag)).ToList();
+
         return new GetAllReviewsVm { Reviews = reviews };
     }
 

@@ -2,6 +2,14 @@
 
   <div class="row w-100 d-flex justify-content-center align-items-center mb-3 m-0">
     <h6 class="d-flex w-100 justify-content-center ">{{'HomePage.TagCloud' | translate}}</h6>
+
+    <div class="flex-wrap tag-container d-flex flex-row w-100">
+      <input (click)="onTagSelect($event)"
+             *ngFor="let tag of tags"
+             type="button"
+             class="tag btn text-white"
+             value="{{tag.name}}">
+    </div>
   </div>
 
   <div class="container d-flex justify-content-center mb-2 flex-wrap">
@@ -16,7 +24,7 @@
       {{'HomePage.MostRated' | translate}}
     </button>
     <form [formGroup]="countInput" class=" mb-2">
-      <input (change)="checkCountInput()" min="1" formControlName="count"  type="number"
+      <input (change)="checkCountInput()" min="1" formControlName="count" value=""  type="number"
              class="form-control" id="count-input" placeholder="{{'HomePage.Count' | translate}}">
     </form>
   </div>

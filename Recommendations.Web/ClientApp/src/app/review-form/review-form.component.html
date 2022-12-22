@@ -4,7 +4,8 @@
         [formGroup]="reviewForm" (ngSubmit)="onSubmit()">
 
     <div class="col d-flex justify-content-end mb-5">
-      <input [disabled]="!reviewForm.valid" class="d-flex btn btn-primary" value="{{'ReviewForm.Send' | translate}}" type="submit">
+      <input [disabled]="!reviewForm.valid" class="d-flex btn btn-primary"
+             value="{{'ReviewForm.Send' | translate}}" type="submit">
     </div>
 
 
@@ -12,7 +13,8 @@
       <div class="col-lg-4 h-100 row mb-3 d-flex justify-content-center">
         <div class="row w-100">
           <h6>{{'ReviewForm.AddImage' | translate}}</h6>
-          <ngx-dropzone accept="image/png, image/jpeg" class="w-100 d-flex justify-content-center" (change)="onSelectImage($event)">
+          <ngx-dropzone accept="image/png, image/jpeg" class="w-100
+              d-flex justify-content-center" (change)="onSelectImage($event)">
             <ngx-dropzone-preview class="w-100" [removable]="true" (removed)="onRemoveImage(file)">
               <ngx-dropzone-label *ngIf="file != undefined" class="w-100">
                 {{ file!.name! }} {{ file!.type! }}

@@ -7,4 +7,5 @@ public class GetReviewsByParamQuery : IRequest<GetAllReviewsVm>
 {
     public int Count { get; set; }
     public string? Filtrate { get; set; }
+    public string? Tag { get; set; }
 }

@@ -30,12 +30,14 @@ public class ReviewController : BaseController
 
     [AllowAnonymous]
     [HttpGet("get-all")]
-    public async Task<ActionResult<IEnumerable<GetAllReviewsDto>>> GetAllReviews(string filtrate, int count)
+    public async Task<ActionResult<IEnumerable<GetAllReviewsDto>>> GetAllReviews(string filtrate,
+        int count, string? tag)
     {
         var getReviewsByParam = new GetReviewsByParamQuery
         {
             Count = count,
-            Filtrate = filtrate
+            Filtrate = filtrate,
+            Tag = tag
         };
         var getReviewsByParamVm = await _mediator.Send(getReviewsByParam);
         var reviews = getReviewsByParamVm.Reviews.ToList();

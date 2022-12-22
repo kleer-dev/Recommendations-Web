@@ -41,3 +41,26 @@
   max-width: 150px;
   height: 100%;
 }
+
+.tag{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-width: 40px;
+  background: black;
+  border-radius: 3px;
+  padding: 5px;
+  margin: 5px;
+  cursor: pointer;
+  transition: .1s all linear;
+}
+
+.tag:hover{
+  box-shadow: -1px 0px 8px 0px rgba(4, 8, 9, 0.5);
+  transition: .1s all linear;
+}
+
+.tag-container{
+  overflow-y: auto;
+  height: 180px;
+}
