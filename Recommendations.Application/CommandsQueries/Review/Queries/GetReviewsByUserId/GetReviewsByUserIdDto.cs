@@ -33,7 +33,6 @@ public class GetReviewsByUserIdDto : IMapWith<Domain.Review>
             .ForMember(u => u.CommentsCount,
                 o => o.MapFrom(u => u.Comments.Count))
             .ForMember(u => u.AverageRate,
-                o => o.MapFrom(u => u.Product.UserRatings
-                    .Select(r => r.Value).DefaultIfEmpty().Average()));
+                o => o.MapFrom(u => u.Product.AverageRate));
     }
 }

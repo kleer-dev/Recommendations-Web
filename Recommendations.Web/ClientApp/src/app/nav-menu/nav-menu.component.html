@@ -7,7 +7,7 @@
   >
 
     <div class="container">
-      <a class="navbar-brand ml-3" [routerLink]="['/']">Recommendations.Web</a>
+      <a class="navbar-brand ml-3 navbar-btn" [routerLink]="['/']">Recommendations.Web</a>
 
       <button
         class="navbar-toggler btn-outline-secondary mb-2"
@@ -42,7 +42,7 @@
 
           <li *ngIf="userService.isAuthenticated" class="nav-item mr-3"
               [routerLinkActive]="['link-active']">
-            <a class="nav-link" [routerLink]="['/profile']">
+            <a class="navbar-btn" [routerLink]="['/profile']">
               Profile
             </a>
           </li>

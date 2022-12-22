@@ -22,21 +22,15 @@ public class GetMostRatedListQueryHandler
     public async Task<GetAllReviewsVm> Handle(GetMostRatedListQuery request,
         CancellationToken cancellationToken)
     {
-        var ratings = await _context.Products
-            .Include(p => p.UserRatings)
-            .SelectMany(p => p.UserRatings)
-            .Select(r => r.Value)
-            .ToListAsync(cancellationToken);
-
-        var reviews = (await _context.Reviews
+        var reviews = await _context.Reviews
             .Include(r => r.Tags)
             .Include(r => r.Category)
             .Include(r => r.Product)
             .Include(r => r.Product.UserRatings)
+            .OrderByDescending(r => r.Product.AverageRate)
+            .Take(request.Count)
             .ProjectTo<GetAllReviewsDto>(_mapper.ConfigurationProvider)
-            .ToListAsync(cancellationToken))
-            .OrderByDescending(r => r.AverageRate)
-            .Take(request.Count);
+            .ToListAsync(cancellationToken);
 
         return new GetAllReviewsVm { Reviews = reviews };
     }
