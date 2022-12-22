@@ -40,3 +40,18 @@ header {
 :host-context(.bootstrap-dark) nav {
   background: #191d21;
 }
+
+.navbar-btn {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100%;
+}
+
+:host-context(.bootstrap-dark) .navbar-btn {
+  color: white !important;
+}
+
+:host-context(.bootstrap) .navbar-btn {
+  color: #212529 !important;
+}

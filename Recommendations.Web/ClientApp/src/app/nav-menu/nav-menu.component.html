@@ -42,21 +42,21 @@
 
           <li *ngIf="userService.isAuthenticated" class="nav-item mr-3"
               [routerLinkActive]="['link-active']">
-            <a class="nav-link text-light" [routerLink]="['/profile']">
+            <a class="nav-link" [routerLink]="['/profile']">
               Profile
             </a>
           </li>
 
           <li *ngIf="!userService.isAuthenticated" class="nav-item mr-3"
               [routerLinkActive]="['link-active']">
-            <a class="nav-link text-light" [routerLink]="['/login']">
+            <a class="navbar-btn" [routerLink]="['/login']">
               Login
             </a>
           </li>
 
           <li *ngIf="!userService.isAuthenticated" class="nav-item mr-3"
               [routerLinkActive]="['link-active']">
-            <a class="nav-link text-light" [routerLink]="['/registration']">
+            <a class="navbar-btn" [routerLink]="['/registration']">
               Registration
             </a>
           </li>
