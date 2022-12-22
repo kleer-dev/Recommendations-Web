@@ -20,7 +20,7 @@ export class UserService {
   checkAuthentication(): Observable<boolean> {
     return this.http.get<boolean>('api/user/check-auth')
       .pipe(map((isAuthenticated) => {
-        if (!isAuthenticated){
+        if (!isAuthenticated) {
           this.isAuthenticated = false
           this.router.navigate(['/login'])
           return false;
@@ -30,10 +30,19 @@ export class UserService {
       }));
   }
 
-  logout(){
+  logout() {
     this.http.post('api/user/logout', {})
       .subscribe({
         next: () => this.router.navigate(['/login'])
+      })
+  }
+
+  checkRole() {
+      this.http.get<any>('api/user/get-role')
+      .subscribe({
+        next: data => {
+          console.log(data)
+        }
       })
   }
 }

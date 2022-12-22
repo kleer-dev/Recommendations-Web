@@ -8,7 +8,6 @@ using Recommendations.Application.CommandsQueries.User.Commands.Registration;
 using Recommendations.Application.CommandsQueries.User.Queries.ExternalLoginCallback;
 using Recommendations.Application.CommandsQueries.User.Queries.Login;
 using Recommendations.Domain;
-using Recommendations.Web.Models;
 using Recommendations.Web.Models.User;
 
 namespace Recommendations.Web.Controllers;
@@ -28,6 +27,10 @@ public class UserController : BaseController
         _mediator = mediator;
         _signInManager = signInManager;
     }
+
+    [HttpGet("get-role")]
+    public ActionResult<string> GetRole() =>
+        Ok(Role);
 
     [HttpGet("check-auth")]
     public ActionResult<bool> CheckAuth() =>

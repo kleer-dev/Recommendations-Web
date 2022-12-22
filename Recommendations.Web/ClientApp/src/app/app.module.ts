@@ -37,6 +37,8 @@ import { NgxDatatableModule } from '@swimlane/ngx-datatable';
 import {AuthInterceptor} from "../common/interceptors/auth.interceptor";
 import {AuthGuard} from "../common/guards/auth.guard";
 import {LogoutComponent} from "./logout/logout.component";
+import {AdminPageComponent} from "./admin-page/admin-page.component";
+import {RoleGuard} from "../common/guards/admin-role.guard";
 
 @NgModule({
   declarations: [
@@ -56,7 +58,8 @@ import {LogoutComponent} from "./logout/logout.component";
     DataLoaderComponent,
     UpdateReviewComponent,
     UserPageComponent,
-    LogoutComponent
+    LogoutComponent,
+    AdminPageComponent
   ],
   imports: [
     BrowserModule.withServerTransition({appId: 'ng-cli-universal'}),
@@ -70,6 +73,7 @@ import {LogoutComponent} from "./logout/logout.component";
       {path: 'create-review', component: CreateReviewComponent, canActivate: [AuthGuard]},
       {path: 'update-review/:id', component: UpdateReviewComponent, canActivate: [AuthGuard]},
       {path: 'review/:id', component: ReviewComponent},
+      {path: 'admin-profile', component: AdminPageComponent, canActivate: [AuthGuard, RoleGuard]},
       {path: 'logout', component: LogoutComponent},
       {path: 'profile', component: UserPageComponent, canActivate: [AuthGuard]}
     ]),

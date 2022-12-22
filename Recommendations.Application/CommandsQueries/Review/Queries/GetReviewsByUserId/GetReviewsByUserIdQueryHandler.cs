@@ -27,6 +27,7 @@ public class GetReviewsByUserIdQueryHandler
             .Include(r => r.Comments)
             .Include(r => r.Likes)
             .Include(r => r.Product)
+            .Where(r => r.User.Id == request.UserId)
             .ProjectTo<GetReviewsByUserIdDto>(_mapper.ConfigurationProvider)
             .ToListAsync(cancellationToken);
 
