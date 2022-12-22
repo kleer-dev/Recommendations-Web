@@ -11,8 +11,9 @@ import {Observable} from "rxjs";
   providedIn: 'root'
 })
 export class ReviewsService {
-  filtrate: string | null = FilteringParameters.recent;
-  count: number | null = 10;
+  filtrate?: string | null = FilteringParameters.recent;
+  count?: number | undefined;
+  tag: string | undefined
   public reviews: any;
 
   waiter!: Promise<boolean>
@@ -22,10 +23,11 @@ export class ReviewsService {
 
   }
 
-  async setParams(filtrate: string | null, count: number | null) {
+  async setParams(filtrate?: string | null, count?: number | undefined, tag?: string | undefined) {
     this.waiter = Promise.resolve(false)
     this.filtrate = filtrate;
     this.count = count;
+    this.tag = tag;
     await this.changeRoute()
   }
 
@@ -33,11 +35,13 @@ export class ReviewsService {
     this.activateRoute.queryParams.subscribe(params => {
       this.filtrate = params['filtrate'];
       this.count = params['count'];
+      this.tag = params['tag']
     });
 
-    if (this.filtrate == null || this.count == null) {
+    if (this.filtrate === undefined || this.count === undefined) {
       this.filtrate = FilteringParameters.recent;
       this.count = 10
+      this.tag = undefined
     }
   }
 
@@ -45,7 +49,8 @@ export class ReviewsService {
     await this.router.navigate(['/'], {
       queryParams: {
         'filtrate': this.filtrate,
-        'count': this.count
+        'count': this.count,
+        'tag': this.tag
       }
     })
   }
@@ -53,7 +58,11 @@ export class ReviewsService {
   getAllReviews() {
     this.getParams()
 
-    this.http.get<ReviewPreviewModel>(`api/reviews/get-all?filtrate=${this.filtrate}&count=${this.count}`)
+    let getUrl = this.tag === undefined
+      ? `api/reviews/get-all?filtrate=${this.filtrate}&count=${this.count}`
+      : `api/reviews/get-all?filtrate=${this.filtrate}&count=${this.count}&tag=${this.tag}`;
+
+    this.http.get<ReviewPreviewModel>(getUrl)
       .subscribe({
         next: data => {
           this.reviews = data
