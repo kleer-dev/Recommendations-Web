@@ -1,7 +1,7 @@
 import {BrowserModule} from '@angular/platform-browser';
 import {NgModule, SecurityContext} from '@angular/core';
 import {FormsModule, ReactiveFormsModule} from '@angular/forms';
-import {HttpClient, HttpClientModule} from '@angular/common/http';
+import {HTTP_INTERCEPTORS, HttpClient, HttpClientModule} from '@angular/common/http';
 import {RouterModule} from '@angular/router';
 
 import {AppComponent} from './app.component';
@@ -34,6 +34,9 @@ import {DataLoaderComponent} from "./loaders/data-loader/data-loader.component";
 import {UserPageComponent} from "./user-page/user-page.component";
 import {UpdateReviewComponent} from "./update-review/update-review.component";
 import { NgxDatatableModule } from '@swimlane/ngx-datatable';
+import {AuthInterceptor} from "../common/interceptors/auth.interceptor";
+import {AuthGuard} from "../common/guards/auth.guard";
+import {LogoutComponent} from "./logout/logout.component";
 
 @NgModule({
   declarations: [
@@ -52,7 +55,8 @@ import { NgxDatatableModule } from '@swimlane/ngx-datatable';
     FullscreenLoaderComponent,
     DataLoaderComponent,
     UpdateReviewComponent,
-    UserPageComponent
+    UserPageComponent,
+    LogoutComponent
   ],
   imports: [
     BrowserModule.withServerTransition({appId: 'ng-cli-universal'}),
@@ -63,10 +67,11 @@ import { NgxDatatableModule } from '@swimlane/ngx-datatable';
       {path: 'registration', component: RegistrationComponent},
       {path: 'login', component: LoginComponent},
       {path: 'login-callback', component: LoginCallbackComponent},
-      {path: 'create-review', component: CreateReviewComponent},
-      {path: 'update-review/:id', component: UpdateReviewComponent},
+      {path: 'create-review', component: CreateReviewComponent, canActivate: [AuthGuard]},
+      {path: 'update-review/:id', component: UpdateReviewComponent, canActivate: [AuthGuard]},
       {path: 'review/:id', component: ReviewComponent},
-      {path: 'profile', component: UserPageComponent}
+      {path: 'logout', component: LogoutComponent},
+      {path: 'profile', component: UserPageComponent, canActivate: [AuthGuard]}
     ]),
     NgbModule,
     ReviewFormModule,
@@ -101,7 +106,11 @@ import { NgxDatatableModule } from '@swimlane/ngx-datatable';
     })
   ],
   providers: [
-
+    {
+      provide: HTTP_INTERCEPTORS,
+      useClass: AuthInterceptor,
+      multi: true
+    }
   ],
   bootstrap: [AppComponent]
 })

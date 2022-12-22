@@ -57,8 +57,4 @@ export class UserPageComponent implements OnInit {
   resetFiltration(){
     this.rows = this.reviews
   }
-
-  logout() {
-    window.location.href = "api/user/logout";
-  }
 }

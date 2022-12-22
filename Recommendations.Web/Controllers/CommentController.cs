@@ -9,6 +9,7 @@ using Recommendations.Web.Models.Comment;
 namespace Recommendations.Web.Controllers;
 
 [ApiController]
+[Authorize]
 [Route("api/comments")]
 public class CommentController : BaseController
 {
@@ -30,9 +31,9 @@ public class CommentController : BaseController
 
         return Ok(commentId);
     }
-
-    [HttpGet("{reviewId:guid}")]
+    
     [AllowAnonymous]
+    [HttpGet("{reviewId:guid}")]
     public async Task<ActionResult<IEnumerable<GetAllCommentsDto>>> GetAll(Guid reviewId)
     {
         var getAllCommentsQuery = new GetAllCommentsQuery

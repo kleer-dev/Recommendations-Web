@@ -2,6 +2,7 @@ import { Component } from '@angular/core';
 import {FormControl, FormGroup, Validators} from "@angular/forms";
 import {HttpClient} from "@angular/common/http";
 import {Router} from "@angular/router";
+import {UserService} from "../../common/services/user/user.service";
 
 @Component({
   selector: 'app-login',
@@ -12,7 +13,9 @@ export class LoginComponent {
 
   error?: string
 
-  constructor(private http: HttpClient, private router: Router) {
+  constructor(private http: HttpClient,
+              private router: Router,
+              private userService: UserService) {
 
   }
 
@@ -31,7 +34,10 @@ export class LoginComponent {
   onSubmit() {
     this.http.post('api/user/login', this.loginForm.value)
       .subscribe({
-        next: _ => this.router.navigate(['/']),
+        next: () => {
+          this.userService.isAuthenticated = true
+          this.router.navigate(['/create-review'])
+        },
         error: err => {
           if (err.status === 404)
             this.error = 'User with this email does not exist'
