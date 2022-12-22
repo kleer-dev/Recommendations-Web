@@ -21,8 +21,7 @@ public class GetAllReviewsDto : IMapWith<Domain.Review>
             .ForMember(u => u.ReviewTitle,
                 o => o.MapFrom(u => u.Title))
             .ForMember(u => u.AverageRate,
-                o => o.MapFrom(u => u.Product.UserRatings
-                    .Select(r => r.Value).DefaultIfEmpty().Average()))
+                o => o.MapFrom(u => u.Product.AverageRate))
             .ForMember(u => u.Category,
                 o => o.MapFrom(u => u.Category.Name))
             .ForMember(u => u.CreationDate,

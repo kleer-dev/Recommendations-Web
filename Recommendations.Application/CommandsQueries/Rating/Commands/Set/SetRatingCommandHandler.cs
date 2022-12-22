@@ -1,4 +1,5 @@
 using MediatR;
+using Recommendations.Application.CommandsQueries.Product.Commands.SetAverageRate;
 using Recommendations.Application.CommandsQueries.Rating.Commands.Create;
 using Recommendations.Application.CommandsQueries.Rating.Queries.GetUserRating;
 using Recommendations.Application.CommandsQueries.Review.Queries.Get;
@@ -24,7 +25,8 @@ public class SetRatingCommandHandler : IRequestHandler<SetRatingCommand, Unit>
         var productId = review.Product.Id;
         var rating = await GetRating(request, productId, cancellationToken);
         rating.Value = request.Value;
-        
+
+        await UpdateAverageRate(productId, cancellationToken);
         await _context.SaveChangesAsync(cancellationToken);
 
         return Unit.Value;
@@ -67,5 +69,15 @@ public class SetRatingCommandHandler : IRequestHandler<SetRatingCommand, Unit>
         var rating = await _mediator.Send(createRatingCommand, cancellationToken);
 
         return rating;
+    }
+
+    private async Task UpdateAverageRate(Guid productId,
+        CancellationToken cancellationToken)
+    {
+        var updateAverageRateCommand = new UpdateAverageRateCommand
+        {
+            ProductId = productId
+        };
+        await _mediator.Send(updateAverageRateCommand, cancellationToken);
     }
 }

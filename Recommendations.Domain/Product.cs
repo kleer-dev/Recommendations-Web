@@ -4,6 +4,7 @@ public class Product
 {
     public Guid Id { get; set; }
     public string Name { get; set; }
+    public double AverageRate { get; set; }
 
     public Guid ReviewId { get; set; }
     public Review Review { get; set; }

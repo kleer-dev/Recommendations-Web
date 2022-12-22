@@ -8,7 +8,7 @@ public class Review
     public int AuthorRate { get; set; }
     public string ImageUrl { get; set; }
     public DateTime CreationDate { get; set; }
-    
+
     public User User { get; set; }
     public List<Tag> Tags { get; set; }
     public Category Category { get; set; }
