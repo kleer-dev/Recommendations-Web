@@ -6,7 +6,6 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Recommendations.Application.Common;
-using Recommendations.Application.Common.Clouds;
 using Recommendations.Application.Common.Interfaces;
 
 namespace Recommendations.Application;
@@ -19,7 +18,6 @@ public static class DependencyInjection
         services.AddMediatR(Assembly.GetExecutingAssembly());
         services.AddAuthenticationConfiguration(configuration);
         services.AddConnectionStringsManager(configuration);
-        services.AddMegaCloudConfiguration(configuration);
     }
 
     private static void AddConnectionStringsManager(this IServiceCollection services,
@@ -27,19 +25,6 @@ public static class DependencyInjection
     {
         services.AddScoped<IConnectionStringConfiguration, ConnectionStringConfiguration>(_
             => new ConnectionStringConfiguration(configuration));
-    }
-
-    private static void AddMegaCloudConfiguration(this IServiceCollection services,
-        IConfiguration configuration)
-    {
-        var email = configuration["MegaCloud:Email"];
-        var password = configuration["MegaCloud:Password"];
-
-        if (email is null || password is null)
-            throw new NullReferenceException("Missing data for Mega Cloud");
-
-        services.AddScoped<IMegaCloudClient, MegaCloudClient>(_ =>
-            new MegaCloudClient(email, password));
     }
 
     private static void AddAuthenticationConfiguration(this IServiceCollection services,

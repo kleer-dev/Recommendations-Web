@@ -24,6 +24,7 @@
 
     <ItemGroup>
       <Folder Include="CommandsQueries\Tag\Commands" />
+      <Folder Include="Common\Clouds" />
     </ItemGroup>
 
 </Project>

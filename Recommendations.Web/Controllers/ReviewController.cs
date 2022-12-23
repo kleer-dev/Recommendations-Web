@@ -107,6 +107,17 @@ public class ReviewController : BaseController
 
         return Created("api/reviews", reviewId);
     }
+    
+    [Authorize(Roles = Roles.Admin)]
+    [HttpPost("{userId:guid}"), DisableRequestSizeLimit]
+    public async Task<ActionResult> Create(Guid userId, [FromForm] CreateReviewDto dto)
+    {
+        var createReviewCommand = _mapper.Map<CreateReviewCommand>(dto);
+        createReviewCommand.UserId = userId;
+        var reviewId = await _mediator.Send(createReviewCommand);
+
+        return Created("api/reviews", reviewId);
+    }
 
     [HttpPut, DisableRequestSizeLimit]
     public async Task<ActionResult> Update([FromForm] UpdateReviewDto reviewDto)

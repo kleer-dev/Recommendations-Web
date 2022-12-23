@@ -1,9 +1,8 @@
 import {Injectable} from '@angular/core';
 import {HttpClient} from "@angular/common/http";
-import {ActivatedRoute, Route, Router} from "@angular/router";
+import {ActivatedRoute, Router} from "@angular/router";
 import {ReviewPreviewModel} from "../../models/ReviewPreviewModel";
 import {FilteringParameters} from "../../consts/FilteringParameters";
-import {ReviewModel} from "../../models/ReviewModel";
 import {ReviewUserPageModel} from "../../models/ReviewUserPageModel";
 import {Observable} from "rxjs";
 
@@ -15,8 +14,6 @@ export class ReviewsService {
   count?: number | undefined;
   tag: string | undefined
   public reviews: any;
-
-  userId!: number | undefined
 
   waiter!: Promise<boolean>
 
@@ -73,18 +70,15 @@ export class ReviewsService {
       });
   }
 
-  getUserIdFromQueryParams(){
-    this.activateRoute.queryParams.subscribe(params => {
-      this.userId = params['id'];
-      console.log(params['id'])
-    });
+  getReviewsByUserId(userId?: number | null): Observable<ReviewUserPageModel[]> {
+    let url = `api/reviews/get-by-user`
+    if (userId !== undefined)
+      url = `${url}/${userId}`
+
+    return this.http.get<ReviewUserPageModel[]>(url)
   }
 
-  getReviewsByUserId(): Observable<ReviewUserPageModel[]>{
-    return this.http.get<ReviewUserPageModel[]>(`api/reviews/get-by-user/` + this.userId)
-  }
-
-  deleteReview(reviewId: number){
+  deleteReview(reviewId: number) {
     return this.http.delete(`api/reviews/${reviewId}`)
   }
 }

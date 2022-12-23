@@ -49,6 +49,7 @@ public class UserController : BaseController
         return Ok(roleDto);
     }
 
+    [AllowAnonymous]
     [HttpGet("check-auth")]
     public ActionResult<bool> CheckAuth() =>
         Ok(User.Identity.IsAuthenticated);

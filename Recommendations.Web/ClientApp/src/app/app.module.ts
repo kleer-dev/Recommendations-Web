@@ -71,12 +71,13 @@ import {RoleGuard} from "../common/guards/admin-role.guard";
       {path: 'login', component: LoginComponent},
       {path: 'login-callback', component: LoginCallbackComponent},
       {path: 'create-review', component: CreateReviewComponent, canActivate: [AuthGuard]},
+      {path: 'create-review/:userid', component: CreateReviewComponent, canActivate: [AuthGuard, RoleGuard]},
       {path: 'update-review/:id', component: UpdateReviewComponent, canActivate: [AuthGuard]},
       {path: 'review/:id', component: ReviewComponent},
       {path: 'admin-profile', component: AdminPageComponent, canActivate: [AuthGuard, RoleGuard]},
       {path: 'logout', component: LogoutComponent},
       {path: 'profile', component: UserPageComponent, canActivate: [AuthGuard]},
-      {path: 'profile/:id', component: UserPageComponent, canActivate: [AuthGuard, RoleGuard]}
+      {path: 'profile/:userid', component: UserPageComponent, canActivate: [AuthGuard, RoleGuard]}
     ]),
     NgbModule,
     ReviewFormModule,

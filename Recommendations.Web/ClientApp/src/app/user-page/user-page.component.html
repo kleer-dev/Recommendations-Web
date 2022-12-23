@@ -1,6 +1,6 @@
 <div class="row w-100 m-0 p-0">
 
-  <div class="mb-3 m-0 p-0 mb-3">
+  <div *ngIf="!userId" class="mb-3 m-0 p-0 mb-3">
     <h5>{{'Profile.AccountActions' | translate}}</h5>
     <button [routerLink]="['/logout']" class="btn btn-primary mr-2">{{'Profile.Logout' | translate}}</button>
   </div>
@@ -9,8 +9,11 @@
     <h5 class="m-0 p-0 mb-2">{{'Profile.Filtration' | translate}}</h5>
     <form class="w-100 m-0 p-0" [formGroup]="filterForm" (ngSubmit)="updateFilter()">
        <div class="col-md-5 m-0 p-0 mb-2">
-       <select id="filterType" class="form-select mr-2" formControlName="filterType" name="">
-         <option [defaultSelected]="true" value="reviewTitle">
+       <select id="filterType" class="form-select mr-2" formControlName="filterType">
+         <option value="null" disabled="true" [selected]="true">
+           {{'Profile.SelectFilterType' | translate}}
+         </option>
+         <option value="reviewTitle">
            {{'Profile.ReviewTitle' | translate}}
          </option>
          <option value="creationDate">{{'Profile.CreationDate' | translate}}</option>
@@ -36,7 +39,8 @@
 
   <div class="d-flex justify-content-between m-0 p-0">
     <div class="fw-semibold fs-5 d-flex align-items-center">{{'Profile.Reviews' | translate}}</div>
-    <a class="btn btn-success text-white" [routerLink]="['/create-review']">{{'Profile.New' | translate}}</a>
+    <a class="btn btn-success text-white" *ngIf="userId" [routerLink]="['/create-review', userId]">{{'Profile.New' | translate}}</a>
+    <a class="btn btn-success text-white" *ngIf="!userId" [routerLink]="['/create-review']">{{'Profile.New' | translate}}</a>
   </div>
 
   <div class="row w-100 m-0 p-0">
