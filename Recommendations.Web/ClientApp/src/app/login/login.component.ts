@@ -36,7 +36,8 @@ export class LoginComponent {
       .subscribe({
         next: () => {
           this.userService.isAuthenticated = true
-          this.router.navigate(['/create-review'])
+          this.userService.checkRole()
+          this.router.navigate(['/'])
         },
         error: err => {
           if (err.status === 404)

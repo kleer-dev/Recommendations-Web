@@ -3,7 +3,6 @@ import {HttpClient} from "@angular/common/http";
 import {ActivatedRoute, Router} from "@angular/router";
 import {ReviewPreviewModel} from "../../models/ReviewPreviewModel";
 import {FilteringParameters} from "../../consts/FilteringParameters";
-import {ReviewModel} from "../../models/ReviewModel";
 import {ReviewUserPageModel} from "../../models/ReviewUserPageModel";
 import {Observable} from "rxjs";
 
@@ -19,7 +18,7 @@ export class ReviewsService {
   waiter!: Promise<boolean>
 
   constructor(private http: HttpClient, private activateRoute: ActivatedRoute,
-              private router: Router) {
+              private router: Router, private activatedRoute: ActivatedRoute) {
 
   }
 
@@ -71,11 +70,15 @@ export class ReviewsService {
       });
   }
 
-  getReviewsByUserId(): Observable<ReviewUserPageModel[]>{
-    return this.http.get<ReviewUserPageModel[]>(`api/reviews/get-by-user`)
+  getReviewsByUserId(userId?: number | null): Observable<ReviewUserPageModel[]> {
+    let url = `api/reviews/get-by-user`
+    if (userId !== undefined)
+      url = `${url}/${userId}`
+
+    return this.http.get<ReviewUserPageModel[]>(url)
   }
 
-  deleteReview(reviewId: number){
+  deleteReview(reviewId: number) {
     return this.http.delete(`api/reviews/${reviewId}`)
   }
 }

@@ -1,4 +1,4 @@
-import {Component, Input, Output} from "@angular/core";
+import {Component, EventEmitter, Input, Output} from "@angular/core";
 import {HttpClient} from "@angular/common/http";
 import {Router} from "@angular/router";
 import {CategoryService} from "src/common/services/category/category-service";
@@ -20,7 +20,7 @@ export class ReviewFormComponent {
   categories!: string[]
 
   @Input() @Output() reviewForm!: ReviewFormModel;
-  @Input() onSubmitForm!: Function;
+  @Output() onSubmitForm = new EventEmitter<boolean>();
 
   constructor(private http: HttpClient, private router: Router,
               private categoryService: CategoryService,
@@ -95,7 +95,7 @@ export class ReviewFormComponent {
   }
 
   onSubmit(){
-    this.onSubmitForm(this.reviewForm)
+    this.onSubmitForm.emit()
   }
 }
 

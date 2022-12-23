@@ -48,7 +48,11 @@
     "Theme": "Theme:",
     "Logout": "Logout",
     "Language": "Language",
-    "Search": "Search"
+    "Search": "Search",
+    "Profile": "Profile",
+    "AdminPanel": "Admin panel",
+    "Login": "Login",
+    "Registration": "Registration"
   },
   "ReviewPage": {
     "Author": "Author:",
@@ -91,10 +95,14 @@
     "Delete": "Delete",
     "Update": "Update",
     "View": "View",
-    "Reviews": "Review",
+    "Reviews": "Reviews",
     "New": "New",
     "EnterFilterText": "Enter filter text",
     "Filter": "Filter",
-    "Reset": "Reset"
+    "Reset": "Reset",
+    "SelectFilterType": "Select filter type",
+    "Users": "Users",
+    "UserName": "Username",
+    "Email": "Email"
   }
 }

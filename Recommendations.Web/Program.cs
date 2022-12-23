@@ -26,7 +26,7 @@ builder.Services.AddAutoMapper(config =>
 });
 
 builder.Services.AddApplication(builder.Configuration);
-builder.Services.AddPersistence();
+await builder.Services.AddPersistence(builder.Configuration);
 
 var app = builder.Build();
 

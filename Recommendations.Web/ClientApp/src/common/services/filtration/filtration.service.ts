@@ -1,5 +1,5 @@
 import {Injectable} from "@angular/core";
-import { filterBy } from '@progress/kendo-data-query';
+import {filterBy} from '@progress/kendo-data-query';
 import {ReviewUserPageModel} from "../../models/ReviewUserPageModel";
 
 @Injectable({
@@ -8,9 +8,10 @@ import {ReviewUserPageModel} from "../../models/ReviewUserPageModel";
 export class FiltrationService {
 
   filtrateData(fieldName: string, filterText: string,
-               data: ReviewUserPageModel[]): ReviewUserPageModel[]{
-
-    return filterBy(data , {
+               data: ReviewUserPageModel[]): ReviewUserPageModel[] {
+    console.log(fieldName)
+    console.log(filterText)
+    return filterBy(data, {
       logic: 'and',
       filters: [
         {field: fieldName, value: filterText, operator: 'contains', ignoreCase: true}

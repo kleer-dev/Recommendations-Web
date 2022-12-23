@@ -2,19 +2,24 @@
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Recommendations.Application.Common.Interfaces;
+using Recommendations.Domain;
 using Recommendations.Persistence.DbContexts;
+using Recommendations.Persistence.Initializers;
 
 namespace Recommendations.Persistence;
 
 public static class DependencyInjection
 {
-    public static void AddPersistence(this IServiceCollection services)
+    public static async Task AddPersistence(this IServiceCollection services,
+        IConfiguration configuration)
     {
         services.AddDbContextConfiguration();
         services.AddIdentityConfiguration();
         services.AddCookieConfiguration();
+        await services.AddDbInitializers(configuration);
     }
 
     private static void AddDbContextConfiguration(this IServiceCollection services)
@@ -37,7 +42,7 @@ public static class DependencyInjection
     
     private static void AddIdentityConfiguration(this IServiceCollection services)
     {
-        services.AddIdentity<Domain.User, IdentityRole<Guid>>(options =>
+        services.AddIdentity<User, IdentityRole<Guid>>(options =>
             {
                 options.User.RequireUniqueEmail = true;
                 options.User.AllowedUserNameCharacters = 
@@ -73,5 +78,18 @@ public static class DependencyInjection
                 }
             };
         });
+    }
+
+    private static async Task AddDbInitializers(this IServiceCollection services,
+        IConfiguration configuration)
+    {
+        var serviceProvider = services.BuildServiceProvider();
+        var userManager = serviceProvider
+            .GetRequiredService<UserManager<User>>();
+        var rolesManager = serviceProvider
+            .GetRequiredService<RoleManager<IdentityRole<Guid>>>();
+
+        await new RoleInitializer(rolesManager).InitializeAsync();
+        await new AdminInitializer(userManager, configuration, rolesManager).InitializeAsync();
     }
 }

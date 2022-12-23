@@ -1,9 +1,10 @@
-import {Component, OnInit, ViewChild} from "@angular/core";
+import {Component, OnInit} from "@angular/core";
 import {ReviewsService} from "../../common/services/reviews/reviews.service";
-import {ColumnMode, DatatableComponent} from '@swimlane/ngx-datatable';
+import {ColumnMode} from '@swimlane/ngx-datatable';
 import {ReviewUserPageModel} from "../../common/models/ReviewUserPageModel";
-import {FormControl, FormGroup, Validators} from "@angular/forms";
+import {FormControl, FormGroup} from "@angular/forms";
 import {FiltrationService} from "../../common/services/filtration/filtration.service";
+import {ActivatedRoute} from "@angular/router";
 
 @Component({
   selector: 'app-user-page',
@@ -16,8 +17,11 @@ export class UserPageComponent implements OnInit {
   reviews!: ReviewUserPageModel[]
   rows!: ReviewUserPageModel[]
 
+  userId?: number | null = null
+
   constructor(public reviewsService: ReviewsService,
-              private filtrationService: FiltrationService) {
+              private filtrationService: FiltrationService,
+              private activatedRoute: ActivatedRoute) {
 
   }
 
@@ -27,11 +31,12 @@ export class UserPageComponent implements OnInit {
   })
 
   ngOnInit() {
+    this.getUserIdFromQueryParams()
     this.getReviews()
   }
 
   getReviews(){
-    this.reviewsService.getReviewsByUserId()
+    this.reviewsService.getReviewsByUserId(this.userId)
       .subscribe({
         next: data => {
           this.reviews = data
@@ -45,6 +50,12 @@ export class UserPageComponent implements OnInit {
       .subscribe({
         complete: () => this.getReviews()
       })
+  }
+
+  getUserIdFromQueryParams(){
+     this.activatedRoute.params.subscribe({
+      next: value => this.userId = value['userid']
+    })
   }
 
   updateFilter() {

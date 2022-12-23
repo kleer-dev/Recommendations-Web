@@ -4,6 +4,7 @@ import {FilteringParameters} from "../../common/consts/FilteringParameters";
 import {ActivatedRoute, Route, Router} from "@angular/router";
 import {ReviewsService} from "../../common/services/reviews/reviews.service";
 import {TagService} from "../../common/services/tag/tag-service";
+import {UserService} from "../../common/services/user/user.service";
 
 @Component({
   selector: 'app-home',
@@ -16,8 +17,8 @@ export class HomeComponent {
 
   constructor(public reviewService: ReviewsService,
               private activateRoute: ActivatedRoute, private router: Router,
-              private tagService: TagService) {
-
+              private tagService: TagService,
+              private userService: UserService) {
   }
 
   reviewForm = new FormGroup({
@@ -29,6 +30,7 @@ export class HomeComponent {
   })
 
   ngOnInit() {
+    this.userService.checkAuthentication()
     this.reviewService.getAllReviews()
     this.tagService.getAllTags()
       .subscribe({

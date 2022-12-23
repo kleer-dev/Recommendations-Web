@@ -13,15 +13,13 @@ public class CreateReviewCommandHandler : IRequestHandler<CreateReviewCommand, G
 {
     private readonly IRecommendationsDbContext _context;
     private readonly IMediator _mediator;
-    private readonly IMegaCloudClient _megaCloudClient;
     private readonly IMapper _mapper;
 
     public CreateReviewCommandHandler(IRecommendationsDbContext context,
-        IMediator mediator, IMegaCloudClient megaCloudClient, IMapper mapper)
+        IMediator mediator, IMapper mapper)
     {
         _context = context;
         _mediator = mediator;
-        _megaCloudClient = megaCloudClient;
         _mapper = mapper;
     }
 
@@ -91,8 +89,7 @@ public class CreateReviewCommandHandler : IRequestHandler<CreateReviewCommand, G
     {
         if (file is null)
             return string.Empty;
-        var imageUrl = await _megaCloudClient.UploadFile(file);
-        
-        return imageUrl;
+
+        return "";
     }
 }

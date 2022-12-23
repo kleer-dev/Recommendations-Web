@@ -43,21 +43,28 @@
           <li *ngIf="userService.isAuthenticated" class="nav-item mr-3"
               [routerLinkActive]="['link-active']">
             <a class="navbar-btn" [routerLink]="['/profile']">
-              Profile
+              {{'Header.Profile' | translate}}
+            </a>
+          </li>
+
+          <li *ngIf="userService.isAdmin && userService.isAuthenticated" class="nav-item mr-3"
+              [routerLinkActive]="['link-active']">
+            <a class="navbar-btn" [routerLink]="['/admin-profile']">
+              {{'Header.AdminPanel' | translate}}
             </a>
           </li>
 
           <li *ngIf="!userService.isAuthenticated" class="nav-item mr-3"
               [routerLinkActive]="['link-active']">
             <a class="navbar-btn" [routerLink]="['/login']">
-              Login
+              {{'Header.Login' | translate}}
             </a>
           </li>
 
           <li *ngIf="!userService.isAuthenticated" class="nav-item mr-3"
               [routerLinkActive]="['link-active']">
             <a class="navbar-btn" [routerLink]="['/registration']">
-              Registration
+              {{'Header.Registration' | translate}}
             </a>
           </li>
 

@@ -4,7 +4,7 @@
   <h1>{{'ReviewForm.ChangeReview' | translate}}</h1>
 </div>
 
-<app-review-form *ngIf="waiter" [onSubmitForm]="onSubmitForm"
+<app-review-form *ngIf="waiter" (onSubmitForm)="onSubmitForm()"
                  [reviewForm]="reviewForm"
                  [tags]="reviewForm.get('tags')!.value">
 </app-review-form>

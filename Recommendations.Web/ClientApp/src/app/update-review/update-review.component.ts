@@ -16,16 +16,18 @@ export class UpdateReviewComponent implements OnInit{
   reviewId: number = 0
   review!: UpdateReviewModel
 
+  userId: number | null = null
+
   reviewForm!: ReviewFormModel
 
   constructor(private http: HttpClient, private router: Router,
-              private activatedRoute: ActivatedRoute, private formBuilder: FormBuilder,) {
+              private activatedRoute: ActivatedRoute) {
 
   }
 
   async ngOnInit() {
+    this.getUserIdFromQueryParams()
     this.reviewId = this.activatedRoute.snapshot.params['id']
-    console.log(this.reviewId)
     this.http.get<UpdateReviewModel>(`api/reviews/get-update-review/${this.reviewId}`)
       .subscribe({
         next: data => {
@@ -62,10 +64,16 @@ export class UpdateReviewComponent implements OnInit{
       })
   }
 
+  getUserIdFromQueryParams(){
+    this.activatedRoute.params.subscribe({
+      next: value => this.userId = value['userid']
+    })
+  }
+
   onSubmitForm() {
     this.http.put("api/reviews", formToFormData(this.reviewForm.value))
       .subscribe({
-        next: _ => this.router.navigate(['/profile']),
+        next: _ => window.history.back(),
         error: err => {
           console.error(err)
         }

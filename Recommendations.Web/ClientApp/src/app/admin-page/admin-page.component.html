@@ -1,0 +1,51 @@
+<app-fullscreen-loader *ngIf="!waiter"></app-fullscreen-loader>
+
+<div *ngIf="waiter" class="row w-100 m-0 p-0">
+
+  <div class="d-flex justify-content-between m-0 p-0">
+    <div class="fw-semibold w-100 fs-5 d-flex justify-content-center align-items-center">
+      {{'Profile.Users' | translate}}
+    </div>
+  </div>
+
+  <div class="row w-100 m-0 p-0">
+    <ngx-datatable class="bootstrap w-100 p-0 m-0"
+                   [scrollbarH]="true"
+                   [columnMode]="ColumnMode.force"
+                   [rowHeight]="60"
+                   [rows]="users">
+
+      <ngx-datatable-column name="Id">
+        <ng-template let-row="row" ngx-datatable-cell-template>
+          {{row.id}}
+        </ng-template>
+      </ngx-datatable-column>
+
+      <ngx-datatable-column name="{{'Profile.UserName' | translate}}">
+        <ng-template let-row="row" ngx-datatable-cell-template>
+          {{row.userName}}
+        </ng-template>
+      </ngx-datatable-column>
+
+      <ngx-datatable-column name="{{'Profile.Email' | translate}}">
+        <ng-template let-row="row" ngx-datatable-cell-template>
+          {{row.email}}
+        </ng-template>
+      </ngx-datatable-column>
+
+      <ngx-datatable-column [sortable]="false"
+                            [headerClass]="'text-center'"
+                            name="{{'Profile.Actions' | translate}}">
+        <ng-template let-row="row" ngx-datatable-cell-template>
+          <div class="h-100 d-flex justify-content-center align-items-center">
+            <button [routerLink]="['/profile', row.id]"
+                    class="btn btn-primary">
+              {{'Profile.View' | translate}}
+            </button>
+          </div>
+        </ng-template>
+      </ngx-datatable-column>
+
+    </ngx-datatable>
+  </div>
+</div>
