@@ -75,7 +75,8 @@ import {RoleGuard} from "../common/guards/admin-role.guard";
       {path: 'review/:id', component: ReviewComponent},
       {path: 'admin-profile', component: AdminPageComponent, canActivate: [AuthGuard, RoleGuard]},
       {path: 'logout', component: LogoutComponent},
-      {path: 'profile', component: UserPageComponent, canActivate: [AuthGuard]}
+      {path: 'profile', component: UserPageComponent, canActivate: [AuthGuard]},
+      {path: 'profile/:id', component: UserPageComponent, canActivate: [AuthGuard, RoleGuard]}
     ]),
     NgbModule,
     ReviewFormModule,

@@ -1,8 +1,8 @@
 import {Component, OnInit, ViewChild} from "@angular/core";
 import {ReviewsService} from "../../common/services/reviews/reviews.service";
-import {ColumnMode, DatatableComponent} from '@swimlane/ngx-datatable';
+import {ColumnMode} from '@swimlane/ngx-datatable';
 import {ReviewUserPageModel} from "../../common/models/ReviewUserPageModel";
-import {FormControl, FormGroup, Validators} from "@angular/forms";
+import {FormControl, FormGroup} from "@angular/forms";
 import {FiltrationService} from "../../common/services/filtration/filtration.service";
 
 @Component({
@@ -18,7 +18,7 @@ export class UserPageComponent implements OnInit {
 
   constructor(public reviewsService: ReviewsService,
               private filtrationService: FiltrationService) {
-
+    this.reviewsService.getUserIdFromQueryParams()
   }
 
   filterForm = new FormGroup({
@@ -27,6 +27,7 @@ export class UserPageComponent implements OnInit {
   })
 
   ngOnInit() {
+    this.reviewsService.getUserIdFromQueryParams()
     this.getReviews()
   }
 

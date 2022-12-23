@@ -36,6 +36,7 @@ export class LoginComponent {
       .subscribe({
         next: () => {
           this.userService.isAuthenticated = true
+          this.userService.checkRole()
           this.router.navigate(['/'])
         },
         error: err => {

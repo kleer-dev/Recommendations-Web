@@ -1,3 +1,4 @@
+using System.ComponentModel;
 using AutoMapper;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
@@ -10,6 +11,7 @@ using Recommendations.Application.CommandsQueries.Review.Queries.GetDto;
 using Recommendations.Application.CommandsQueries.Review.Queries.GetReviewsByParam;
 using Recommendations.Application.CommandsQueries.Review.Queries.GetReviewsByUserId;
 using Recommendations.Application.CommandsQueries.Review.Queries.GetUpdate;
+using Recommendations.Application.Common.Constants;
 using Recommendations.Web.Models.Review;
 
 namespace Recommendations.Web.Controllers;
@@ -60,11 +62,24 @@ public class ReviewController : BaseController
     }
     
     [HttpGet("get-by-user")]
-    public async Task<ActionResult<IEnumerable<GetReviewsByUserIdDto>>> GetReviewsByCurrentUser()
+    public async Task<ActionResult<IEnumerable<GetReviewsByUserIdDto>>> GetReviewsByUser()
     {
         var getReviewsByUserIdQuery = new GetReviewsByUserIdQuery
         {
             UserId = UserId
+        };
+        var reviewsVm = await _mediator.Send(getReviewsByUserIdQuery);
+
+        return Ok(reviewsVm.Reviews);
+    }
+    
+    [Authorize(Roles = Roles.Admin)]
+    [HttpGet("get-by-user/{userId:guid}")]
+    public async Task<ActionResult<IEnumerable<GetReviewsByUserIdDto>>> GetReviewsByUser(Guid userId)
+    {
+        var getReviewsByUserIdQuery = new GetReviewsByUserIdQuery
+        {
+            UserId = userId
         };
         var reviewsVm = await _mediator.Send(getReviewsByUserIdQuery);
 

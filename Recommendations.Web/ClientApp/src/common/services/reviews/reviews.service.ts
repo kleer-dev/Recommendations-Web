@@ -1,6 +1,6 @@
 import {Injectable} from '@angular/core';
 import {HttpClient} from "@angular/common/http";
-import {ActivatedRoute, Router} from "@angular/router";
+import {ActivatedRoute, Route, Router} from "@angular/router";
 import {ReviewPreviewModel} from "../../models/ReviewPreviewModel";
 import {FilteringParameters} from "../../consts/FilteringParameters";
 import {ReviewModel} from "../../models/ReviewModel";
@@ -16,10 +16,12 @@ export class ReviewsService {
   tag: string | undefined
   public reviews: any;
 
+  userId!: number | undefined
+
   waiter!: Promise<boolean>
 
   constructor(private http: HttpClient, private activateRoute: ActivatedRoute,
-              private router: Router) {
+              private router: Router, private activatedRoute: ActivatedRoute) {
 
   }
 
@@ -71,8 +73,15 @@ export class ReviewsService {
       });
   }
 
+  getUserIdFromQueryParams(){
+    this.activateRoute.queryParams.subscribe(params => {
+      this.userId = params['id'];
+      console.log(params['id'])
+    });
+  }
+
   getReviewsByUserId(): Observable<ReviewUserPageModel[]>{
-    return this.http.get<ReviewUserPageModel[]>(`api/reviews/get-by-user`)
+    return this.http.get<ReviewUserPageModel[]>(`api/reviews/get-by-user/` + this.userId)
   }
 
   deleteReview(reviewId: number){

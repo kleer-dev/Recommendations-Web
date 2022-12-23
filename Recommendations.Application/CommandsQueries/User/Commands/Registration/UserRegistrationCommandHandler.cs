@@ -7,7 +7,7 @@ using Recommendations.Application.Common.Interfaces;
 
 namespace Recommendations.Application.CommandsQueries.User.Commands.Registration;
 
-public class UserRegistrationCommandHandler : IRequestHandler<UserRegistrationCommand, Unit>
+public class UserRegistrationCommandHandler : IRequestHandler<UserRegistrationCommand, Guid>
 {
     private readonly IRecommendationsDbContext _context;
     private readonly UserManager<Domain.User> _userManager;
@@ -24,7 +24,7 @@ public class UserRegistrationCommandHandler : IRequestHandler<UserRegistrationCo
         _mapper = mapper;
     }
 
-    public async Task<Unit> Handle(UserRegistrationCommand request,
+    public async Task<Guid> Handle(UserRegistrationCommand request,
         CancellationToken cancellationToken)
     {
         var isUserExist = await CheckUserExistence(request, cancellationToken);
@@ -35,7 +35,7 @@ public class UserRegistrationCommandHandler : IRequestHandler<UserRegistrationCo
         await _userManager.CreateAsync(user, request.Password);
         await _signInManager.SignInAsync(user, request.Remember);
 
-        return Unit.Value;
+        return user.Id;
     }
 
     private async Task<bool> CheckUserExistence(UserRegistrationCommand request,

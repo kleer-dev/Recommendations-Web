@@ -47,6 +47,13 @@
             </a>
           </li>
 
+          <li *ngIf="userService.isAdmin && userService.isAuthenticated" class="nav-item mr-3"
+              [routerLinkActive]="['link-active']">
+            <a class="navbar-btn" [routerLink]="['/admin-profile']">
+              Admin panel
+            </a>
+          </li>
+
           <li *ngIf="!userService.isAuthenticated" class="nav-item mr-3"
               [routerLinkActive]="['link-active']">
             <a class="navbar-btn" [routerLink]="['/login']">

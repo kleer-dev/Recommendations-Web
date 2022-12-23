@@ -15,7 +15,6 @@ export class RoleGuard implements CanActivate {
   }
 
   canActivate(next: ActivatedRouteSnapshot, state: RouterStateSnapshot) {
-
-    return true
+    return this.userService.getRole()
   }
 }

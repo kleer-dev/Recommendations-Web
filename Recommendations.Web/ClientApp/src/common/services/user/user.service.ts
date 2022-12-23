@@ -2,6 +2,9 @@ import {Injectable} from '@angular/core';
 import {HttpClient} from "@angular/common/http";
 import {map, Observable} from "rxjs";
 import {Router} from "@angular/router";
+import {Roles} from "../../consts/Roles";
+import {UserModel} from "../../models/UserModel";
+import {RoleModel} from "../../models/RoleModel";
 
 @Injectable({
   providedIn: 'root'
@@ -9,17 +12,16 @@ import {Router} from "@angular/router";
 export class UserService {
 
   isAuthenticated: boolean = false
+  isAdmin: boolean = false
 
   constructor(private http: HttpClient, private router: Router) {
-    this.checkAuthentication()
-      .subscribe({
-        next: value => this.isAuthenticated = value
-      })
+
   }
 
   checkAuthentication(): Observable<boolean> {
     return this.http.get<boolean>('api/user/check-auth')
       .pipe(map((isAuthenticated) => {
+        console.log(isAuthenticated)
         if (!isAuthenticated) {
           this.isAuthenticated = false
           this.router.navigate(['/login'])
@@ -30,19 +32,36 @@ export class UserService {
       }));
   }
 
+  getRole(): Observable<boolean> {
+    return this.http.get<RoleModel>('api/user/get-role')
+      .pipe(map((role) => {
+        if (role.roleName !== Roles.admin) {
+          this.isAdmin = false
+          this.router.navigate(['/']);
+          return false;
+        }
+        this.isAdmin = true
+        return true;
+      }))
+  }
+
+  checkRole(){
+    this.getRole()
+      .subscribe({
+        next: value => {
+          this.isAdmin = value
+        }
+      })
+  }
+
+  getAllUsers(): Observable<UserModel[]> {
+    return this.http.get<UserModel[]>('api/user/get-all-users')
+  }
+
   logout() {
     this.http.post('api/user/logout', {})
       .subscribe({
         next: () => this.router.navigate(['/login'])
-      })
-  }
-
-  checkRole() {
-      this.http.get<any>('api/user/get-role')
-      .subscribe({
-        next: data => {
-          console.log(data)
-        }
       })
   }
 }

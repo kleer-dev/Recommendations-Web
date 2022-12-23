@@ -16,5 +16,5 @@ public abstract class BaseController : ControllerBase
         ? Guid.Parse(User.FindFirstValue(ClaimTypes.NameIdentifier)!)
         : null;
 
-    internal string? Role => User.FindFirstValue(ClaimTypes.Role);
+    internal string Role => User.FindFirstValue(ClaimTypes.Role)!;
 }
