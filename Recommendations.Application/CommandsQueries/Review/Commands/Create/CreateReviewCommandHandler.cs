@@ -26,17 +26,6 @@ public class CreateReviewCommandHandler : IRequestHandler<CreateReviewCommand, G
     public async Task<Guid> Handle(CreateReviewCommand request,
         CancellationToken cancellationToken)
     {
-        var createTagCommand = new CreateTagCommand { Tags = request.Tags };
-        await _mediator.Send(createTagCommand, cancellationToken);
-        
-        var reviewId = await AddReview(request, cancellationToken);
-
-        return reviewId;
-    }
-
-    private async Task<Guid> AddReview(CreateReviewCommand request,
-        CancellationToken cancellationToken)
-    {
         var review = _mapper.Map<Domain.Review>(request);
         review.User = await GetUser(request.UserId, cancellationToken);
         review.Tags = await GetTags(request, cancellationToken);
@@ -44,11 +33,19 @@ public class CreateReviewCommandHandler : IRequestHandler<CreateReviewCommand, G
         review.ImageUrl = await GetImageUrl(request.Image!);
         review.Product = new Domain.Product { Name = request.ProductName };
         review.CreationDate = DateTime.UtcNow;
-        
+
+        await AddTags(request.Tags, cancellationToken);
+
         await _context.Reviews.AddAsync(review, cancellationToken);
         await _context.SaveChangesAsync(cancellationToken);
 
         return review.Id;
+    }
+
+    private async Task AddTags(string[] tags, CancellationToken cancellationToken)
+    {
+        var createTagCommand = new CreateTagCommand { Tags = tags };
+        await _mediator.Send(createTagCommand, cancellationToken);
     }
 
     private async Task<Domain.User> GetUser(Guid? userId,

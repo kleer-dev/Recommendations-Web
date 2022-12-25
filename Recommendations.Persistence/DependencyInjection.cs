@@ -90,6 +90,6 @@ public static class DependencyInjection
             .GetRequiredService<RoleManager<IdentityRole<Guid>>>();
 
         await new RoleInitializer(rolesManager).InitializeAsync();
-        await new AdminInitializer(userManager, configuration, rolesManager).InitializeAsync();
+        await new AdminInitializer(userManager, configuration).InitializeAsync();
     }
 }

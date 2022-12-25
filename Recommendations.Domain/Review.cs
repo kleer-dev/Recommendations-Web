@@ -1,7 +1,12 @@
+using System.ComponentModel.DataAnnotations.Schema;
+
 namespace Recommendations.Domain;
 
 public class Review
 {
+    [NotMapped]
+    public string ObjectID { get; set; }
+    
     public Guid Id { get; set; }
     public string Title { get; set; }
     public string Description { get; set; }
