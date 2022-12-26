@@ -3,6 +3,7 @@
       (ngSubmit)="search()">
   <div class="input-group">
     <input formControlName="search" type="text" class="form-control">
-    <button type="submit" class="btn btn-success "> {{'Header.Search' | translate}}</button>
+    <button [disabled]="!searchForm.valid" type="submit"
+            class="btn btn-success "> {{'Header.Search' | translate}}</button>
   </div>
 </form>

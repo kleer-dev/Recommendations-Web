@@ -1,6 +1,7 @@
-import {Component} from "@angular/core";
-import {FormControl, FormGroup} from "@angular/forms";
+import {ChangeDetectorRef, Component} from "@angular/core";
+import {FormControl, FormGroup, Validators} from "@angular/forms";
 import {HttpClient} from "@angular/common/http";
+import {Router} from "@angular/router";
 
 @Component({
   selector: 'app-search',
@@ -9,20 +10,17 @@ import {HttpClient} from "@angular/common/http";
 })
 export class SearchComponent {
 
-  constructor(private http: HttpClient) {
+  constructor(private http: HttpClient, private router: Router, private cdr: ChangeDetectorRef) {
 
   }
 
   searchForm = new FormGroup({
-    search: new FormControl('')
+    search: new FormControl('', [Validators.required])
   })
 
-  search(){
+  search() {
     let searchQuery = this.searchForm.get('search')?.value
-    this.http.get(`api/search/reviews?searchQuery=${searchQuery}`)
-      .subscribe({
-        next: value => console.log(value)
-      })
+    this.router.navigate(['/search', searchQuery]);
   }
 
 }

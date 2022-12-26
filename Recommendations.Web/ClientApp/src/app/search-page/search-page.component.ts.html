@@ -1,0 +1,31 @@
+<div class="w-100 m-0 p-0 row d-flex justify-content-center">
+
+  <app-data-loader class="h-100 w-100" *ngIf="!this.waiter"></app-data-loader>
+
+  <div *ngIf="this.waiter" class="row w-100 d-flex align-items-center justify-content-center p-0 m-0" >
+    <div class="col m-2 d-flex flex-column review" *ngFor="let review of reviews">
+
+      <form  [formGroup]="reviewForm">
+        <h6 class="w-100 d-flex justify-content-center">
+          {{review.creationDate | date:'d.M.yy, HH:MM'}}
+        </h6>
+        <img class="review-img mb-2" src="https://i.playground.ru/p/YObfBCTfBy13HqoM7Ijk7Q.jpeg" alt="">
+        <div class="mb-2 d-flex flex-column w-100 p-2">
+          <input formControlName="id" type="hidden" value="{{review.id}}">
+          <span class="clip mb-1 w-100 fw-bold fs-6">{{review.reviewTitle}}</span>
+          <span class="wrap mb-1"> {{'HomePage.AverageRate' | translate}} {{review.averageRate}}</span>
+          <span class="clip mb-1"> {{'HomePage.Product' | translate}} {{review.productName}}</span>
+          <span class="clip mb-1"> {{'HomePage.Category' | translate}} {{review.category}}</span>
+          <span class="clip mb-1"> {{'HomePage.Tags' | translate}} {{review.tags}}</span>
+        </div>
+
+        <a [routerLink]="['/review', review.id]"
+           class="btn btn-primary text-light w-100">
+          {{'HomePage.Read' | translate}}
+        </a>
+      </form>
+
+    </div>
+  </div>
+
+</div>

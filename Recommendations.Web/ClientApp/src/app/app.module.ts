@@ -11,13 +11,13 @@ import {RegistrationComponent} from "./registration/registration.component";
 import {LoginComponent} from "./login/login.component";
 import {ThemeToggleComponent} from "./theme-toggle/theme-toggle.component";
 
-import { NgbRatingModule } from '@ng-bootstrap/ng-bootstrap';
+import {NgbRatingModule} from '@ng-bootstrap/ng-bootstrap';
 import {NgbModule} from '@ng-bootstrap/ng-bootstrap';
 import {ExternalLoginComponent} from "./external-login/external-login.component";
 import {LoginCallbackComponent} from "./auth-callback/login-callback.component";
 import {CreateReviewComponent} from "./create-review/create-review.component";
 import {NgxDropzoneModule} from "ngx-dropzone";
-import { TagInputModule } from 'ngx-chips';
+import {TagInputModule} from 'ngx-chips';
 import {NgxTagsInputBoxModule} from "ngx-tags-input-box";
 
 import {BrowserAnimationsModule} from "@angular/platform-browser/animations";
@@ -33,12 +33,13 @@ import {FullscreenLoaderComponent} from "./loaders/fullscreen-loader/fullscreen-
 import {DataLoaderComponent} from "./loaders/data-loader/data-loader.component";
 import {UserPageComponent} from "./user-page/user-page.component";
 import {UpdateReviewComponent} from "./update-review/update-review.component";
-import { NgxDatatableModule } from '@swimlane/ngx-datatable';
+import {NgxDatatableModule} from '@swimlane/ngx-datatable';
 import {AuthInterceptor} from "../common/interceptors/auth.interceptor";
 import {AuthGuard} from "../common/guards/auth.guard";
 import {LogoutComponent} from "./logout/logout.component";
 import {AdminPageComponent} from "./admin-page/admin-page.component";
 import {RoleGuard} from "../common/guards/admin-role.guard";
+import {SearchPageComponent} from "./search-page/search-page.component";
 
 @NgModule({
   declarations: [
@@ -59,7 +60,8 @@ import {RoleGuard} from "../common/guards/admin-role.guard";
     UpdateReviewComponent,
     UserPageComponent,
     LogoutComponent,
-    AdminPageComponent
+    AdminPageComponent,
+    SearchPageComponent
   ],
   imports: [
     BrowserModule.withServerTransition({appId: 'ng-cli-universal'}),
@@ -77,7 +79,8 @@ import {RoleGuard} from "../common/guards/admin-role.guard";
       {path: 'admin-profile', component: AdminPageComponent, canActivate: [AuthGuard, RoleGuard]},
       {path: 'logout', component: LogoutComponent},
       {path: 'profile', component: UserPageComponent, canActivate: [AuthGuard]},
-      {path: 'profile/:userid', component: UserPageComponent, canActivate: [AuthGuard, RoleGuard]}
+      {path: 'profile/:userid', component: UserPageComponent, canActivate: [AuthGuard, RoleGuard]},
+      {path: 'search/:search-query', component: SearchPageComponent}
     ]),
     NgbModule,
     ReviewFormModule,
