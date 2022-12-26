@@ -2,7 +2,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Recommendations.Application.Common.Interfaces;
 
-namespace Recommendations.Application.Common.Clouds.Algolia;
+namespace Recommendations.Application.Common.Algolia;
 
 public static class DependencyInjection
 {
@@ -18,11 +18,12 @@ public static class DependencyInjection
     {
         var applicationId = configuration["Algolia:ApplicationId"];
         var adminKey = configuration["Algolia:AdminKey"];
+        var indexName = configuration["Algolia:IndexName"];
 
-        if (applicationId is null || adminKey is null)
+        if (applicationId is null || adminKey is null || indexName is null)
             throw new NullReferenceException("Missing keys for Algolia");
 
         services.AddSingleton<IAlgoliaService, AlgoliaService>(_ => 
-            new AlgoliaService(applicationId, adminKey));
+            new AlgoliaService(applicationId, adminKey, indexName));
     }
 }

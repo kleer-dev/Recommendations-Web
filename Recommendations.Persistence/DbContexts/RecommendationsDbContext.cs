@@ -2,7 +2,7 @@
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
-using Recommendations.Application.Common.Clouds.Algolia;
+using Recommendations.Application.Common.Algolia;
 using Recommendations.Application.Common.Interfaces;
 using Recommendations.Domain;
 

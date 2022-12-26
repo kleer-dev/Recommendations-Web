@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore.ChangeTracking;
 using Recommendations.Application.Common.Interfaces;
 using Recommendations.Domain;
 
-namespace Recommendations.Application.Common.Clouds.Algolia;
+namespace Recommendations.Application.Common.Algolia;
 
 public class AlgoliaDbSync
 {

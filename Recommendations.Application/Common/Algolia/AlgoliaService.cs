@@ -3,19 +3,17 @@ using Algolia.Search.Models.Search;
 using Recommendations.Application.Common.Interfaces;
 using Recommendations.Domain;
 
-namespace Recommendations.Application.Common.Clouds.Algolia;
+namespace Recommendations.Application.Common.Algolia;
 
 public class AlgoliaService : IAlgoliaService
 {
     private readonly ISearchClient _searchClient;
     private readonly ISearchIndex _searchIndex;
 
-    private const string IndexName = "Recommendations";
-
-    public AlgoliaService(string applicationId, string adminKey)
+    public AlgoliaService(string applicationId, string adminKey, string indexName)
     {
         _searchClient = new SearchClient(applicationId, adminKey);
-        _searchIndex = _searchClient.InitIndex(IndexName);
+        _searchIndex = _searchClient.InitIndex(indexName);
     }
 
     public async Task AddOrUpdateRecord<T>(T entity)

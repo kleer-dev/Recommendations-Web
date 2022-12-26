@@ -5,7 +5,7 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Recommendations.Application.Common;
-using Recommendations.Application.Common.Clouds.Algolia;
+using Recommendations.Application.Common.Algolia;
 using Recommendations.Application.Common.Interfaces;
 
 namespace Recommendations.Application;
