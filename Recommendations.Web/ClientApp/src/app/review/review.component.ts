@@ -3,6 +3,7 @@ import {ActivatedRoute} from "@angular/router";
 import {HttpClient} from "@angular/common/http";
 import {ReviewModel} from "../../common/models/ReviewModel";
 import {CommentsSignalrService} from "../../common/services/signalr/comments-signalr.service";
+import {CommentModel} from "../../common/models/CommentModel";
 
 @Component({
   selector: 'app-review',
@@ -59,9 +60,9 @@ export class ReviewComponent implements OnInit {
     this.review.isLike = !this.review.isLike;
 
     if (this.review.isLike)
-      this.review.likeCount += 1;
+      this.review.likesCount += 1;
     else
-      this.review.likeCount -= 1;
+      this.review.likesCount -= 1;
 
     this.http.post('api/likes', {reviewId: this.reviewId, isLike: this.review.isLike})
       .subscribe()
@@ -79,8 +80,8 @@ export class ReviewComponent implements OnInit {
     this.http.post<string>('api/comments', {reviewId: this.reviewId, text: commentText.value})
       .subscribe({
         next: async (commentId) => {
-          this.getAllComments()
           await this.signalrService.NotifyAboutComment(this.reviewId.toString(), commentId)
+          this.getAllComments()
         }
       })
     commentText.value = ''

@@ -15,6 +15,13 @@ export class RoleGuard implements CanActivate {
   }
 
   canActivate(next: ActivatedRouteSnapshot, state: RouterStateSnapshot) {
+    this.userService.getRole()
+      .subscribe({
+        next: value => {
+          if (!value)
+            this.router.navigate(['/']);
+        }
+      })
     return this.userService.getRole()
   }
 }

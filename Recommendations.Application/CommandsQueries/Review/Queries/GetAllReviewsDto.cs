@@ -6,6 +6,8 @@ namespace Recommendations.Application.CommandsQueries.Review.Queries;
 public class GetAllReviewsDto : IMapWith<Domain.Review>
 {
     public Guid Id { get; set; }
+    public string AuthorName { get; set; }
+    public int AuthorLikesCount { get; set; }
     public string ReviewTitle { get; set; }
     public string ProductName { get; set; }
     public string Category { get; set; }
@@ -18,6 +20,10 @@ public class GetAllReviewsDto : IMapWith<Domain.Review>
         profile.CreateMap<Domain.Review, GetAllReviewsDto>()
             .ForMember(u => u.Id,
                 o => o.MapFrom(u => u.Id))
+            .ForMember(u => u.AuthorName,
+                o => o.MapFrom(u => u.User.UserName))
+            .ForMember(u => u.AuthorLikesCount,
+                o => o.MapFrom(u => u.User.LikesCount))
             .ForMember(u => u.ReviewTitle,
                 o => o.MapFrom(u => u.Title))
             .ForMember(u => u.AverageRate,

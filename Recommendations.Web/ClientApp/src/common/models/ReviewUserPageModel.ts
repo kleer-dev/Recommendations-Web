@@ -4,7 +4,7 @@ export interface ReviewUserPageModel {
   creationDate: Date
   category: string
   product: string
-  likeCount: number
+  likesCount: number
   commentsCount: number
   averageRate: number
 }

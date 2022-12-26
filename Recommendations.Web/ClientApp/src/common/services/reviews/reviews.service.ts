@@ -45,7 +45,7 @@ export class ReviewsService {
   }
 
   async changeRoute() {
-    await this.router.navigate(['/'], {
+    this.router.navigate(['/'], {
       queryParams: {
         'filtrate': this.filtrate,
         'count': this.count,

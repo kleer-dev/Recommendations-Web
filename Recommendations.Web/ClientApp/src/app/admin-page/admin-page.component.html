@@ -33,6 +33,12 @@
         </ng-template>
       </ngx-datatable-column>
 
+      <ngx-datatable-column name="{{'Profile.LikesCount' | translate}}">
+        <ng-template let-row="row" ngx-datatable-cell-template>
+          {{row.likesCount}}
+        </ng-template>
+      </ngx-datatable-column>
+
       <ngx-datatable-column [sortable]="false"
                             [headerClass]="'text-center'"
                             name="{{'Profile.Actions' | translate}}">

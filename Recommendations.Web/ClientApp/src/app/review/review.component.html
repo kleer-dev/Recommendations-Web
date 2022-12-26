@@ -8,7 +8,7 @@
 
     <div class="mb-3">
       <div class="d-flex flex-column">
-        <span class="wrap">{{'ReviewPage.Author' | translate}} {{review.authorName}}</span>
+        <span class="wrap">{{'ReviewPage.Author' | translate}} {{review.authorName}} ({{review.authorLikesCount}})</span>
         <span class="wrap">
           {{'ReviewPage.CreationDate' | translate}} {{review.creationDate | date:'d.M.yy, HH:MM'}}
         </span>
@@ -36,7 +36,7 @@
                 <path fill-rule="evenodd" d="M8 1.314C12.438-3.248 23.534 4.735 8 15-7.534 4.736 3.562-3.248 8 1.314z"/>
               </svg>
             </button>
-            <span>{{review.likeCount}}</span>
+            <span>{{review.likesCount}}</span>
           </div>
         </div>
 
@@ -75,7 +75,7 @@
 
       <div class="comment mb-2" *ngFor="let comment of this.signalrService.comments">
         <span class="comment-head mb-2">
-          <div class="mr-3 wrap">{{comment.authorName}}</div>
+          <div class="mr-3 wrap">{{comment.authorName}} ({{comment.authorLikesCount}})</div>
           <div class="wrap">{{comment.creationDate | date:'d.M.yy, HH:mm'}}</div>
         </span>
         <div class="comment-text-container wrap">
