@@ -1,6 +1,8 @@
 ﻿using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.DependencyInjection;
+using Recommendations.Application.Common.Algolia;
 using Recommendations.Application.Common.Interfaces;
 using Recommendations.Domain;
 
@@ -17,10 +19,20 @@ public sealed class RecommendationsDbContext : IdentityDbContext<User, IdentityR
     public DbSet<Rating> Ratings { get; set; }
     public DbSet<Like> Likes { get; set; }
     public DbSet<Comment> Comments { get; set; }
+    
+    private readonly IServiceProvider _serviceProvider;
 
-    public RecommendationsDbContext(DbContextOptions<RecommendationsDbContext> options)
+    public RecommendationsDbContext(DbContextOptions<RecommendationsDbContext> options,
+        IServiceProvider serviceProvider)
         : base(options)
     {
+        _serviceProvider = serviceProvider;
         Database.Migrate();
+    }
+
+    public override async Task<int> SaveChangesAsync(CancellationToken cancellationToken = new())
+    {
+        await _serviceProvider.GetRequiredService<AlgoliaDbSync>().Synchronize();
+        return await base.SaveChangesAsync(cancellationToken);
     }
 }

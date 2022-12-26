@@ -1,4 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.ChangeTracking;
 using Recommendations.Domain;
 
 namespace Recommendations.Application.Common.Interfaces;
@@ -13,6 +14,8 @@ public interface IRecommendationsDbContext
     public DbSet<Like> Likes { get; set; }
     public DbSet<Rating> Ratings { get; set; }
     public DbSet<Comment> Comments { get; set; }
+
+    ChangeTracker ChangeTracker { get; }
 
     Task<int> SaveChangesAsync(CancellationToken cancellationToken);
 }

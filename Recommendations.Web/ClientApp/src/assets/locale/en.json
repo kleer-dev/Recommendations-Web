@@ -104,5 +104,9 @@
     "Users": "Users",
     "UserName": "Username",
     "Email": "Email"
+  },
+  "SearchPage": {
+    "SearchResults": "Search results:",
+    "NothingWasFound": "Nothing was found"
   }
 }

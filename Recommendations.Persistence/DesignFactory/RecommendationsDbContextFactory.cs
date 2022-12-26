@@ -4,15 +4,25 @@ using Recommendations.Persistence.DbContexts;
 
 namespace Recommendations.Persistence.DesignFactory;
 
-public class RecommendationsDbContextFactory : IDesignTimeDbContextFactory<RecommendationsDbContext>
+public class RecommendationsDbContextFactory
+    : IDesignTimeDbContextFactory<RecommendationsDbContext>
 {
+    private readonly IServiceProvider _serviceProvider;
+
+    public RecommendationsDbContextFactory(IServiceProvider serviceProvider)
+    {
+        _serviceProvider = serviceProvider;
+    }
+
+    public RecommendationsDbContextFactory() : base() { }
+
     public RecommendationsDbContext CreateDbContext(string[] args)
     {
         var connectionString = GetConnectionString();
         var optionsBuilder = new DbContextOptionsBuilder<RecommendationsDbContext>();
         optionsBuilder.UseNpgsql(connectionString);
 
-        return new RecommendationsDbContext(optionsBuilder.Options);
+        return new RecommendationsDbContext(optionsBuilder.Options, _serviceProvider);
     }
 
     private static string GetConnectionString()

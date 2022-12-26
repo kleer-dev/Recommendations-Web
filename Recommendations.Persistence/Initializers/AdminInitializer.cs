@@ -7,15 +7,12 @@ namespace Recommendations.Persistence.Initializers;
 public class AdminInitializer
 {
     private readonly UserManager<User> _userManager;
-    private readonly RoleManager<IdentityRole<Guid>> _roleManager;
     private readonly IConfiguration _configuration;
 
-    public AdminInitializer(UserManager<User> userManager, IConfiguration configuration,
-        RoleManager<IdentityRole<Guid>> roleManager)
+    public AdminInitializer(UserManager<User> userManager, IConfiguration configuration)
     {
         _userManager = userManager;
         _configuration = configuration;
-        _roleManager = roleManager;
     }
 
     public async Task InitializeAsync()
@@ -49,7 +46,7 @@ public class AdminInitializer
         var admin = await _userManager.FindByNameAsync(name);
         if (admin is null) 
             throw new NullReferenceException("The admin does not exist");
-        
+
         await _userManager.AddToRoleAsync(admin, "admin");
     }
 }
