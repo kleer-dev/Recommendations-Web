@@ -23,7 +23,7 @@ export class UserService {
       .pipe(map((isAuthenticated) => {
         if (!isAuthenticated) {
           this.isAuthenticated = false
-          this.router.navigate(['/login'])
+          // this.router.navigate(['/login'])
           return false;
         }
         this.isAuthenticated = true

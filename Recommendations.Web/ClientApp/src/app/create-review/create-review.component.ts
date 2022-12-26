@@ -63,7 +63,7 @@ export class CreateReviewComponent implements OnInit {
     }
     this.http.post(url, formToFormData(this.reviewForm.value))
       .subscribe({
-        next: _ => this.router.navigate(['/']),
+        next: _ => window.history.back(),
         error: err => {
           console.error(err)
         }
