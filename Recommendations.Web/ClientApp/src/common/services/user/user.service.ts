@@ -21,7 +21,6 @@ export class UserService {
   checkAuthentication(): Observable<boolean> {
     return this.http.get<boolean>('api/user/check-auth')
       .pipe(map((isAuthenticated) => {
-        console.log(isAuthenticated)
         if (!isAuthenticated) {
           this.isAuthenticated = false
           this.router.navigate(['/login'])
@@ -37,7 +36,6 @@ export class UserService {
       .pipe(map((role) => {
         if (role.roleName !== Roles.admin) {
           this.isAdmin = false
-          this.router.navigate(['/']);
           return false;
         }
         this.isAdmin = true

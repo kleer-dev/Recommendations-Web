@@ -50,6 +50,7 @@
         <div class="mb-2 d-flex flex-column w-100 p-2">
           <input formControlName="id" type="hidden" value="{{review.id}}">
           <span class="clip mb-1 w-100 fw-bold fs-6">{{review.reviewTitle}}</span>
+          <span class="clip mb-1"> {{'HomePage.AuthorName' | translate}} {{review.authorName}} ({{review.authorLikesCount}})</span>
           <span class="wrap mb-1"> {{'HomePage.AverageRate' | translate}} {{review.averageRate}}</span>
           <span class="clip mb-1"> {{'HomePage.Product' | translate}} {{review.productName}}</span>
           <span class="clip mb-1"> {{'HomePage.Category' | translate}} {{review.category}}</span>

@@ -78,7 +78,8 @@
     "Category": "Category:",
     "Tags": "Tags:",
     "Read": "Read",
-    "Reset": "Reset"
+    "Reset": "Reset",
+    "AuthorName": "Author:"
   },
   "Profile": {
     "AccountActions": "Account actions",
@@ -88,7 +89,7 @@
     "CreationDate": "Creation date",
     "Category": "Category",
     "Product": "Product",
-    "LikeCount": "Like count",
+    "LikesCount": "Like count",
     "CommentsCount": "Comments count",
     "AverageRate": "Average rate",
     "Actions": "Actions",
@@ -103,7 +104,8 @@
     "SelectFilterType": "Select filter type",
     "Users": "Users",
     "UserName": "Username",
-    "Email": "Email"
+    "Email": "Email",
+    "LikesCount": "Like count"
   },
   "SearchPage": {
     "SearchResults": "Search results:",

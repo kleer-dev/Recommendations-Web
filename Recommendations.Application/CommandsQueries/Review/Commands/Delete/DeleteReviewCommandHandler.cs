@@ -1,4 +1,5 @@
 using MediatR;
+using Recommendations.Application.CommandsQueries.Like.Commands.SetUserLikesCount;
 using Recommendations.Application.CommandsQueries.Review.Queries.Get;
 using Recommendations.Application.Common.Interfaces;
 
@@ -20,8 +21,11 @@ public class DeleteReviewCommandHandler : IRequestHandler<DeleteReviewCommand, U
         CancellationToken cancellationToken)
     {
         var review = await GetReview(request.ReviewId, cancellationToken);
+        
         _context.Reviews.Remove(review);
         await _context.SaveChangesAsync(cancellationToken);
+
+        await SetUserLikesCount(review.User.Id, cancellationToken);
 
         return Unit.Value;
     }
@@ -36,5 +40,15 @@ public class DeleteReviewCommandHandler : IRequestHandler<DeleteReviewCommand, U
         var review = await _mediator.Send(getReviewQuery, cancellationToken);
 
         return review;
+    }
+    
+    private async Task SetUserLikesCount(Guid? userId,
+        CancellationToken cancellationToken)
+    {
+        var setUserLikeQuery = new SetUserLikesCountQuery
+        {
+            UserId = userId
+        };
+        await _mediator.Send(setUserLikeQuery, cancellationToken);
     }
 }

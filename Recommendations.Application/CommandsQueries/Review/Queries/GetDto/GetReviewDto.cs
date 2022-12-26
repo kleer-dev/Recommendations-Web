@@ -7,9 +7,10 @@ public class GetReviewDto : IMapWith<Domain.Review>
 {
     public string AuthorName { get; set; }
     public double AverageRate { get; set; }
+    public int AuthorLikesCount { get; set; }
     public bool IsLike { get; set; }
     public double UserRating { get; set; }
-    public int LikeCount { get; set; }
+    public int LikesCount { get; set; }
     public string ReviewTitle { get; set; }
     public string ProductName { get; set; }
     public string Category { get; set; }
@@ -24,6 +25,8 @@ public class GetReviewDto : IMapWith<Domain.Review>
         profile.CreateMap<Domain.Review, GetReviewDto>()
             .ForMember(u => u.AuthorName,
                 o => o.MapFrom(u => u.User.UserName))
+            .ForMember(u => u.AuthorLikesCount,
+                o => o.MapFrom(u => u.User.LikesCount))
             .ForMember(u => u.AverageRate,
                 o => o.MapFrom(u => u.Product.AverageRate))
             .ForMember(u => u.ReviewTitle,
@@ -40,7 +43,7 @@ public class GetReviewDto : IMapWith<Domain.Review>
                 o => o.MapFrom(u => u.CreationDate))
             .ForMember(u => u.Description,
                 o => o.MapFrom(u => u.Description))
-            .ForMember(u => u.LikeCount,
+            .ForMember(u => u.LikesCount,
                 o => o.MapFrom(u => u.Likes
                     .Count(l => l.Status)))
             .ForMember(u => u.Tags,

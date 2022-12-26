@@ -1,5 +1,7 @@
 export interface ReviewPreviewModel {
   id: string
+  authorName: string
+  authorLikesCount: number
   reviewTitle: string
   productName: string
   creationDate: Date

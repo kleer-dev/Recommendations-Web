@@ -115,11 +115,7 @@ import {SearchPageComponent} from "./search-page/search-page.component";
     })
   ],
   providers: [
-    {
-      provide: HTTP_INTERCEPTORS,
-      useClass: AuthInterceptor,
-      multi: true
-    }
+
   ],
   bootstrap: [AppComponent]
 })

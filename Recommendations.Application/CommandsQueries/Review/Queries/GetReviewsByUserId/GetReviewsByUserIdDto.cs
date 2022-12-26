@@ -10,7 +10,7 @@ public class GetReviewsByUserIdDto : IMapWith<Domain.Review>
     public DateTime CreationDate { get; set; }
     public string Category { get; set; }
     public string Product { get; set; }
-    public int LikeCount { get; set; }
+    public int LikesCount { get; set; }
     public int CommentsCount { get; set; }
     public double AverageRate { get; set; }
     
@@ -27,7 +27,7 @@ public class GetReviewsByUserIdDto : IMapWith<Domain.Review>
                 o => o.MapFrom(u => u.Category.Name))
             .ForMember(u => u.Product,
                 o => o.MapFrom(u => u.Product.Name))
-            .ForMember(u => u.LikeCount,
+            .ForMember(u => u.LikesCount,
                 o => o.MapFrom(u => u.Likes
                     .Count(l => l.Status)))
             .ForMember(u => u.CommentsCount,
