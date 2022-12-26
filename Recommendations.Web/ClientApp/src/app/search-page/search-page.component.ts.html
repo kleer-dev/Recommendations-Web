@@ -2,9 +2,18 @@
 
   <app-data-loader class="h-100 w-100" *ngIf="!this.waiter"></app-data-loader>
 
+  <h5 class="w-100 d-flex justify-content-center mb-3">
+    {{'SearchPage.SearchResults' | translate}}
+  </h5>
   <div *ngIf="this.waiter" class="row w-100 d-flex align-items-center justify-content-center p-0 m-0" >
-    <div class="col m-2 d-flex flex-column review" *ngFor="let review of reviews">
 
+    <h6 class="w-100 d-flex justify-content-center mt-2"
+        *ngIf="reviews.length === 0">
+      {{'SearchPage.NothingWasFound' | translate}}
+    </h6>
+
+
+    <div class="col m-2 d-flex flex-column review" *ngFor="let review of reviews">
       <form  [formGroup]="reviewForm">
         <h6 class="w-100 d-flex justify-content-center">
           {{review.creationDate | date:'d.M.yy, HH:MM'}}

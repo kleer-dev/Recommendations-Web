@@ -104,5 +104,9 @@
     "Users": "Пользователи",
     "UserName": "Имя пользователя",
     "Email": "Почта"
+  },
+  "SearchPage": {
+    "SearchResults": "Результаты поиска:",
+    "NothingWasFound": "Ничего не найдено"
   }
 }

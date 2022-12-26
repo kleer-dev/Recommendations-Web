@@ -17,8 +17,7 @@ export class SearchPageComponent implements OnInit {
   currentQuery!: string | null;
 
   constructor(private activatedRoute: ActivatedRoute,
-              private searchService: SearchService,
-              private cdr: ChangeDetectorRef) {
+              private searchService: SearchService,) {
     this.activatedRoute.params.subscribe(value => this.ngOnInit())
   }
 
