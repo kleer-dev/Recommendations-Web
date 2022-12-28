@@ -5,5 +5,5 @@ namespace Recommendations.Application.CommandsQueries.Review.Queries.GetMostRate
 
 public class GetMostRatedListQuery : IRequest<GetAllReviewsVm>
 {
-    public int Count { get; set; }
+    public int? Count { get; set; }
 }

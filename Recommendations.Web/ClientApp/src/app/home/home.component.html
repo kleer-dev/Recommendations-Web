@@ -39,14 +39,16 @@
 
   <app-data-loader class="h-100 w-100" *ngIf="!this.reviewService.waiter"></app-data-loader>
 
-  <div *ngIf="this.reviewService.waiter" class="row w-100 d-flex align-items-center justify-content-center p-0 m-0" >
-    <div class="col m-2 d-flex flex-column review" *ngFor="let review of reviewService.reviews">
+  <div class="w-100 d-flex align-items-center m-0 p-0 justify-content-center flex-wrap">
 
-      <form  [formGroup]="reviewForm">
+    <div class="col m-2 review" *ngFor="let review of reviewService.reviews">
+      <form class="d-flex justify-content-between flex-column w-100" [formGroup]="reviewForm">
         <h6 class="w-100 d-flex justify-content-center">
           {{review.creationDate | date:'d.M.yy, HH:MM'}}
         </h6>
-        <img class="review-img mb-2" src="https://i.playground.ru/p/YObfBCTfBy13HqoM7Ijk7Q.jpeg" alt="">
+        <div class="d-flex w-100 justify-content-center align-items-center">
+          <img *ngIf="review.imageUrl !== ''" class="review-img mb-2" src="{{review.imageUrl}}" alt="">
+        </div>
         <div class="mb-2 d-flex flex-column w-100 p-2">
           <input formControlName="id" type="hidden" value="{{review.id}}">
           <span class="clip mb-1 w-100 fw-bold fs-6">{{review.reviewTitle}}</span>
@@ -63,6 +65,9 @@
         </a>
       </form>
     </div>
+
+
+
   </div>
 
 </div>

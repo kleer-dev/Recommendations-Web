@@ -22,13 +22,16 @@ public class GetMostRatedListQueryHandler
     public async Task<GetAllReviewsVm> Handle(GetMostRatedListQuery request,
         CancellationToken cancellationToken)
     {
+        if (request.Count is null)
+            throw new NullReferenceException("Missing reviews count");
+        
         var reviews = await _context.Reviews
             .Include(r => r.Tags)
             .Include(r => r.Category)
             .Include(r => r.Product)
             .Include(r => r.Product.UserRatings)
             .OrderByDescending(r => r.Product.AverageRate)
-            .Take(request.Count)
+            .Take(request.Count.Value)
             .ProjectTo<GetAllReviewsDto>(_mapper.ConfigurationProvider)
             .ToListAsync(cancellationToken);
 

@@ -15,12 +15,16 @@
           <h6>{{'ReviewForm.AddImage' | translate}}</h6>
           <ngx-dropzone accept="image/png, image/jpeg" class="w-100
               d-flex justify-content-center" (change)="onSelectImage($event)">
-            <ngx-dropzone-preview class="w-100" [removable]="true" (removed)="onRemoveImage(file)">
-              <ngx-dropzone-label *ngIf="file != undefined" class="w-100">
-                {{ file!.name! }} {{ file!.type! }}
-              </ngx-dropzone-label>
-              <ngx-dropzone-label *ngIf="file == undefined" class="w-100">{{'ReviewForm.AddImage' | translate}}</ngx-dropzone-label>
-            </ngx-dropzone-preview>
+            <ngx-dropzone-image-preview *ngIf="file !== undefined"
+                                        [file]="file!" class="w-100"
+                                        [removable]="true"
+                                        (removed)="onRemoveImage(file)"
+
+            >
+            </ngx-dropzone-image-preview>
+            <ngx-dropzone-label *ngIf="file === undefined"
+                                class="w-100">{{'ReviewForm.AddImage' | translate}}
+            </ngx-dropzone-label>
           </ngx-dropzone>
         </div>
         <div class="row">

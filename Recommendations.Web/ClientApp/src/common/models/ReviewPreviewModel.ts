@@ -8,4 +8,5 @@ export interface ReviewPreviewModel {
   category: string
   averageRate: number
   tags: string[]
+  imageUrl: string
 }

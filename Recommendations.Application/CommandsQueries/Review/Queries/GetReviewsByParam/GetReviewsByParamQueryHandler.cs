@@ -30,7 +30,7 @@ public class GetReviewsByParamQueryHandler
                 await GetMostRatedReviews(request.Count, cancellationToken),
             FilteringParameters.Recent =>
                 await GetRecentReviews(request.Count, cancellationToken),
-            _ => await GetAllReviews(cancellationToken)
+            _ => throw new ArgumentOutOfRangeException()
         };
 
         if (request.Tag != null)
@@ -39,14 +39,7 @@ public class GetReviewsByParamQueryHandler
         return new GetAllReviewsVm { Reviews = reviews };
     }
 
-    private async Task<List<GetAllReviewsDto>> GetAllReviews(CancellationToken cancellationToken)
-    {
-        var getAllReviewQuery = new GetAllReviewsQuery();
-        var reviewsVm = await _mediator.Send(getAllReviewQuery, cancellationToken);
-        return reviewsVm.Reviews.ToList();
-    }
-
-    private async Task<List<GetAllReviewsDto>> GetRecentReviews(int count,
+    private async Task<List<GetAllReviewsDto>> GetRecentReviews(int? count,
         CancellationToken cancellationToken)
     {
         var getRecentReviewsQuery = new GetRecentReviewsQuery
@@ -58,7 +51,7 @@ public class GetReviewsByParamQueryHandler
         return reviewsVm.Reviews.ToList();
     }
 
-    private async Task<List<GetAllReviewsDto>> GetMostRatedReviews(int count,
+    private async Task<List<GetAllReviewsDto>> GetMostRatedReviews(int? count,
         CancellationToken cancellationToken)
     {
         var getMostRatedReviewsQuery = new GetMostRatedListQuery

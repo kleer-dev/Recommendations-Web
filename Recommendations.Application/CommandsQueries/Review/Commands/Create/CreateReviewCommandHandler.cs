@@ -14,13 +14,15 @@ public class CreateReviewCommandHandler : IRequestHandler<CreateReviewCommand, G
     private readonly IRecommendationsDbContext _context;
     private readonly IMediator _mediator;
     private readonly IMapper _mapper;
+    private readonly IFirebaseService _firebase;
 
     public CreateReviewCommandHandler(IRecommendationsDbContext context,
-        IMediator mediator, IMapper mapper)
+        IMediator mediator, IMapper mapper, IFirebaseService firebase)
     {
         _context = context;
         _mediator = mediator;
         _mapper = mapper;
+        _firebase = firebase;
     }
 
     public async Task<Guid> Handle(CreateReviewCommand request,
@@ -30,7 +32,7 @@ public class CreateReviewCommandHandler : IRequestHandler<CreateReviewCommand, G
         review.User = await GetUser(request.UserId, cancellationToken);
         review.Tags = await GetTags(request, cancellationToken);
         review.Category = await GetCategory(request, cancellationToken);
-        review.ImageUrl = await GetImageUrl(request.Image!);
+        review.ImageUrl = await GetImageUrl(request.Image);
         review.Product = new Domain.Product { Name = request.ProductName };
         review.CreationDate = DateTime.UtcNow;
 
@@ -86,7 +88,8 @@ public class CreateReviewCommandHandler : IRequestHandler<CreateReviewCommand, G
     {
         if (file is null)
             return string.Empty;
+        var imageLink = await _firebase.UploadImage(file);
 
-        return "";
+        return imageLink;
     }
 }

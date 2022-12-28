@@ -16,8 +16,8 @@
 
     </div>
 
-    <div class="row w-100 p-0 d-flex justify-content-center mb-3">
-      <img class="review-image" alt="..." src="https://camo.githubusercontent.com/ddf07e1ed9b55fe8b86f983cc98892f845365b8e3c7100916c0a4b7b1a6bee20/68747470733a2f2f686162726173746f726167652e6f72672f776562742f68752f65712f68392f6875657168396f773462313569766f6e3268356a6168617879636b2e6a706567">
+    <div *ngIf="review.imageUrl !== ''" class="row w-100 h-auto p-0 d-flex justify-content-center mb-3">
+      <img class="review-image" alt="..." src="{{review.imageUrl}}">
     </div>
 
     <div class="row d-flex flex-column p-0 mb-3">

@@ -1,7 +1,7 @@
 .review{
   display: flex;
-  justify-content: center;
-  align-items: center;
+  justify-content: space-around;
+  /*align-items: center;*/
   border: 1px solid lightgrey;
   border-radius: 5px;
   padding: 15px;
@@ -9,10 +9,13 @@
   min-width: 300px;
   min-height: 450px;
   max-height: 450px;
+  height: auto !important;
 }
 
 .review-img{
-  width: 100%;
+  max-width: 100%;
+  width: auto;
+  max-height: 150px;
   border: 1px solid #3f3f3f;
   border-radius: 5px;
 }
@@ -66,4 +69,5 @@
 .tag-container{
   overflow-y: auto;
   height: auto;
+  max-height: 250px;
 }

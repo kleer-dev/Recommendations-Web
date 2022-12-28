@@ -1,7 +1,7 @@
 import {Component} from '@angular/core';
 import {FormControl, FormGroup} from "@angular/forms";
 import {FilteringParameters} from "../../common/consts/FilteringParameters";
-import {ActivatedRoute, Route, Router} from "@angular/router";
+import {ActivatedRoute, Router} from "@angular/router";
 import {ReviewsService} from "../../common/services/reviews/reviews.service";
 import {TagService} from "../../common/services/tag/tag-service";
 import {UserService} from "../../common/services/user/user.service";

@@ -5,5 +5,5 @@ namespace Recommendations.Application.CommandsQueries.Review.Queries.GetRecentLi
 
 public class GetRecentReviewsQuery : IRequest<GetAllReviewsVm>
 {
-    public int Count { get; set; }
+    public int? Count { get; set; }
 }

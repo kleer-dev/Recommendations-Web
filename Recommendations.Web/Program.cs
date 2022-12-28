@@ -7,7 +7,6 @@ using Recommendations.Persistence;
 using Recommendations.Web.Middlewares;
 
 var builder = WebApplication.CreateBuilder(args);
-var policyOptions = new CookiePolicyOptions { Secure = CookieSecurePolicy.Always };
 
 builder.Configuration.AddEnvironmentVariables()
     .AddUserSecrets(Assembly.GetExecutingAssembly(), true);
@@ -41,7 +40,6 @@ app.UseHttpsRedirection();
 app.UseStaticFiles();
 app.UseRouting();
 
-app.UseCookiePolicy(policyOptions);
 app.UseAuthentication();
 app.UseAuthorization();
 

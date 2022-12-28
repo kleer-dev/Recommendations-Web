@@ -40,6 +40,7 @@ import {LogoutComponent} from "./logout/logout.component";
 import {AdminPageComponent} from "./admin-page/admin-page.component";
 import {RoleGuard} from "../common/guards/admin-role.guard";
 import {SearchPageComponent} from "./search-page/search-page.component";
+import {NgxGridModule} from "@egjs/ngx-grid";
 
 @NgModule({
   declarations: [
@@ -112,7 +113,8 @@ import {SearchPageComponent} from "./search-page/search-page.component";
         deps: [HttpClient],
       },
       useDefaultLang: false,
-    })
+    }),
+    NgxGridModule,
   ],
   providers: [
     {
