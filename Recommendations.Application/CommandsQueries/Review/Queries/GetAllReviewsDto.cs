@@ -13,7 +13,7 @@ public class GetAllReviewsDto : IMapWith<Domain.Review>
     public string Category { get; set; }
     public DateTime CreationDate { get; set; }
     public double AverageRate { get; set; }
-    public string ImageUrl { get; set; }
+    public string? ImageUrl { get; set; }
     public List<string> Tags { get; set; }
     
     public void Mapping(Profile profile)
@@ -33,8 +33,6 @@ public class GetAllReviewsDto : IMapWith<Domain.Review>
                 o => o.MapFrom(u => u.Category.Name))
             .ForMember(u => u.CreationDate,
                 o => o.MapFrom(u => u.CreationDate))
-            .ForMember(u => u.ImageUrl,
-                o => o.MapFrom(u => u.ImageUrl))
             .ForMember(u => u.Tags,
                 o => o.MapFrom(u => 
                     u.Tags.Select(t => t.Name)));

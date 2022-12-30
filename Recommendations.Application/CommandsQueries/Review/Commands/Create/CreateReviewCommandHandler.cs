@@ -5,6 +5,7 @@ using Microsoft.EntityFrameworkCore;
 using Recommendations.Application.CommandsQueries.Category.Queries.GetByName;
 using Recommendations.Application.CommandsQueries.Tag.Commands.Create;
 using Recommendations.Application.CommandsQueries.User.Queries.Get;
+using Recommendations.Application.Common.Firebase;
 using Recommendations.Application.Common.Interfaces;
 
 namespace Recommendations.Application.CommandsQueries.Review.Commands.Create;
@@ -14,7 +15,7 @@ public class CreateReviewCommandHandler : IRequestHandler<CreateReviewCommand, G
     private readonly IRecommendationsDbContext _context;
     private readonly IMediator _mediator;
     private readonly IMapper _mapper;
-    private readonly IFirebaseService _firebase;
+    private readonly IFirebaseService _firebaseService;
 
     public CreateReviewCommandHandler(IRecommendationsDbContext context,
         IMediator mediator, IMapper mapper, IFirebaseService firebase)
@@ -22,7 +23,7 @@ public class CreateReviewCommandHandler : IRequestHandler<CreateReviewCommand, G
         _context = context;
         _mediator = mediator;
         _mapper = mapper;
-        _firebase = firebase;
+        _firebaseService = firebase;
     }
 
     public async Task<Guid> Handle(CreateReviewCommand request,
@@ -32,15 +33,14 @@ public class CreateReviewCommandHandler : IRequestHandler<CreateReviewCommand, G
         review.User = await GetUser(request.UserId, cancellationToken);
         review.Tags = await GetTags(request, cancellationToken);
         review.Category = await GetCategory(request, cancellationToken);
-        review.ImageUrl = await GetImageUrl(request.Image);
         review.Product = new Domain.Product { Name = request.ProductName };
         review.CreationDate = DateTime.UtcNow;
-
+        review.Images = await AddImages(request.Images);
+        
         await AddTags(request.Tags, cancellationToken);
-
         await _context.Reviews.AddAsync(review, cancellationToken);
         await _context.SaveChangesAsync(cancellationToken);
-
+        
         return review.Id;
     }
 
@@ -84,12 +84,9 @@ public class CreateReviewCommandHandler : IRequestHandler<CreateReviewCommand, G
         return category;
     }
 
-    private async Task<string> GetImageUrl(IFormFile? file)
+    private async Task<List<Domain.Image>> AddImages(IEnumerable<IFormFile> files)
     {
-        if (file is null)
-            return string.Empty;
-        var imageLink = await _firebase.UploadImage(file);
-
-        return imageLink;
+        var imageData = await _firebaseService.UploadFiles(files, Guid.NewGuid().ToString());
+        return _mapper.Map<IEnumerable<ImageData>, List<Domain.Image>>(imageData);
     }
-}
+} 

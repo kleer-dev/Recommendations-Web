@@ -5,6 +5,7 @@ import {ActivatedRoute, Router} from "@angular/router";
 import {formToFormData} from "src/common/functions/formToFormData";
 import {UpdateReviewModel} from "../../common/models/UpdateReviewModel";
 import {ReviewFormModel} from "../../common/models/ReviewFormModel";
+import {Log} from "oidc-client";
 
 @Component({
   selector: 'app-update-review',
@@ -15,6 +16,8 @@ export class UpdateReviewComponent implements OnInit{
   waiter!: Promise<boolean>
   reviewId: number = 0
   review!: UpdateReviewModel
+  files: File[] = []
+  tags: string[] = []
 
   userId: number | null = null
 
@@ -32,6 +35,8 @@ export class UpdateReviewComponent implements OnInit{
       .subscribe({
         next: data => {
           this.review = data
+          this.getImages(data.imagesUrls)
+          this.tags = data.tags
           this.reviewForm = new FormGroup({
             reviewId: new FormControl(this.reviewId),
             title: new FormControl(data.title, [
@@ -57,7 +62,7 @@ export class UpdateReviewComponent implements OnInit{
               Validators.maxLength(20000)
             ]),
             authorRate: new FormControl(data.authorRate),
-            image: new FormControl(new File([], ''))
+            images: new FormControl(this.files)
           })
           this.waiter = Promise.resolve(true)
         }
@@ -71,13 +76,22 @@ export class UpdateReviewComponent implements OnInit{
   }
 
   onSubmitForm() {
-    this.http.put("api/reviews", formToFormData(this.reviewForm.value))
+    this.http.put("api/reviews", formToFormData(this.reviewForm))
       .subscribe({
         next: _ => window.history.back(),
         error: err => {
           console.error(err)
         }
       })
+  }
+
+  getImages(urls: Array<string>) {
+    urls.forEach(url => {
+      this.http.get(url, {responseType: 'blob'}).subscribe(blob => {
+        this.files.push(new File([blob], 'filename.ext'));
+      });
+    })
+    console.log(this.files)
   }
 }
 

@@ -20,6 +20,15 @@
 }
 
 ::ng-deep ngx-dropzone-image-preview img {
-  max-width:100%;
-  height:auto;
+  max-width: 100%;
+  height: auto;
+}
+
+::ng-deep markdown p {
+  width: 100%;
+  -webkit-hyphens: auto;
+  -moz-hyphens: auto;
+  -ms-hyphens: auto;
+  hyphens: auto;
+  overflow-wrap: break-word;
 }

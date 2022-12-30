@@ -15,30 +15,53 @@ public class FirebaseService : IFirebaseService
         _bucketName = bucketName;
     }
 
-    public async Task<string> UploadImage(IFormFile formFile)
+    public async Task<ImageData> UploadFile(IFormFile formFile, string folderName)
     {
         var fileStream = formFile.OpenReadStream();
         var fileType = formFile.ContentType;
-        var folderName = Guid.NewGuid().ToString();
         var fileName = $"{folderName}/{formFile.FileName}";
 
         await CreateFolder(folderName);
-        await _storageClient.UploadObjectAsync(_bucketName, 
+        var uploadResponse = await _storageClient.UploadObjectAsync(_bucketName,
             fileName, fileType, fileStream);
-        
-        return await GetFileLink(fileName);
+
+        return new ImageData(fileName, folderName, uploadResponse.MediaLink);
     }
 
-    private async Task<string> GetFileLink(string fileName)
+    public async Task<IEnumerable<ImageData>> UploadFiles(IEnumerable<IFormFile> formFiles,
+        string folderName)
     {
-        var file = await _storageClient.GetObjectAsync(_bucketName, fileName);
-        return file.MediaLink;
+        var imagesData = new List<ImageData>();
+        foreach (var file in formFiles)
+        {
+            var imageData = await UploadFile(file, folderName);
+            imagesData.Add(imageData);
+        }
+
+        return imagesData;
     }
 
-    private async Task CreateFolder(string folderName)
+    public async Task CreateFolder(string folderName)
     {
         const string folderContentType = "application/x-directory";
         await _storageClient.UploadObjectAsync(_bucketName, $"{folderName}/",
             folderContentType, new MemoryStream());
+    }
+
+    public async Task DeleteFolder(string folderName)
+    {
+        if (string.IsNullOrEmpty(folderName))
+            return;
+        var folders = _storageClient
+            .ListObjectsAsync(_bucketName, folderName);
+        await foreach (var folder in folders)
+            await _storageClient.DeleteObjectAsync(_bucketName, folder.Name);
+    }
+
+    public async Task<IEnumerable<ImageData>> UpdateFiles(IEnumerable<IFormFile> files,
+        string folderName)
+    {
+        await DeleteFolder(folderName);
+        return await UploadFiles(files, folderName);
     }
 }

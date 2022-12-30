@@ -16,8 +16,22 @@
 
     </div>
 
-    <div *ngIf="review.imageUrl !== ''" class="row w-100 h-auto p-0 d-flex justify-content-center mb-3">
-      <img class="review-image" alt="..." src="{{review.imageUrl}}">
+    <div id="carouselExampleControls" class="carousel slide mb-3" data-bs-ride="carousel">
+      <div class="carousel-inner h-100">
+        <div class="carousel-item h-100 carousel-block"
+             [ngClass]="{'active': i === 1}"
+             *ngFor="let image of review.imagesUrls; let i = index">
+          <img src="{{image}}" class="d-block w-auto" alt="...">
+        </div>
+      </div>
+      <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleControls" data-bs-slide="prev">
+        <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+        <span class="visually-hidden">Previous</span>
+      </button>
+      <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleControls" data-bs-slide="next">
+        <span class="carousel-control-next-icon" aria-hidden="true"></span>
+        <span class="visually-hidden">Next</span>
+      </button>
     </div>
 
     <div class="row d-flex flex-column p-0 mb-3">

@@ -13,7 +13,7 @@ public class CreateReviewCommand : IRequest<Guid>, IMapWith<Domain.Review>
     public string CategoryName { get; set; }
     public string Description { get; set; }
     public int AuthorRate { get; set; }
-    public IFormFile? Image { get; set; }
+    public IFormFile[] Images { get; set; }
     public string[] Tags { get; set; }
     
     public void Mapping(Profile profile)
@@ -28,6 +28,8 @@ public class CreateReviewCommand : IRequest<Guid>, IMapWith<Domain.Review>
             .ForMember(u => u.AuthorRate,
                 o => o.MapFrom(u => u.AuthorRate))
             .ForMember(u => u.Tags,
+                o => o.Ignore())
+            .ForMember(u => u.Images,
                 o => o.Ignore())
             .ForMember(u => u.Category,
             o => o.Ignore());

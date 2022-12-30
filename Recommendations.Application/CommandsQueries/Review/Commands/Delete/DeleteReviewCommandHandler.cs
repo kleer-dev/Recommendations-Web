@@ -1,4 +1,5 @@
 using MediatR;
+using Recommendations.Application.CommandsQueries.Image.Queries.GetImagesByReviewId;
 using Recommendations.Application.CommandsQueries.Like.Commands.SetUserLikesCount;
 using Recommendations.Application.CommandsQueries.Review.Queries.Get;
 using Recommendations.Application.Common.Interfaces;
@@ -9,12 +10,14 @@ public class DeleteReviewCommandHandler : IRequestHandler<DeleteReviewCommand, U
 {
     private readonly IRecommendationsDbContext _context;
     private readonly IMediator _mediator;
+    private readonly IFirebaseService _firebaseService;
 
     public DeleteReviewCommandHandler(IRecommendationsDbContext context,
-        IMediator mediator)
+        IMediator mediator, IFirebaseService firebaseService)
     {
         _context = context;
         _mediator = mediator;
+        _firebaseService = firebaseService;
     }
 
     public async Task<Unit> Handle(DeleteReviewCommand request,
@@ -24,8 +27,10 @@ public class DeleteReviewCommandHandler : IRequestHandler<DeleteReviewCommand, U
         
         _context.Reviews.Remove(review);
         await _context.SaveChangesAsync(cancellationToken);
-
+        
         await SetUserLikesCount(review.User.Id, cancellationToken);
+        if (review.Images.Count > 0 || review.Images is not null)
+            await _firebaseService.DeleteFolder(review.Images[0].FolderName);
 
         return Unit.Value;
     }

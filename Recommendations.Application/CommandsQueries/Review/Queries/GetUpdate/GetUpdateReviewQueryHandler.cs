@@ -25,6 +25,7 @@ public class GetUpdateReviewQueryHandler
             .Include(r => r.Tags)
             .Include(r => r.Product)
             .Include(r => r.Category)
+            .Include(r => r.Images)
             .FirstOrDefaultAsync(r => r.Id == request.ReviewId, cancellationToken);
         if (review is null)
             throw new NullReferenceException($"The review with id {request.ReviewId} not found");

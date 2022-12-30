@@ -46,8 +46,8 @@
         <h6 class="w-100 d-flex justify-content-center">
           {{review.creationDate | date:'d.M.yy, HH:MM'}}
         </h6>
-        <div class="d-flex w-100 justify-content-center align-items-center">
-          <img *ngIf="review.imageUrl !== ''" class="review-img mb-2" src="{{review.imageUrl}}" alt="">
+        <div *ngIf='review.imageUrl' class="d-flex w-100 justify-content-center align-items-center">
+          <img loading="lazy" class="review-img mb-2" src="{{review.imageUrl}}" alt="">
         </div>
         <div class="mb-2 d-flex flex-column w-100 p-2">
           <input formControlName="id" type="hidden" value="{{review.id}}">

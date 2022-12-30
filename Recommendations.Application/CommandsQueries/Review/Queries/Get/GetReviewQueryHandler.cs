@@ -22,7 +22,9 @@ public class GetReviewQueryHandler : IRequestHandler<GetReviewQuery, Domain.Revi
             .Include(r => r.Category)
             .Include(r => r.Likes)
             .Include(r => r.Tags)
-            .Include(r => r.Product.UserRatings)
+            .Include(r => r.Product)
+            .ThenInclude(r => r.UserRatings)
+            .Include(r => r.Images)
             .FirstOrDefaultAsync(r => r.Id == request.ReviewId, cancellationToken);
         if (review is null)
             throw new NullReferenceException($"Review with id: {request.ReviewId} not found");

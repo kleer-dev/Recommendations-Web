@@ -105,3 +105,15 @@
   max-height: 500px;
   min-height: 200px;
 }
+
+/*.carousel {*/
+/*  height: 500px;*/
+/*  overflow: hidden;*/
+/*}*/
+
+/*.carousel .carousel-item img {*/
+/*  !*top: 50%;*!*/
+/*  !*left: 50%;*!*/
+/*  !*object-position: center;*!*/
+/*  !*object-fit: contain;*!*/
+/*}*/

@@ -1,6 +1,7 @@
 using AutoMapper;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
+using Recommendations.Application.CommandsQueries.Image.Queries.GetImagesByReviewId;
 using Recommendations.Application.CommandsQueries.Like.Queries.Get;
 using Recommendations.Application.CommandsQueries.Rating.Queries.GetUserRating;
 using Recommendations.Application.CommandsQueries.Review.Queries.Get;
@@ -27,6 +28,7 @@ public class GetReviewDtoQueryHandler : IRequestHandler<GetReviewDtoQuery, GetRe
     {
         var review = await GetReview(request.ReviewId, cancellationToken);
         var getReviewDto = _mapper.Map<GetReviewDto>(review);
+        getReviewDto.ImagesUrls = await GetImagesUrls(request.ReviewId, cancellationToken);
         getReviewDto.IsLike = await GetLikeStatus(request.UserId, request.ReviewId, cancellationToken);
         getReviewDto.UserRating = await GetUserRating(request.UserId, review.Product.Id, cancellationToken);
 
@@ -69,5 +71,16 @@ public class GetReviewDtoQueryHandler : IRequestHandler<GetReviewDtoQuery, GetRe
         var rating = await _mediator.Send(getRatingQuery, cancellationToken);
 
         return rating is null ? 1 : rating.Value;
+    }
+    
+    private async Task<List<string>> GetImagesUrls(Guid reviewId,
+        CancellationToken cancellationToken)
+    {
+        var getImagesByReviewIdQuery = new GetImagesByReviewIdQuery
+        {
+            ReviewId = reviewId
+        };
+        var images = await _mediator.Send(getImagesByReviewIdQuery, cancellationToken);
+        return images.Select(i => i.Url).ToList();
     }
 }

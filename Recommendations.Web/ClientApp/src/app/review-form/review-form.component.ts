@@ -14,7 +14,7 @@ import {ReviewFormModel} from "src/common/models/ReviewFormModel";
   styleUrls: ['review-form.component.css']
 })
 export class ReviewFormComponent {
-  file?: File;
+  @Input() @Output() files?: File[] = [];
   rate = 1;
   @Input() @Output() tags!: string[]
   categories!: string[]
@@ -52,14 +52,15 @@ export class ReviewFormComponent {
     if (event.addedFiles[0] === undefined)
       return;
 
-    this.file = <File>event.addedFiles[0]
+    this.files!.push(<File>event.addedFiles[0])
     this.reviewForm.patchValue({
-      image: <any>this.file
+      images: <any>this.files
     })
   }
 
   onRemoveImage(event: any) {
-    this.file = undefined;
+    let index = this.files!.indexOf(event)
+    this.files!.splice(index, 1)
   }
 
   requestAutocompleteTags = (text: any): Observable<any> => {

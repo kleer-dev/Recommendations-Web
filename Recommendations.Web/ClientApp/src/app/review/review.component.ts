@@ -37,6 +37,7 @@ export class ReviewComponent implements OnInit {
       .subscribe({
         next: data => {
           this.review = data
+          console.log(data)
           this.waiter = Promise.resolve(true)
         },
         complete: () => {
