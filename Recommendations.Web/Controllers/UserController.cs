@@ -5,8 +5,10 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Recommendations.Application.CommandsQueries.ExternalAuthentication.Queries.GetAuthenticationProperties;
 using Recommendations.Application.CommandsQueries.User.Commands.Registration;
+using Recommendations.Application.CommandsQueries.User.Queries;
 using Recommendations.Application.CommandsQueries.User.Queries.ExternalLoginCallback;
 using Recommendations.Application.CommandsQueries.User.Queries.GetAllUsers;
+using Recommendations.Application.CommandsQueries.User.Queries.GetUserInfo;
 using Recommendations.Application.CommandsQueries.User.Queries.Login;
 using Recommendations.Application.Common.Constants;
 using Recommendations.Domain;
@@ -33,12 +35,30 @@ public class UserController : BaseController
 
     [Authorize(Roles = Roles.Admin)]
     [HttpGet("get-all-users")]
-    public async Task<ActionResult<IEnumerable<GetAllUsersDto>>> GetAllUsers()
+    public async Task<ActionResult<IEnumerable<GetUserDto>>> GetAllUsers()
     {
         var getAllUsersQuery = new GetAllUsersQuery();
         var usersVm = await _mediator.Send(getAllUsersQuery);
 
         return usersVm.Users.ToList();
+    }
+
+    [Authorize]
+    [HttpGet("get-info")]
+    public async Task<ActionResult<GetUserDto>> GetInfo()
+    {
+        var getUserInfoQuery = new GetUserInfoQuery(UserId);
+        var userInfo = await _mediator.Send(getUserInfoQuery);
+        return Ok(userInfo);
+    }
+    
+    [Authorize(Roles = Roles.Admin)]
+    [HttpGet("get-info/{userId:guid}")]
+    public async Task<ActionResult<GetUserDto>> GetInfo(Guid userId)
+    {
+        var getUserInfoQuery = new GetUserInfoQuery(userId);
+        var userInfo = await _mediator.Send(getUserInfoQuery);
+        return Ok(userInfo);
     }
 
     [AllowAnonymous]

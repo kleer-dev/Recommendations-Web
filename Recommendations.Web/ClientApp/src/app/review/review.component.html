@@ -16,21 +16,25 @@
 
     </div>
 
-    <div id="carouselExampleControls" class="carousel slide mb-3" data-bs-ride="carousel">
-      <div class="carousel-inner h-100">
-        <div class="carousel-item h-100 carousel-block"
-             [ngClass]="{'active': i === 1}"
-             *ngFor="let image of review.imagesUrls; let i = index">
-          <img src="{{image}}" class="d-block w-auto" alt="...">
+    <div *ngIf="review.imagesUrls.length > 0" id="carouselExample" class="carousel slide mb-3 d-flex justify-content-center">
+      <div class="carousel-inner">
+        <div class="carousel-item" [ngClass]="{'active': i === 0}" *ngFor="let image of review.imagesUrls; let i = index">
+          <img src="{{image}}" class="d-block mx-auto" alt="...">
         </div>
       </div>
-      <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleControls" data-bs-slide="prev">
-        <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-        <span class="visually-hidden">Previous</span>
+      <button class="carousel-control-prev bg-opacity-50" type="button" data-bs-target="#carouselExample" data-bs-slide="prev">
+       <div class="slider-icon">
+         <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" class="bi bi-arrow-left" viewBox="0 0 16 16">
+           <path fill-rule="evenodd" d="M15 8a.5.5 0 0 0-.5-.5H2.707l3.147-3.146a.5.5 0 1 0-.708-.708l-4 4a.5.5 0 0 0 0 .708l4 4a.5.5 0 0 0 .708-.708L2.707 8.5H14.5A.5.5 0 0 0 15 8z"/>
+         </svg>
+       </div>
       </button>
-      <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleControls" data-bs-slide="next">
-        <span class="carousel-control-next-icon" aria-hidden="true"></span>
-        <span class="visually-hidden">Next</span>
+      <button class="carousel-control-next" type="button" data-bs-target="#carouselExample" data-bs-slide="next">
+       <div class="slider-icon">
+         <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" class="bi bi-arrow-right" viewBox="0 0 16 16">
+           <path fill-rule="evenodd" d="M1 8a.5.5 0 0 1 .5-.5h11.793l-3.147-3.146a.5.5 0 0 1 .708-.708l4 4a.5.5 0 0 1 0 .708l-4 4a.5.5 0 0 1-.708-.708L13.293 8.5H1.5A.5.5 0 0 1 1 8z"/>
+         </svg>
+       </div>
       </button>
     </div>
 

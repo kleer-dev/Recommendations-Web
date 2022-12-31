@@ -72,7 +72,6 @@ export class ReviewFormComponent {
 
   onTagAdd(tag: TagModel) {
     this.tags.push((<any>tag).value);
-    console.log(this.tags)
     this.reviewForm.patchValue({
       tags: this.tags
     })

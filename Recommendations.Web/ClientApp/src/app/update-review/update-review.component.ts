@@ -13,13 +13,14 @@ import {Log} from "oidc-client";
 })
 export class UpdateReviewComponent implements OnInit{
 
-  waiter!: Promise<boolean>
+  waiter: boolean = false
   reviewId: number = 0
   review!: UpdateReviewModel
-  files: File[] = []
   tags: string[] = []
 
   userId: number | null = null
+
+  files: File[] = []
 
   reviewForm!: ReviewFormModel
 
@@ -33,9 +34,9 @@ export class UpdateReviewComponent implements OnInit{
     this.reviewId = this.activatedRoute.snapshot.params['id']
     this.http.get<UpdateReviewModel>(`api/reviews/get-update-review/${this.reviewId}`)
       .subscribe({
-        next: data => {
+        next: async data => {
           this.review = data
-          this.getImages(data.imagesUrls)
+          await this.getImages(data.imagesUrls)
           this.tags = data.tags
           this.reviewForm = new FormGroup({
             reviewId: new FormControl(this.reviewId),
@@ -64,7 +65,7 @@ export class UpdateReviewComponent implements OnInit{
             authorRate: new FormControl(data.authorRate),
             images: new FormControl(this.files)
           })
-          this.waiter = Promise.resolve(true)
+          this.waiter = true
         }
       })
   }
@@ -76,22 +77,23 @@ export class UpdateReviewComponent implements OnInit{
   }
 
   onSubmitForm() {
+    this.waiter = false;
     this.http.put("api/reviews", formToFormData(this.reviewForm))
       .subscribe({
         next: _ => window.history.back(),
         error: err => {
           console.error(err)
+          this.waiter = true;
         }
       })
   }
 
-  getImages(urls: Array<string>) {
-    urls.forEach(url => {
-      this.http.get(url, {responseType: 'blob'}).subscribe(blob => {
-        this.files.push(new File([blob], 'filename.ext'));
-      });
-    })
-    console.log(this.files)
+  async getImages(urls: string[]){
+    let images = await Promise.all(urls.map(url =>
+      this.http.get(url, { responseType: 'blob' }).toPromise()));
+    this.files = images.map((image, index) => {
+      return new File([<BlobPart>image], `${index}.png`, { type: 'image/png' });
+    });
   }
 }
 

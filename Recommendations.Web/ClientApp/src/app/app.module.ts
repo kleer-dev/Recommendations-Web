@@ -41,6 +41,7 @@ import {AdminPageComponent} from "./admin-page/admin-page.component";
 import {RoleGuard} from "../common/guards/admin-role.guard";
 import {SearchPageComponent} from "./search-page/search-page.component";
 import {NgxGridModule} from "@egjs/ngx-grid";
+import {ReviewGridComponent} from "./reviews-grid/review-grid.component";
 
 @NgModule({
   declarations: [
@@ -62,7 +63,8 @@ import {NgxGridModule} from "@egjs/ngx-grid";
     UserPageComponent,
     LogoutComponent,
     AdminPageComponent,
-    SearchPageComponent
+    SearchPageComponent,
+    ReviewGridComponent
   ],
   imports: [
     BrowserModule.withServerTransition({appId: 'ng-cli-universal'}),

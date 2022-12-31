@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.EntityFrameworkCore;
 using Recommendations.Application.CommandsQueries.Category.Queries.GetByName;
 using Recommendations.Application.CommandsQueries.Tag.Commands.Create;
+using Recommendations.Application.CommandsQueries.Tag.Queries.GetTagListByNames;
 using Recommendations.Application.CommandsQueries.User.Queries.Get;
 using Recommendations.Application.Common.Firebase;
 using Recommendations.Application.Common.Interfaces;
@@ -29,6 +30,8 @@ public class CreateReviewCommandHandler : IRequestHandler<CreateReviewCommand, G
     public async Task<Guid> Handle(CreateReviewCommand request,
         CancellationToken cancellationToken)
     {
+        await AddTags(request.Tags, cancellationToken);
+        
         var review = _mapper.Map<Domain.Review>(request);
         review.User = await GetUser(request.UserId, cancellationToken);
         review.Tags = await GetTags(request, cancellationToken);
@@ -37,7 +40,6 @@ public class CreateReviewCommandHandler : IRequestHandler<CreateReviewCommand, G
         review.CreationDate = DateTime.UtcNow;
         review.Images = await AddImages(request.Images);
         
-        await AddTags(request.Tags, cancellationToken);
         await _context.Reviews.AddAsync(review, cancellationToken);
         await _context.SaveChangesAsync(cancellationToken);
         
@@ -65,11 +67,13 @@ public class CreateReviewCommandHandler : IRequestHandler<CreateReviewCommand, G
     private async Task<List<Domain.Tag>> GetTags(CreateReviewCommand request,
         CancellationToken cancellationToken)
     {
-        var tags = await _context.Tags
-            .Where(t => request.Tags.Any(n => n == t.Name))
-            .ToListAsync(cancellationToken);
+        var getTagListByNamesQuery = new GetTagListByNamesQuery()
+        {
+            Tags = request.Tags
+        };
+        var tags = await _mediator.Send(getTagListByNamesQuery, cancellationToken);
 
-        return tags;
+        return tags.ToList();
     }
 
     private async Task<Domain.Category> GetCategory(CreateReviewCommand request, 

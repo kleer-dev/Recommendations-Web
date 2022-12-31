@@ -1,7 +1,6 @@
 .review{
   display: flex;
   justify-content: space-around;
-  /*align-items: center;*/
   border: 1px solid lightgrey;
   border-radius: 5px;
   padding: 15px;
@@ -33,8 +32,8 @@
 }
 
 .clip{
-  white-space: nowrap; /* Отменяем перенос текста */
-  overflow: hidden; /* Обрезаем содержимое */
+  white-space: nowrap;
+  overflow: hidden;
   text-overflow: ellipsis;
   max-width: 250px;
 }
@@ -43,31 +42,4 @@
   width: auto;
   max-width: 150px;
   height: 100%;
-}
-
-.tag{
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  width: auto;
-  flex-wrap: wrap;
-  min-width: 20px;
-  background: black;
-  border-radius: 3px;
-  padding: 5px;
-  margin: 5px;
-  cursor: pointer;
-  transition: .1s all linear;
-  max-height: 50px;
-}
-
-.tag:hover{
-  box-shadow: -1px 0px 8px 0px rgba(4, 8, 9, 0.5);
-  transition: .1s all linear;
-}
-
-.tag-container{
-  overflow-y: auto;
-  height: auto;
-  max-height: 250px;
 }

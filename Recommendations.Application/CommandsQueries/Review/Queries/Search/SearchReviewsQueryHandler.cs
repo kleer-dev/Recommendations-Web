@@ -28,11 +28,8 @@ public class SearchReviewsQueryHandler
     {
         var searchReviews = await _algoliaService.Search(request.SearchQuery);
         var reviews = _mapper.Map<List<Domain.Review>, List<GetAllReviewsDto>>(searchReviews);
-        
-        await Parallel.ForEachAsync(reviews, cancellationToken, async (review, token) =>
-        {
+        foreach (var review in reviews)
             review.ImageUrl = await GetFirstImageUrl(review.Id, cancellationToken);
-        });
 
         return new GetAllReviewsVm {Reviews = reviews};
     }

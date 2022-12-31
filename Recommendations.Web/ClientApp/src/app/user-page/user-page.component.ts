@@ -5,6 +5,8 @@ import {ReviewUserPageModel} from "../../common/models/ReviewUserPageModel";
 import {FormControl, FormGroup} from "@angular/forms";
 import {FiltrationService} from "../../common/services/filtration/filtration.service";
 import {ActivatedRoute} from "@angular/router";
+import {UserModel} from "../../common/models/UserModel";
+import {UserService} from "../../common/services/user/user.service";
 
 @Component({
   selector: 'app-user-page',
@@ -12,16 +14,18 @@ import {ActivatedRoute} from "@angular/router";
   styleUrls: ['user-page.component.css']
 })
 export class UserPageComponent implements OnInit {
-
+  waiter!: Promise<boolean>
   ColumnMode = ColumnMode;
   reviews!: ReviewUserPageModel[]
   rows!: ReviewUserPageModel[]
+  userData!: UserModel
 
   userId?: number | null = null
 
   constructor(public reviewsService: ReviewsService,
               private filtrationService: FiltrationService,
-              private activatedRoute: ActivatedRoute) {
+              private activatedRoute: ActivatedRoute,
+              private userService: UserService) {
 
   }
 
@@ -33,6 +37,22 @@ export class UserPageComponent implements OnInit {
   ngOnInit() {
     this.getUserIdFromQueryParams()
     this.getReviews()
+    this.getUserInfo(this.userId!)
+  }
+
+  getUserInfo(userId?: number){
+    if (userId === undefined){
+      this.userService.getUserInfo()
+        .subscribe({
+          next: data => this.userData = data
+        })
+    }
+    else {
+      this.userService.getUserInfoById(userId)
+        .subscribe({
+          next: data => this.userData = data
+        })
+    }
   }
 
   getReviews(){
@@ -41,6 +61,7 @@ export class UserPageComponent implements OnInit {
         next: data => {
           this.reviews = data
           this.rows = this.reviews
+          this.waiter = Promise.resolve(true)
         }
       });
   }
@@ -54,7 +75,9 @@ export class UserPageComponent implements OnInit {
 
   getUserIdFromQueryParams(){
      this.activatedRoute.params.subscribe({
-      next: value => this.userId = value['userid']
+      next: value => {
+        this.userId = value['userid']
+      }
     })
   }
 

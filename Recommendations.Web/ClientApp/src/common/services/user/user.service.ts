@@ -43,7 +43,7 @@ export class UserService {
       }))
   }
 
-  checkRole(){
+  checkRole() {
     this.getRole()
       .subscribe({
         next: value => {
@@ -54,6 +54,14 @@ export class UserService {
 
   getAllUsers(): Observable<UserModel[]> {
     return this.http.get<UserModel[]>('api/user/get-all-users')
+  }
+
+  getUserInfo(): Observable<UserModel> {
+    return this.http.get<UserModel>(`api/user/get-info`)
+  }
+
+  getUserInfoById(userId: number): Observable<UserModel> {
+    return this.http.get<UserModel>(`api/user/get-info/${userId}`)
   }
 
   logout() {

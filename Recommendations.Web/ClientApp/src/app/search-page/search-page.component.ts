@@ -6,8 +6,7 @@ import {SearchService} from "../../common/services/search/search.service";
 
 @Component({
   selector: 'app-search-page',
-  templateUrl: 'search-page.component.ts.html',
-  styleUrls: ['search-page.component.css']
+  templateUrl: 'search-page.component.ts.html'
 })
 export class SearchPageComponent implements OnInit {
 

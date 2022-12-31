@@ -36,7 +36,8 @@ public class UpdateReviewCommandHandler
         updateReview.Category = await GetCategory(request.CategoryName, cancellationToken);
         updateReview.Product.Name = request.ProductName;
         updateReview.Tags = await GetTagsByNames(request.Tags, cancellationToken);
-        updateReview.Images = await UpdateImages(request.Images, review.Images[0].FolderName);
+        updateReview.Images = await UpdateImages(request.Images,
+            review.Images?.FirstOrDefault()?.FolderName ?? Guid.NewGuid().ToString());
 
         _context.Reviews.Update(review);
         await _context.SaveChangesAsync(cancellationToken);

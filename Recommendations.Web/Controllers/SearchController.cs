@@ -22,7 +22,6 @@ public class SearchController : BaseController
     {
         var searchReviewsQuery = new SearchReviewsQuery { SearchQuery = searchQuery };
         var searchResults = await _mediator.Send(searchReviewsQuery);
-
         return searchResults.Reviews.ToList();
     }
 }

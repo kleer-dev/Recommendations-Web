@@ -1,5 +1,7 @@
-<div class="row w-100 p-0 m-0 mb-2">
-  <h1>{{'ReviewForm.CreateReview' | translate}}</h1>
+<app-fullscreen-loader *ngIf="!waiter"></app-fullscreen-loader>
+
+<div class="row mb-2">
+  <h3 class="d-flex justify-content-center align-items-center">{{'ReviewForm.CreateReview' | translate}}</h3>
 </div>
 
 <app-review-form (onSubmitForm)="onSubmitForm()"

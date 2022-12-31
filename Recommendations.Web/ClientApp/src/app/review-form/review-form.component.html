@@ -1,17 +1,18 @@
 <div class="w-100 d-flex justify-content-center align-items-center m-0 p-0 row d-flex justify-content-center">
 
-  <form class=" flex-column" (input)="onChangeMarkdownEditor()"
+  <form class="d-flex justify-content-center align-items-center flex-column" (input)="onChangeMarkdownEditor()"
         [formGroup]="reviewForm" (ngSubmit)="onSubmit()">
 
-    <div class="col d-flex justify-content-end mb-5">
-      <input [disabled]="!reviewForm.valid" class="d-flex btn btn-primary"
+    <div class="col w-100 d-flex justify-content-center mb-3">
+      <input [disabled]="!reviewForm.valid"
+             class="d-flex justify-content-center align-items-center w-25 btn btn-primary mt-2"
              value="{{'ReviewForm.Send' | translate}}" type="submit">
     </div>
 
 
-    <div class="row d-flex justify-content-center mt-3">
-      <div class="col-lg-4 h-100 row mb-3 d-flex justify-content-center">
-        <div class="row w-100">
+    <div class="row d-flex justify-content-center mt-3 w-100  p-0 m-0">
+      <div class="col-lg-12 p-0 m-0 h-100 w-100 row mb-3 d-flex justify-content-center">
+        <div class="row w-100 p-0 m-0">
           <h6>{{'ReviewForm.AddImage' | translate}}</h6>
           <ngx-dropzone accept="image/png, image/jpeg" class="w-100
               d-flex justify-content-center" (change)="onSelectImage($event)">
@@ -26,15 +27,15 @@
             </ngx-dropzone-label>
           </ngx-dropzone>
         </div>
-        <div class="row">
-          <ngb-rating formControlName="authorRate" (rateChange)="onRateChange($event)"
+        <div class="row w-100 m-0 p-0">
+          <ngb-rating class="w-100 m-0 p-0" formControlName="authorRate" (rateChange)="onRateChange($event)"
                       style="font-size: 25px" [max]="10" [(rate)]="rate" [readonly]="false"></ngb-rating>
         </div>
       </div>
 
 
-      <div class="col-lg-8 w-100">
-        <div class="col mb-2">
+      <div class="col-lg-12  p-0 m-0 w-100">
+        <div class="col mb-2  p-0 m-0">
           <h6>{{'ReviewForm.ReviewTitle' | translate}}</h6>
           <input maxlength="100" formControlName="title" class="form-control" type="text">
           <div class="text-danger" *ngIf="reviewForm.controls.title.errors?.required &&
@@ -48,7 +49,7 @@
           </div>
         </div>
 
-        <div class="col mb-2">
+        <div class="col mb-2 p-0 m-0">
           <h6>{{'ReviewForm.ProductName' | translate}}</h6>
           <input maxlength="100" formControlName="productName" class="form-control" type="text">
           <div class="text-danger" *ngIf="reviewForm.controls.productName.errors?.required &&
@@ -62,7 +63,7 @@
           </div>
         </div>
 
-        <div class="col mb-2">
+        <div class="col mb-2  p-0 m-0">
           <h6>{{'ReviewForm.Category' | translate}}</h6>
           <select required formControlName="categoryName"  class="form-select">
             <option *ngFor="let category of categories" value="{{category}}">
@@ -76,7 +77,7 @@
           </div>
         </div>
 
-        <div class="col mb-3">
+        <div class="col mb-3 p-0 m-0">
           <h6>{{'ReviewForm.Tags' | translate}}</h6>
           <div id="tag-block">
             <div class="form-group">
@@ -105,7 +106,7 @@
 
 
     <div class="row w-100 d-flex justify-content-center p-0 m-0">
-      <div class="col-lg-6 h-100 row mb-2 d-flex justify-content-center">
+      <div class="col-lg-6 h-100 row mb-2 p-0 m-0 d-flex justify-content-center">
         <h6>{{'ReviewForm.Description' | translate}}</h6>
         <div class="text-danger mb-2" *ngIf="reviewForm.controls.description!.value!.length > 20000">
           {{'Validation.MaxLength20000' | translate}}
@@ -117,7 +118,7 @@
         <markdown-editor [control]="descriptionRawControl"></markdown-editor>
       </div>
 
-      <div class="col-lg-6 h-100 row d-flex justify-content-center">
+      <div class="col-lg-6  p-0 m-0 h-100 row d-flex justify-content-center">
         <h6>{{'ReviewForm.MarkdownPreview' | translate}}</h6>
         <div class="markdown-div ">
           <markdown [data]='value'></markdown>

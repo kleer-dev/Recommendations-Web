@@ -51,6 +51,8 @@ public class AlgoliaDbSync
         await _context.Reviews.Entry(review)
             .Collection(r => r.Likes).LoadAsync();
         await _context.Reviews.Entry(review)
+            .Reference(r => r.Product).LoadAsync();
+        await _context.Reviews.Entry(review)
             .Collection(r => r.Tags).LoadAsync();
     }
 }
