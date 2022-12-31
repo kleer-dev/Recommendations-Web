@@ -1,4 +1,8 @@
-<div class="row w-100 m-0 p-0">
+<app-fullscreen-loader *ngIf="!waiter"></app-fullscreen-loader>
+
+<div *ngIf="waiter" class="row w-100 m-0 p-0">
+
+  <h5 class="w-100 d-flex justify-content-center">{{userData.userName}} ({{userData.likesCount}})</h5>
 
   <div *ngIf="!userId" class="mb-3 m-0 p-0 mb-3">
     <h5>{{'Profile.AccountActions' | translate}}</h5>

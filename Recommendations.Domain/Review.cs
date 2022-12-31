@@ -11,7 +11,6 @@ public class Review
     public string Title { get; set; }
     public string Description { get; set; }
     public int AuthorRate { get; set; }
-    public string ImageUrl { get; set; }
     public DateTime CreationDate { get; set; }
 
     public User User { get; set; }
@@ -20,4 +19,5 @@ public class Review
     public Product Product { get; set; } = new();
     public List<Like> Likes { get; set; } = new();
     public List<Comment> Comments { get; set; }
+    public List<Image>? Images { get; set; }
 }

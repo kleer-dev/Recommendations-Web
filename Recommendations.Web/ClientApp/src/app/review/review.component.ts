@@ -26,9 +26,10 @@ export class ReviewComponent implements OnInit {
     this.getAllComments()
   }
 
-  async ngOnInit(){
-    await this.signalrService.connect()
-    await this.signalrService.connectToGroup(this.reviewId.toString())
+  async ngOnInit(): Promise<void> {
+    await this.signalrService.connect().then(async () => {
+        await this.signalrService.connectToGroup(this.reviewId.toString())
+    })
   }
 
   getReview() {
@@ -68,14 +69,14 @@ export class ReviewComponent implements OnInit {
       .subscribe()
   }
 
-  getAllComments(){
+  getAllComments() {
     this.http.get(`api/comments/${this.reviewId}`)
       .subscribe({
         next: (comments: any) => this.signalrService.comments = comments
       });
   }
 
-  async sendComment(){
+  async sendComment() {
     let commentText = (<HTMLTextAreaElement>document.getElementById('comment'))
     this.http.post<string>('api/comments', {reviewId: this.reviewId, text: commentText.value})
       .subscribe({

@@ -8,7 +8,7 @@ export interface ReviewModel {
   category: string
   authorRate: number
   tags: string[]
-  imageUrl: string
+  imagesUrls: string[]
   creationDate: Date
   isLike: boolean
   userRating: number

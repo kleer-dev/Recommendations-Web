@@ -1,5 +1,5 @@
+using System;
 using MediatR;
-using Recommendations.Application.CommandsQueries.Review.Queries.Get;
 
 namespace Recommendations.Application.CommandsQueries.Review.Queries.GetDto;
 

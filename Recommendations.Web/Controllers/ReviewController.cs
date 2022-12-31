@@ -31,8 +31,8 @@ public class ReviewController : BaseController
 
     [AllowAnonymous]
     [HttpGet("get-all")]
-    public async Task<ActionResult<IEnumerable<GetAllReviewsDto>>> GetAllReviews(string filtrate,
-        int count, string? tag)
+    public async Task<ActionResult<IEnumerable<GetAllReviewsDto>>> GetAllReviews(string? filtrate,
+        int? count, string? tag)
     {
         var getReviewsByParam = new GetReviewsByParamQuery
         {

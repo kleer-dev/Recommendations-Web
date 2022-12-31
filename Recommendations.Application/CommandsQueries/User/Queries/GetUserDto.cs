@@ -1,9 +1,9 @@
 using AutoMapper;
 using Recommendations.Application.Common.Mappings;
 
-namespace Recommendations.Application.CommandsQueries.User.Queries.GetAllUsers;
+namespace Recommendations.Application.CommandsQueries.User.Queries;
 
-public class GetAllUsersDto : IMapWith<Domain.User>
+public class GetUserDto : IMapWith<Domain.User>
 {
     public Guid Id { get; set; }
     public int LikesCount { get; set; }
@@ -12,7 +12,7 @@ public class GetAllUsersDto : IMapWith<Domain.User>
     
     public void Mapping(Profile profile)
     {
-        profile.CreateMap<Domain.User, GetAllUsersDto>()
+        profile.CreateMap<Domain.User, GetUserDto>()
             .ForMember(u => u.Id,
                 o => o.MapFrom(u => u.Id))
             .ForMember(u => u.LikesCount,

@@ -16,8 +16,26 @@
 
     </div>
 
-    <div class="row w-100 p-0 d-flex justify-content-center mb-3">
-      <img class="review-image" alt="..." src="https://camo.githubusercontent.com/ddf07e1ed9b55fe8b86f983cc98892f845365b8e3c7100916c0a4b7b1a6bee20/68747470733a2f2f686162726173746f726167652e6f72672f776562742f68752f65712f68392f6875657168396f773462313569766f6e3268356a6168617879636b2e6a706567">
+    <div *ngIf="review.imagesUrls.length > 0" id="carouselExample" class="carousel slide mb-3 d-flex justify-content-center">
+      <div class="carousel-inner">
+        <div class="carousel-item" [ngClass]="{'active': i === 0}" *ngFor="let image of review.imagesUrls; let i = index">
+          <img src="{{image}}" class="d-block mx-auto" alt="...">
+        </div>
+      </div>
+      <button class="carousel-control-prev bg-opacity-50" type="button" data-bs-target="#carouselExample" data-bs-slide="prev">
+       <div class="slider-icon">
+         <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" class="bi bi-arrow-left" viewBox="0 0 16 16">
+           <path fill-rule="evenodd" d="M15 8a.5.5 0 0 0-.5-.5H2.707l3.147-3.146a.5.5 0 1 0-.708-.708l-4 4a.5.5 0 0 0 0 .708l4 4a.5.5 0 0 0 .708-.708L2.707 8.5H14.5A.5.5 0 0 0 15 8z"/>
+         </svg>
+       </div>
+      </button>
+      <button class="carousel-control-next" type="button" data-bs-target="#carouselExample" data-bs-slide="next">
+       <div class="slider-icon">
+         <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" class="bi bi-arrow-right" viewBox="0 0 16 16">
+           <path fill-rule="evenodd" d="M1 8a.5.5 0 0 1 .5-.5h11.793l-3.147-3.146a.5.5 0 0 1 .708-.708l4 4a.5.5 0 0 1 0 .708l-4 4a.5.5 0 0 1-.708-.708L13.293 8.5H1.5A.5.5 0 0 1 1 8z"/>
+         </svg>
+       </div>
+      </button>
     </div>
 
     <div class="row d-flex flex-column p-0 mb-3">

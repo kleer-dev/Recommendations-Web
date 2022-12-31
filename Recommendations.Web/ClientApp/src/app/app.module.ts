@@ -40,6 +40,8 @@ import {LogoutComponent} from "./logout/logout.component";
 import {AdminPageComponent} from "./admin-page/admin-page.component";
 import {RoleGuard} from "../common/guards/admin-role.guard";
 import {SearchPageComponent} from "./search-page/search-page.component";
+import {NgxGridModule} from "@egjs/ngx-grid";
+import {ReviewGridComponent} from "./reviews-grid/review-grid.component";
 
 @NgModule({
   declarations: [
@@ -61,7 +63,8 @@ import {SearchPageComponent} from "./search-page/search-page.component";
     UserPageComponent,
     LogoutComponent,
     AdminPageComponent,
-    SearchPageComponent
+    SearchPageComponent,
+    ReviewGridComponent
   ],
   imports: [
     BrowserModule.withServerTransition({appId: 'ng-cli-universal'}),
@@ -112,7 +115,8 @@ import {SearchPageComponent} from "./search-page/search-page.component";
         deps: [HttpClient],
       },
       useDefaultLang: false,
-    })
+    }),
+    NgxGridModule,
   ],
   providers: [
     {

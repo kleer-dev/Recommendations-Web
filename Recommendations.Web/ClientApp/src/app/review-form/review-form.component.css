@@ -1,9 +1,9 @@
-.ng2-tag-input{
+.ng2-tag-input {
   background: #e01a76;
   border-radius: 10px;
 }
 
-.markdown-div{
+.markdown-div {
   min-height: 608px !important;
   max-height: 608px !important;
   overflow-y: auto !important;
@@ -15,6 +15,20 @@
   width: 95%;
 }
 
-::ng-deep :host-context(.bootstrap-dark) ngx-dropzone{
+::ng-deep :host-context(.bootstrap-dark) ngx-dropzone {
   background: #101010;
+}
+
+::ng-deep ngx-dropzone-image-preview img {
+  max-width: 100%;
+  height: auto;
+}
+
+::ng-deep markdown p {
+  width: 100%;
+  -webkit-hyphens: auto;
+  -moz-hyphens: auto;
+  -ms-hyphens: auto;
+  hyphens: auto;
+  overflow-wrap: break-word;
 }

@@ -1,9 +1,11 @@
 using AutoMapper;
 using MediatR;
+using Microsoft.AspNetCore.Http;
 using Recommendations.Application.CommandsQueries.Category.Queries.GetByName;
 using Recommendations.Application.CommandsQueries.Review.Queries.Get;
 using Recommendations.Application.CommandsQueries.Tag.Commands.Create;
 using Recommendations.Application.CommandsQueries.Tag.Queries.GetTagListByNames;
+using Recommendations.Application.Common.Firebase;
 using Recommendations.Application.Common.Interfaces;
 
 namespace Recommendations.Application.CommandsQueries.Review.Commands.Update;
@@ -14,13 +16,15 @@ public class UpdateReviewCommandHandler
     private readonly IRecommendationsDbContext _context;
     private readonly IMediator _mediator;
     private readonly IMapper _mapper;
+    private readonly IFirebaseService _firebaseService;
 
     public UpdateReviewCommandHandler(IRecommendationsDbContext context,
-        IMediator mediator, IMapper mapper)
+        IMediator mediator, IMapper mapper, IFirebaseService firebaseService)
     {
         _context = context;
         _mediator = mediator;
         _mapper = mapper;
+        _firebaseService = firebaseService;
     }
 
     public async Task<Unit> Handle(UpdateReviewCommand request,
@@ -32,6 +36,8 @@ public class UpdateReviewCommandHandler
         updateReview.Category = await GetCategory(request.CategoryName, cancellationToken);
         updateReview.Product.Name = request.ProductName;
         updateReview.Tags = await GetTagsByNames(request.Tags, cancellationToken);
+        updateReview.Images = await UpdateImages(request.Images,
+            review.Images?.FirstOrDefault()?.FolderName ?? Guid.NewGuid().ToString());
 
         _context.Reviews.Update(review);
         await _context.SaveChangesAsync(cancellationToken);
@@ -79,5 +85,11 @@ public class UpdateReviewCommandHandler
         var tags = await _mediator.Send(getTagListByNameQuery, cancellationToken);
         
         return tags.ToList();
+    }
+
+    private async Task<List<Domain.Image>> UpdateImages(IEnumerable<IFormFile> files, string folderName)
+    {
+        var imageData = await _firebaseService.UpdateFiles(files, folderName);
+        return _mapper.Map<IEnumerable<ImageData>, List<Domain.Image>>(imageData);
     }
 }

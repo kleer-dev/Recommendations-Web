@@ -5,6 +5,7 @@ import {ActivatedRoute, Router} from "@angular/router";
 import {formToFormData} from "src/common/functions/formToFormData";
 import {UpdateReviewModel} from "../../common/models/UpdateReviewModel";
 import {ReviewFormModel} from "../../common/models/ReviewFormModel";
+import {Log} from "oidc-client";
 
 @Component({
   selector: 'app-update-review',
@@ -12,11 +13,14 @@ import {ReviewFormModel} from "../../common/models/ReviewFormModel";
 })
 export class UpdateReviewComponent implements OnInit{
 
-  waiter!: Promise<boolean>
+  waiter: boolean = false
   reviewId: number = 0
   review!: UpdateReviewModel
+  tags: string[] = []
 
   userId: number | null = null
+
+  files: File[] = []
 
   reviewForm!: ReviewFormModel
 
@@ -30,8 +34,10 @@ export class UpdateReviewComponent implements OnInit{
     this.reviewId = this.activatedRoute.snapshot.params['id']
     this.http.get<UpdateReviewModel>(`api/reviews/get-update-review/${this.reviewId}`)
       .subscribe({
-        next: data => {
+        next: async data => {
           this.review = data
+          await this.getImages(data.imagesUrls)
+          this.tags = data.tags
           this.reviewForm = new FormGroup({
             reviewId: new FormControl(this.reviewId),
             title: new FormControl(data.title, [
@@ -57,9 +63,9 @@ export class UpdateReviewComponent implements OnInit{
               Validators.maxLength(20000)
             ]),
             authorRate: new FormControl(data.authorRate),
-            image: new FormControl(new File([], ''))
+            images: new FormControl(this.files)
           })
-          this.waiter = Promise.resolve(true)
+          this.waiter = true
         }
       })
   }
@@ -71,13 +77,23 @@ export class UpdateReviewComponent implements OnInit{
   }
 
   onSubmitForm() {
-    this.http.put("api/reviews", formToFormData(this.reviewForm.value))
+    this.waiter = false;
+    this.http.put("api/reviews", formToFormData(this.reviewForm))
       .subscribe({
         next: _ => window.history.back(),
         error: err => {
           console.error(err)
+          this.waiter = true;
         }
       })
+  }
+
+  async getImages(urls: string[]){
+    let images = await Promise.all(urls.map(url =>
+      this.http.get(url, { responseType: 'blob' }).toPromise()));
+    this.files = images.map((image, index) => {
+      return new File([<BlobPart>image], `${index}.png`, { type: 'image/png' });
+    });
   }
 }
 

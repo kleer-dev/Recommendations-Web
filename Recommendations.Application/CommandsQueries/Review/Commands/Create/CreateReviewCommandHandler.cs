@@ -4,7 +4,9 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.EntityFrameworkCore;
 using Recommendations.Application.CommandsQueries.Category.Queries.GetByName;
 using Recommendations.Application.CommandsQueries.Tag.Commands.Create;
+using Recommendations.Application.CommandsQueries.Tag.Queries.GetTagListByNames;
 using Recommendations.Application.CommandsQueries.User.Queries.Get;
+using Recommendations.Application.Common.Firebase;
 using Recommendations.Application.Common.Interfaces;
 
 namespace Recommendations.Application.CommandsQueries.Review.Commands.Create;
@@ -14,31 +16,33 @@ public class CreateReviewCommandHandler : IRequestHandler<CreateReviewCommand, G
     private readonly IRecommendationsDbContext _context;
     private readonly IMediator _mediator;
     private readonly IMapper _mapper;
+    private readonly IFirebaseService _firebaseService;
 
     public CreateReviewCommandHandler(IRecommendationsDbContext context,
-        IMediator mediator, IMapper mapper)
+        IMediator mediator, IMapper mapper, IFirebaseService firebase)
     {
         _context = context;
         _mediator = mediator;
         _mapper = mapper;
+        _firebaseService = firebase;
     }
 
     public async Task<Guid> Handle(CreateReviewCommand request,
         CancellationToken cancellationToken)
     {
+        await AddTags(request.Tags, cancellationToken);
+        
         var review = _mapper.Map<Domain.Review>(request);
         review.User = await GetUser(request.UserId, cancellationToken);
         review.Tags = await GetTags(request, cancellationToken);
         review.Category = await GetCategory(request, cancellationToken);
-        review.ImageUrl = await GetImageUrl(request.Image!);
         review.Product = new Domain.Product { Name = request.ProductName };
         review.CreationDate = DateTime.UtcNow;
-
-        await AddTags(request.Tags, cancellationToken);
-
+        review.Images = await AddImages(request.Images);
+        
         await _context.Reviews.AddAsync(review, cancellationToken);
         await _context.SaveChangesAsync(cancellationToken);
-
+        
         return review.Id;
     }
 
@@ -63,11 +67,13 @@ public class CreateReviewCommandHandler : IRequestHandler<CreateReviewCommand, G
     private async Task<List<Domain.Tag>> GetTags(CreateReviewCommand request,
         CancellationToken cancellationToken)
     {
-        var tags = await _context.Tags
-            .Where(t => request.Tags.Any(n => n == t.Name))
-            .ToListAsync(cancellationToken);
+        var getTagListByNamesQuery = new GetTagListByNamesQuery()
+        {
+            Tags = request.Tags
+        };
+        var tags = await _mediator.Send(getTagListByNamesQuery, cancellationToken);
 
-        return tags;
+        return tags.ToList();
     }
 
     private async Task<Domain.Category> GetCategory(CreateReviewCommand request, 
@@ -82,11 +88,9 @@ public class CreateReviewCommandHandler : IRequestHandler<CreateReviewCommand, G
         return category;
     }
 
-    private async Task<string> GetImageUrl(IFormFile? file)
+    private async Task<List<Domain.Image>> AddImages(IEnumerable<IFormFile> files)
     {
-        if (file is null)
-            return string.Empty;
-
-        return "";
+        var imageData = await _firebaseService.UploadFiles(files, Guid.NewGuid().ToString());
+        return _mapper.Map<IEnumerable<ImageData>, List<Domain.Image>>(imageData);
     }
-}
+} 

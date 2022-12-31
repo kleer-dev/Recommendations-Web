@@ -19,6 +19,7 @@ public sealed class RecommendationsDbContext : IdentityDbContext<User, IdentityR
     public DbSet<Rating> Ratings { get; set; }
     public DbSet<Like> Likes { get; set; }
     public DbSet<Comment> Comments { get; set; }
+    public DbSet<Image> Images { get; set; }
     
     private readonly IServiceProvider _serviceProvider;
 

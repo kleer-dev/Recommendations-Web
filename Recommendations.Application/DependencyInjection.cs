@@ -6,6 +6,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Recommendations.Application.Common;
 using Recommendations.Application.Common.Algolia;
+using Recommendations.Application.Common.Firebase;
 using Recommendations.Application.Common.Interfaces;
 
 namespace Recommendations.Application;
@@ -19,6 +20,7 @@ public static class DependencyInjection
         services.AddAuthenticationConfiguration(configuration);
         services.AddConnectionStringsManager(configuration);
         services.AddAlgoliaService(configuration);
+        services.AddFirebaseService(configuration);
     }
 
     private static void AddConnectionStringsManager(this IServiceCollection services,

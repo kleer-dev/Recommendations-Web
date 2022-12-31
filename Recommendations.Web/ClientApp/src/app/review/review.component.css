@@ -1,11 +1,11 @@
-.review-image{
+.review-image {
   width: 700px;
   border: 1px solid lightgrey;
   border-radius: 5px;
   padding: 0;
 }
 
-.rating-bar{
+.rating-bar {
   display: flex;
   justify-content: space-between;
   /*border: 1px solid lightgrey;*/
@@ -13,12 +13,12 @@
   border-radius: 5px;
 }
 
-.comments-container{
+.comments-container {
   display: flex;
   flex-direction: column;
 }
 
-.comment{
+.comment {
   display: flex;
   flex-direction: column;
   border: 1px solid lightgrey;
@@ -30,20 +30,20 @@
 
 }
 
-.title-container{
+.title-container {
   border: 1px solid lightgrey;
   border-radius: 5px;
   padding: 15px;
 
 }
 
-.comment-head{
+.comment-head {
   display: flex;
   flex-direction: row;
   width: 100%;
 }
 
-.comment-text-container{
+.comment-text-container {
   -webkit-hyphens: auto;
   -moz-hyphens: auto;
   -ms-hyphens: auto;
@@ -55,23 +55,23 @@
   width: 100%;
 }
 
-#review-title{
+#review-title {
   -webkit-hyphens: auto;
   -moz-hyphens: auto;
   -ms-hyphens: auto;
   hyphens: auto;
 }
 
-.write-comment-container{
+.write-comment-container {
   display: flex;
   flex-direction: column;
 }
 
-.description{
+.description {
 
 }
 
-.write-comment-container textarea{
+.write-comment-container textarea {
   border: 1px solid lightgrey;
   border-radius: 5px;
   height: 120px;
@@ -88,8 +88,7 @@
   color: white;
 }
 
-
-::ng-deep markdown p{
+::ng-deep markdown p {
   width: 100%;
   -webkit-hyphens: auto;
   -moz-hyphens: auto;
@@ -99,4 +98,38 @@
   overflow-wrap: break-word;
   margin: 0;
   padding: 0;
+}
+
+.carousel {
+  height: auto;
+}
+
+.carousel-inner {
+  width: 100%;
+  height: 25vmax;
+  background-size: cover;
+  background-position: center center;
+  display: flex;
+  align-items: center;
+}
+
+.carousel-item {
+  height: 100%;
+}
+
+.carousel-item img {
+  background-position: center center;
+  background-size: contain;
+  object-fit: contain;
+  width: 100%;
+  height: 100%
+}
+
+.slider-icon{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background: black;
+  padding: 10px;
+  border-radius: 50px;
 }

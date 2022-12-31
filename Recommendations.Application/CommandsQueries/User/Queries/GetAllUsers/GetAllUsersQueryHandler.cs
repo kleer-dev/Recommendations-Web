@@ -23,7 +23,7 @@ public class GetAllUsersQueryHandler
         CancellationToken cancellationToken)
     {
         var users = await _context.Users
-            .ProjectTo<GetAllUsersDto>(_mapper.ConfigurationProvider)
+            .ProjectTo<GetUserDto>(_mapper.ConfigurationProvider)
             .ToListAsync(cancellationToken);
 
         return new GetAllUsersVm { Users = users };

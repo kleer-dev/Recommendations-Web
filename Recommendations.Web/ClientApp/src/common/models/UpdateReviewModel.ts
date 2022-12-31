@@ -4,6 +4,6 @@ export interface UpdateReviewModel {
   categoryName: string
   description: string
   authorRate: number
-  imageUrl: string
+  imagesUrls: string[]
   tags: string[]
 }

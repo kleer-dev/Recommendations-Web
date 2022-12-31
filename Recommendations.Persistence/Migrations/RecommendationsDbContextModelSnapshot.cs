@@ -195,6 +195,34 @@ namespace Recommendations.Persistence.Migrations
                     b.ToTable("Comments");
                 });
 
+            modelBuilder.Entity("Recommendations.Domain.Image", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uuid");
+
+                    b.Property<string>("FileName")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<string>("FolderName")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<Guid>("ReviewId")
+                        .HasColumnType("uuid");
+
+                    b.Property<string>("Url")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("ReviewId");
+
+                    b.ToTable("Images");
+                });
+
             modelBuilder.Entity("Recommendations.Domain.Like", b =>
                 {
                     b.Property<Guid>("Id")
@@ -283,10 +311,6 @@ namespace Recommendations.Persistence.Migrations
                         .HasColumnType("timestamp with time zone");
 
                     b.Property<string>("Description")
-                        .IsRequired()
-                        .HasColumnType("text");
-
-                    b.Property<string>("ImageUrl")
                         .IsRequired()
                         .HasColumnType("text");
 
@@ -474,6 +498,17 @@ namespace Recommendations.Persistence.Migrations
                     b.Navigation("User");
                 });
 
+            modelBuilder.Entity("Recommendations.Domain.Image", b =>
+                {
+                    b.HasOne("Recommendations.Domain.Review", "Review")
+                        .WithMany("Images")
+                        .HasForeignKey("ReviewId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Review");
+                });
+
             modelBuilder.Entity("Recommendations.Domain.Like", b =>
                 {
                     b.HasOne("Recommendations.Domain.Review", "Review")
@@ -570,6 +605,8 @@ namespace Recommendations.Persistence.Migrations
             modelBuilder.Entity("Recommendations.Domain.Review", b =>
                 {
                     b.Navigation("Comments");
+
+                    b.Navigation("Images");
 
                     b.Navigation("Likes");
 

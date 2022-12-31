@@ -13,6 +13,7 @@ public class GetAllReviewsDto : IMapWith<Domain.Review>
     public string Category { get; set; }
     public DateTime CreationDate { get; set; }
     public double AverageRate { get; set; }
+    public string? ImageUrl { get; set; }
     public List<string> Tags { get; set; }
     
     public void Mapping(Profile profile)

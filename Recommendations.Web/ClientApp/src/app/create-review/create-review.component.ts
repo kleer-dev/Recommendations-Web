@@ -12,6 +12,7 @@ import {formToFormData} from "src/common/functions/formToFormData";
 })
 export class CreateReviewComponent implements OnInit {
 
+  waiter: boolean = true
   userId?: number | null = null
 
   constructor(private activatedRoute: ActivatedRoute,
@@ -53,18 +54,20 @@ export class CreateReviewComponent implements OnInit {
       Validators.maxLength(20000)
     ]),
     authorRate: new FormControl(1),
-    image: new FormControl(new File([], ''))
+    images: new FormControl([new File([], '')])
   })
 
   onSubmitForm() {
+    this.waiter = false
     let url = "api/reviews"
     if (this.userId){
       url = `${url}/${this.userId}`
     }
-    this.http.post(url, formToFormData(this.reviewForm.value))
+    this.http.post(url, formToFormData(this.reviewForm))
       .subscribe({
         next: _ => window.history.back(),
         error: err => {
+          this.waiter = true
           console.error(err)
         }
       })
