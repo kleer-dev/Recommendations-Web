@@ -7,4 +7,10 @@ public class GetAuthenticationPropertiesQuery : IRequest<AuthenticationPropertie
 {
     public string? Provider { get; set; }
     public string? Path { get; set; }
+
+    public GetAuthenticationPropertiesQuery(string? provider, string? path)
+    {
+        Provider = provider;
+        Path = path;
+    }
 }

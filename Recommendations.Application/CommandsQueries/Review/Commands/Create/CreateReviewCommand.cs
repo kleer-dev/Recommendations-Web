@@ -1,4 +1,3 @@
-using System;
 using AutoMapper;
 using MediatR;
 using Microsoft.AspNetCore.Http;
@@ -16,7 +15,7 @@ public class CreateReviewCommand : IRequest<Guid>, IMapWith<Domain.Review>
     public int AuthorRate { get; set; }
     public IFormFile[] Images { get; set; }
     public string[] Tags { get; set; }
-    
+
     public void Mapping(Profile profile)
     {
         profile.CreateMap<CreateReviewCommand, Domain.Review>()

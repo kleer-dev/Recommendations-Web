@@ -1,13 +1,13 @@
 ﻿using System.Reflection;
 using MediatR;
 using Microsoft.AspNetCore.Authentication.Cookies;
-using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using Recommendations.Application.Common;
-using Recommendations.Application.Common.Algolia;
-using Recommendations.Application.Common.Firebase;
-using Recommendations.Application.Common.Interfaces;
+using Recommendations.Application.Common.Behaviors;
+using Recommendations.Application.Common.Clouds.Algolia;
+using Recommendations.Application.Common.Clouds.Firebase;
+using Recommendations.Application.Common.ConnectionString;
+using Recommendations.Application.Common.OAuthConfiguration;
 
 namespace Recommendations.Application;
 
@@ -18,16 +18,10 @@ public static class DependencyInjection
     {
         services.AddMediatR(Assembly.GetExecutingAssembly());
         services.AddAuthenticationConfiguration(configuration);
-        services.AddConnectionStringsManager(configuration);
+        services.AddConnectionStringConfiguration(configuration);
+        services.AddValidationBehavior();
         services.AddAlgoliaService(configuration);
         services.AddFirebaseService(configuration);
-    }
-
-    private static void AddConnectionStringsManager(this IServiceCollection services,
-        IConfiguration configuration)
-    {
-        services.AddScoped<IConnectionStringConfiguration, ConnectionStringConfiguration>(_
-            => new ConnectionStringConfiguration(configuration));
     }
 
     private static void AddAuthenticationConfiguration(this IServiceCollection services,
@@ -39,18 +33,7 @@ public static class DependencyInjection
                 options.DefaultSignInScheme = CookieAuthenticationDefaults.AuthenticationScheme;
                 options.DefaultChallengeScheme = CookieAuthenticationDefaults.AuthenticationScheme;
             })
-            .AddGoogle(options =>
-            {
-                options.ClientId = configuration["Google:ClientId"] ?? string.Empty;
-                options.ClientSecret = configuration["Google:ClientSecret"] ?? string.Empty;
-                options.SignInScheme = IdentityConstants.ExternalScheme;
-            })
-            .AddSpotify(options =>
-            {
-                options.ClientId = configuration["Spotify:ClientId"] ?? string.Empty;
-                options.ClientSecret = configuration["Spotify:ClientSecret"] ?? string.Empty;
-                options.SignInScheme = IdentityConstants.ExternalScheme;
-                options.Scope.Add("user-read-email");
-            });
+            .AddGoogleOAuthConfiguration(configuration)
+            .AddSpotifyOAuthConfiguration(configuration);
     }
 }

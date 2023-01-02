@@ -12,14 +12,8 @@ namespace Recommendations.Web.Controllers;
 [Route("api/ratings")]
 public class RatingController : BaseController
 {
-    private readonly IMapper _mapper;
-    private readonly IMediator _mediator;
-
-    public RatingController(IMapper mapper, IMediator mediator)
-    {
-        _mapper = mapper;
-        _mediator = mediator;
-    }
+    public RatingController(IMediator mediator, IMapper mapper)
+        : base(mediator, mapper) { }
 
     [HttpPost]
     public async Task<ActionResult> SetRating([FromBody] SetRatingDto dto)
@@ -27,7 +21,7 @@ public class RatingController : BaseController
         var setRatingCommand = _mapper.Map<SetRatingCommand>(dto);
         setRatingCommand.UserId = UserId;
         await _mediator.Send(setRatingCommand);
-
+        
         return Ok();
     }
 }

@@ -44,13 +44,19 @@ export class UserPageComponent implements OnInit {
     if (userId === undefined){
       this.userService.getUserInfo()
         .subscribe({
-          next: data => this.userData = data
+          next: data => {
+            this.userData = data
+            this.waiter = Promise.resolve(true)
+          }
         })
     }
     else {
       this.userService.getUserInfoById(userId)
         .subscribe({
-          next: data => this.userData = data
+          next: data => {
+            this.userData = data
+            this.waiter = Promise.resolve(true)
+          }
         })
     }
   }
@@ -61,7 +67,6 @@ export class UserPageComponent implements OnInit {
         next: data => {
           this.reviews = data
           this.rows = this.reviews
-          this.waiter = Promise.resolve(true)
         }
       });
   }

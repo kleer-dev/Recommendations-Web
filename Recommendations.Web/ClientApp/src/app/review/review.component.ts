@@ -4,6 +4,7 @@ import {HttpClient} from "@angular/common/http";
 import {ReviewModel} from "../../common/models/ReviewModel";
 import {CommentsSignalrService} from "../../common/services/signalr/comments-signalr.service";
 import {CommentModel} from "../../common/models/CommentModel";
+import {FormControl, FormGroup, Validators} from "@angular/forms";
 
 @Component({
   selector: 'app-review',
@@ -27,9 +28,8 @@ export class ReviewComponent implements OnInit {
   }
 
   async ngOnInit(): Promise<void> {
-    await this.signalrService.connect().then(async () => {
-        await this.signalrService.connectToGroup(this.reviewId.toString())
-    })
+    await this.signalrService.connect()
+    await this.signalrService.connectToGroup(this.reviewId.toString())
   }
 
   getReview() {
@@ -76,16 +76,22 @@ export class ReviewComponent implements OnInit {
       });
   }
 
+  commentForm = new FormGroup({
+    commentText: new FormControl('', [
+      Validators.required,
+      Validators.maxLength(400)])
+  })
+
   async sendComment() {
-    let commentText = (<HTMLTextAreaElement>document.getElementById('comment'))
-    this.http.post<string>('api/comments', {reviewId: this.reviewId, text: commentText.value})
+    let commentText = this.commentForm.get('commentText')!.value
+    this.http.post<string>('api/comments', {reviewId: this.reviewId, text: commentText})
       .subscribe({
         next: async (commentId) => {
           await this.signalrService.NotifyAboutComment(this.reviewId.toString(), commentId)
           this.getAllComments()
         }
       })
-    commentText.value = ''
+    this.commentForm.patchValue({commentText: ''});
   }
 }
 

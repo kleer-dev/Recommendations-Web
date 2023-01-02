@@ -10,7 +10,8 @@ public class UserLoginQueryHandler : IRequestHandler<UserLoginQuery, Unit>
     private readonly UserManager<Domain.User> _userManager;
     private readonly SignInManager<Domain.User> _signInManager;
 
-    public UserLoginQueryHandler(UserManager<Domain.User> userManager, SignInManager<Domain.User> signInManager)
+    public UserLoginQueryHandler(UserManager<Domain.User> userManager,
+        SignInManager<Domain.User> signInManager)
     {
         _userManager = userManager;
         _signInManager = signInManager;
@@ -37,8 +38,8 @@ public class UserLoginQueryHandler : IRequestHandler<UserLoginQuery, Unit>
     {
         var user = await _userManager.FindByEmailAsync(request.Email);
         if (user is null)
-            throw new NotFoundException(nameof(Domain.User), request.Email);
-
+            throw new NullReferenceException($"The user with email: {request.Email} not found");
+        
         return user;
     }
 

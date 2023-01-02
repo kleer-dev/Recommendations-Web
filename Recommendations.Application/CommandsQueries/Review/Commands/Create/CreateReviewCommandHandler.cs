@@ -6,8 +6,8 @@ using Recommendations.Application.CommandsQueries.Category.Queries.GetByName;
 using Recommendations.Application.CommandsQueries.Tag.Commands.Create;
 using Recommendations.Application.CommandsQueries.Tag.Queries.GetTagListByNames;
 using Recommendations.Application.CommandsQueries.User.Queries.Get;
-using Recommendations.Application.Common.Firebase;
-using Recommendations.Application.Common.Interfaces;
+using Recommendations.Application.Common.Clouds.Firebase;
+using Recommendations.Application.Interfaces;
 
 namespace Recommendations.Application.CommandsQueries.Review.Commands.Create;
 
@@ -31,11 +31,10 @@ public class CreateReviewCommandHandler : IRequestHandler<CreateReviewCommand, G
         CancellationToken cancellationToken)
     {
         await AddTags(request.Tags, cancellationToken);
-        
         var review = _mapper.Map<Domain.Review>(request);
         review.User = await GetUser(request.UserId, cancellationToken);
-        review.Tags = await GetTags(request, cancellationToken);
-        review.Category = await GetCategory(request, cancellationToken);
+        review.Tags = await GetTags(request.Tags, cancellationToken);
+        review.Category = await GetCategory(request.CategoryName, cancellationToken);
         review.Product = new Domain.Product { Name = request.ProductName };
         review.CreationDate = DateTime.UtcNow;
         review.Images = await AddImages(request.Images);
@@ -48,44 +47,30 @@ public class CreateReviewCommandHandler : IRequestHandler<CreateReviewCommand, G
 
     private async Task AddTags(string[] tags, CancellationToken cancellationToken)
     {
-        var createTagCommand = new CreateTagCommand { Tags = tags };
+        var createTagCommand = new CreateTagCommand(tags);
         await _mediator.Send(createTagCommand, cancellationToken);
     }
 
     private async Task<Domain.User> GetUser(Guid? userId,
         CancellationToken cancellationToken)
     {
-        var getUserQuery = new GetUserQuery
-        {
-            UserId = userId
-        };
-        var user = await _mediator.Send(getUserQuery, cancellationToken);
-
-        return user;
+        var getUserQuery = new GetUserQuery(userId);
+        return await _mediator.Send(getUserQuery, cancellationToken);
     }
 
-    private async Task<List<Domain.Tag>> GetTags(CreateReviewCommand request,
+    private async Task<List<Domain.Tag>> GetTags(string[] tagNames,
         CancellationToken cancellationToken)
     {
-        var getTagListByNamesQuery = new GetTagListByNamesQuery()
-        {
-            Tags = request.Tags
-        };
+        var getTagListByNamesQuery = new GetTagListByNamesQuery(tagNames);
         var tags = await _mediator.Send(getTagListByNamesQuery, cancellationToken);
-
         return tags.ToList();
     }
 
-    private async Task<Domain.Category> GetCategory(CreateReviewCommand request, 
+    private async Task<Domain.Category> GetCategory(string categoryName, 
         CancellationToken cancellationToken)
     {
-        var getCategoryByNameQuery = new GetCategoryByNameQuery
-        {
-            Name = request.CategoryName
-        };
-        var category = await _mediator.Send(getCategoryByNameQuery, cancellationToken);
-
-        return category;
+        var getCategoryByNameQuery = new GetCategoryByNameQuery(categoryName);
+        return await _mediator.Send(getCategoryByNameQuery, cancellationToken);
     }
 
     private async Task<List<Domain.Image>> AddImages(IEnumerable<IFormFile> files)

@@ -1,5 +1,5 @@
 using MediatR;
-using Recommendations.Application.Common.Interfaces;
+using Recommendations.Application.Interfaces;
 
 namespace Recommendations.Application.CommandsQueries.Tag.Commands.Create;
 
@@ -17,7 +17,6 @@ public class CreateTagCommandHandler : IRequestHandler<CreateTagCommand, Unit>
     {
         var uniqueTags = request.Tags
             .Except(_context.Tags.Select(t => t.Name));
-
         await AddTags(uniqueTags, cancellationToken);
 
         return Unit.Value;
@@ -26,15 +25,8 @@ public class CreateTagCommandHandler : IRequestHandler<CreateTagCommand, Unit>
     private async Task AddTags(IEnumerable<string> tags,
         CancellationToken cancellationToken)
     {
-        foreach (var tagName in tags)
-        {
-            var tag = new Domain.Tag
-            {
-                Name = tagName
-            };
-
-            await _context.Tags.AddAsync(tag, cancellationToken);
-            await _context.SaveChangesAsync(cancellationToken);
-        }
+        var newTags = tags.Select(t => new Domain.Tag { Name = t }).ToList();
+        await _context.Tags.AddRangeAsync(newTags, cancellationToken);
+        await _context.SaveChangesAsync(cancellationToken);
     }
 }

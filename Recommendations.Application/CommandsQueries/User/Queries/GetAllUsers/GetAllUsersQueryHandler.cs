@@ -2,7 +2,7 @@ using AutoMapper;
 using AutoMapper.QueryableExtensions;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
-using Recommendations.Application.Common.Interfaces;
+using Recommendations.Application.Interfaces;
 
 namespace Recommendations.Application.CommandsQueries.User.Queries.GetAllUsers;
 
@@ -25,7 +25,7 @@ public class GetAllUsersQueryHandler
         var users = await _context.Users
             .ProjectTo<GetUserDto>(_mapper.ConfigurationProvider)
             .ToListAsync(cancellationToken);
-
+        
         return new GetAllUsersVm { Users = users };
     }
 }

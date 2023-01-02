@@ -10,7 +10,7 @@ public class UserRegistrationCommand : IRequest<Guid>, IMapWith<Domain.User>
     public string Email { get; set; }
     public string Password { get; set; }
     public bool Remember { get; set; }
-    
+
     public void Mapping(Profile profile)
     {
         profile.CreateMap<UserRegistrationCommand, Domain.User>()

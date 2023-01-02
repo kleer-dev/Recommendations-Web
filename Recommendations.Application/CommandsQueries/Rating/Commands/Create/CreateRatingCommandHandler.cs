@@ -1,7 +1,7 @@
 using MediatR;
 using Recommendations.Application.CommandsQueries.Product.Queries;
 using Recommendations.Application.CommandsQueries.User.Queries.Get;
-using Recommendations.Application.Common.Interfaces;
+using Recommendations.Application.Interfaces;
 
 namespace Recommendations.Application.CommandsQueries.Rating.Commands.Create;
 
@@ -34,24 +34,14 @@ public class CreateRatingCommandHandler : IRequestHandler<CreateRatingCommand, D
     private async Task<Domain.User> GetUser(Guid? userId,
         CancellationToken cancellationToken)
     {
-        var getUserQuery = new GetUserQuery
-        {
-            UserId = userId
-        };
-        var user = await _mediator.Send(getUserQuery, cancellationToken);
-
-        return user;
+        var getUserQuery = new GetUserQuery(userId);
+        return await _mediator.Send(getUserQuery, cancellationToken);;
     }
     
     private async Task<Domain.Product> GetProduct(Guid productId,
         CancellationToken cancellationToken)
     {
-        var getProductQuery = new GetProductQuery
-        {
-            ProductId = productId
-        };
-        var product = await _mediator.Send(getProductQuery, cancellationToken);
-
-        return product;
+        var getProductQuery = new GetProductQuery(productId);
+        return await _mediator.Send(getProductQuery, cancellationToken);;
     }
 }

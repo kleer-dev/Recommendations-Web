@@ -2,7 +2,7 @@ using AutoMapper;
 using MediatR;
 using Recommendations.Application.CommandsQueries.Review.Queries.Get;
 using Recommendations.Application.CommandsQueries.User.Queries.Get;
-using Recommendations.Application.Common.Interfaces;
+using Recommendations.Application.Interfaces;
 
 namespace Recommendations.Application.CommandsQueries.Comment.Commands;
 
@@ -35,19 +35,13 @@ public class CreateCommentCommandHandler : IRequestHandler<CreateCommentCommand,
 
     private async Task<Domain.User> GetUser(Guid? userId)
     {
-        var getUserQuery = new GetUserQuery
-        {
-            UserId = userId
-        };
+        var getUserQuery = new GetUserQuery(userId);
         return await _mediator.Send(getUserQuery);
     }
     
     private async Task<Domain.Review> GetReview(Guid reviewId)
     {
-        var getReviewQuery = new GetReviewQuery
-        {
-            ReviewId = reviewId
-        };
+        var getReviewQuery = new GetReviewQuery(reviewId);
         return await _mediator.Send(getReviewQuery);
     }
 }

@@ -14,10 +14,10 @@ public class Review
     public DateTime CreationDate { get; set; }
 
     public User User { get; set; }
-    public List<Tag> Tags { get; set; }
+    public List<Tag> Tags { get; set; } = new();
     public Category Category { get; set; }
     public Product Product { get; set; } = new();
     public List<Like> Likes { get; set; } = new();
-    public List<Comment> Comments { get; set; }
-    public List<Image>? Images { get; set; }
+    public List<Comment> Comments { get; set; } = new();
+    public List<Image>? Images { get; set; } = new();
 }

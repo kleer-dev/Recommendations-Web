@@ -42,8 +42,7 @@ export class CreateReviewComponent implements OnInit {
       Validators.maxLength(100)
     ]),
     categoryName: new FormControl('', [
-      Validators.required,
-      Validators.minLength(2)
+      Validators.required
     ]),
     tags: new FormControl(new Array<string>(), [
       Validators.required

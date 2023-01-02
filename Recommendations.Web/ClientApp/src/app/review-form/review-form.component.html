@@ -111,6 +111,10 @@
         <div class="text-danger mb-2" *ngIf="reviewForm.controls.description!.value!.length > 20000">
           {{'Validation.MaxLength20000' | translate}}
         </div>
+        <div class="text-danger mb-2" *ngIf="reviewForm.controls.description!.value!.length < 100
+                                                && reviewForm.controls['description'].touched">
+          {{'Validation.MinLength100' | translate}}
+        </div>
         <div class="text-danger mb-2" *ngIf="reviewForm.controls.description.errors?.required &&
                                       reviewForm.controls['description'].touched">
           {{'Validation.DescriptionIsRequired' | translate}}

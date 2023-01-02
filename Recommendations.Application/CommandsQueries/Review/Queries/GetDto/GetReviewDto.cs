@@ -17,7 +17,7 @@ public class GetReviewDto : IMapWith<Domain.Review>
     public string Description { get; set; }
     public int AuthorRate { get; set; }
     public string[] Tags { get; set; }
-    public List<string> ImagesUrls { get; set; }
+    public List<string>? ImagesUrls { get; set; }
     public DateTime CreationDate { get; set; }
     
     public void Mapping(Profile profile)

@@ -5,4 +5,9 @@ namespace Recommendations.Application.CommandsQueries.Tag.Queries.GetTagListByNa
 public class GetTagListByNamesQuery : IRequest<IEnumerable<Domain.Tag>>
 {
     public string[] Tags { get; set; }
+
+    public GetTagListByNamesQuery(string[] tags)
+    {
+        Tags = tags;
+    }
 }

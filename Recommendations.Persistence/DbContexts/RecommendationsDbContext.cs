@@ -2,9 +2,10 @@
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
-using Recommendations.Application.Common.Algolia;
-using Recommendations.Application.Common.Interfaces;
+using Recommendations.Application.Common.Clouds.Algolia;
+using Recommendations.Application.Interfaces;
 using Recommendations.Domain;
+using Recommendations.Persistence.EntityTypeConfigurations;
 
 namespace Recommendations.Persistence.DbContexts;
 
@@ -24,11 +25,24 @@ public sealed class RecommendationsDbContext : IdentityDbContext<User, IdentityR
     private readonly IServiceProvider _serviceProvider;
 
     public RecommendationsDbContext(DbContextOptions<RecommendationsDbContext> options,
-        IServiceProvider serviceProvider)
-        : base(options)
+        IServiceProvider serviceProvider) : base(options)
     {
         _serviceProvider = serviceProvider;
         Database.Migrate();
+    }
+
+    protected override void OnModelCreating(ModelBuilder builder)
+    {
+        builder.ApplyConfiguration(new CategoryConfiguration());
+        builder.ApplyConfiguration(new CommentConfiguration());
+        builder.ApplyConfiguration(new ImageConfiguration());
+        builder.ApplyConfiguration(new LikeConfiguration());
+        builder.ApplyConfiguration(new ProductConfiguration());
+        builder.ApplyConfiguration(new RatingConfiguration());
+        builder.ApplyConfiguration(new ReviewConfiguration());
+        builder.ApplyConfiguration(new TagConfiguration());
+        builder.ApplyConfiguration(new UserConfiguration());
+        base.OnModelCreating(builder);
     }
 
     public override async Task<int> SaveChangesAsync(CancellationToken cancellationToken = new())

@@ -1,8 +1,8 @@
 using System.Reflection;
 using Recommendations.Application;
-using Recommendations.Application.Common.Hubs;
-using Recommendations.Application.Common.Interfaces;
 using Recommendations.Application.Common.Mappings;
+using Recommendations.Application.Hubs;
+using Recommendations.Application.Interfaces;
 using Recommendations.Persistence;
 using Recommendations.Web.Middlewares;
 

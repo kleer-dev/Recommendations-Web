@@ -1,7 +1,7 @@
 using AutoMapper;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
-using Recommendations.Application.Common.Interfaces;
+using Recommendations.Application.Interfaces;
 
 namespace Recommendations.Application.CommandsQueries.User.Queries.GetUserInfo;
 
@@ -25,7 +25,8 @@ public class GetUserInfoQueryHandler : IRequestHandler<GetUserInfoQuery, GetUser
         var user = await _context.Users
             .FirstOrDefaultAsync(u => u.Id == request.UserId, cancellationToken);
         if (user is null)
-            throw new NullReferenceException($"The user with id:{request.UserId} not found");
+            throw new NullReferenceException("The user not found");
+        
         return _mapper.Map<GetUserDto>(user);
     }
 }

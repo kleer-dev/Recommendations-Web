@@ -21,15 +21,11 @@ namespace Recommendations.Web.Controllers;
 [Route("api/user")]
 public class UserController : BaseController
 {
-    private readonly IMapper _mapper;
-    private readonly IMediator _mediator;
     private readonly SignInManager<User> _signInManager;
-
-    public UserController(IMapper mapper, IMediator mediator,
-        SignInManager<User> signInManager)
+    
+    public UserController(IMediator mediator, IMapper mapper,
+        SignInManager<User> signInManager) : base(mediator, mapper)
     {
-        _mapper = mapper;
-        _mediator = mediator;
         _signInManager = signInManager;
     }
 
@@ -65,14 +61,14 @@ public class UserController : BaseController
     [HttpGet("get-role")]
     public ActionResult<RoleDto> GetRole()
     {
-        var roleDto = new RoleDto { RoleName = Role };
+        var roleDto = new RoleDto(Role);
         return Ok(roleDto);
     }
 
     [AllowAnonymous]
     [HttpGet("check-auth")]
     public ActionResult<bool> CheckAuth() =>
-        Ok(User.Identity.IsAuthenticated);
+        Ok(User.Identity!.IsAuthenticated);
 
     [AllowAnonymous]
     [HttpPost("registration")]
@@ -98,11 +94,8 @@ public class UserController : BaseController
     [HttpGet("external-login")]
     public async Task<ActionResult> ExternalLogin(string provider)
     {
-        var getAuthenticationPropertiesQuery = new GetAuthenticationPropertiesQuery
-        {
-            Path = "/login-callback",
-            Provider = provider
-        };
+        var getAuthenticationPropertiesQuery
+            = new GetAuthenticationPropertiesQuery(provider, "/login-callback");
         var authenticationProperties =
             await _mediator.Send(getAuthenticationPropertiesQuery);
 

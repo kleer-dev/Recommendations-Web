@@ -29,7 +29,9 @@
     "CategoryIsRequired": "Категория - обязетельное поле",
     "TagsAreRequired": "Введите теги",
     "MaxLength20000": "Максимальноя длина - 20 000 символов",
-    "DescriptionIsRequired": "Введите описание"
+    "MinLength100": "Минимальная длина - 100 символов",
+    "DescriptionIsRequired": "Введите описание",
+    "CommentMaxLength": "Максимальноя длина - 400 символов"
   },
   "ReviewForm": {
     "AddImage": "Добавить изображение",

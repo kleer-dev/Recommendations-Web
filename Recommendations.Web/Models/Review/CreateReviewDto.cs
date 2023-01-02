@@ -12,7 +12,7 @@ public class CreateReviewDto : IMapWith<CreateReviewDto>
     public string Description { get; set; }
     public int AuthorRate { get; set; }
     public IFormFile[]? Images { get; set; }
-    public string Tags { get; set; }
+    public string[] Tags { get; set; }
 
     public void Mapping(Profile profile)
     {
@@ -30,6 +30,6 @@ public class CreateReviewDto : IMapWith<CreateReviewDto>
             .ForMember(u => u.Images,
                 o => o.MapFrom(u => u.Images))
             .ForMember(u => u.Tags,
-                o => o.MapFrom(u => u.Tags.Split(new[] { ',' })));
+                o => o.MapFrom(u => u.Tags));
     }
 }

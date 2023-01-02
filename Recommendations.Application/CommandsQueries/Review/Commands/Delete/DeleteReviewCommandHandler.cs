@@ -1,8 +1,7 @@
 using MediatR;
-using Recommendations.Application.CommandsQueries.Image.Queries.GetImagesByReviewId;
 using Recommendations.Application.CommandsQueries.Like.Commands.SetUserLikesCount;
 using Recommendations.Application.CommandsQueries.Review.Queries.Get;
-using Recommendations.Application.Common.Interfaces;
+using Recommendations.Application.Interfaces;
 
 namespace Recommendations.Application.CommandsQueries.Review.Commands.Delete;
 
@@ -24,12 +23,12 @@ public class DeleteReviewCommandHandler : IRequestHandler<DeleteReviewCommand, U
         CancellationToken cancellationToken)
     {
         var review = await GetReview(request.ReviewId, cancellationToken);
-        
+
         _context.Reviews.Remove(review);
         await _context.SaveChangesAsync(cancellationToken);
         
         await SetUserLikesCount(review.User.Id, cancellationToken);
-        if (review.Images.Count > 0 || review.Images is not null)
+        if (review.Images is not null && review.Images.Any())
             await _firebaseService.DeleteFolder(review.Images[0].FolderName);
 
         return Unit.Value;
@@ -38,22 +37,14 @@ public class DeleteReviewCommandHandler : IRequestHandler<DeleteReviewCommand, U
     private async Task<Domain.Review> GetReview(Guid reviewId,
         CancellationToken cancellationToken)
     {
-        var getReviewQuery = new GetReviewQuery
-        {
-            ReviewId = reviewId
-        };
-        var review = await _mediator.Send(getReviewQuery, cancellationToken);
-
-        return review;
+        var getReviewQuery = new GetReviewQuery(reviewId);
+        return await _mediator.Send(getReviewQuery, cancellationToken);
     }
     
     private async Task SetUserLikesCount(Guid? userId,
         CancellationToken cancellationToken)
     {
-        var setUserLikeQuery = new SetUserLikesCountQuery
-        {
-            UserId = userId
-        };
+        var setUserLikeQuery = new SetUserLikesCountQuery(userId);
         await _mediator.Send(setUserLikeQuery, cancellationToken);
     }
 }

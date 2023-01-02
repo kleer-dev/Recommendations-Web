@@ -29,7 +29,9 @@
     "CategoryIsRequired": "Category is required",
     "TagsAreRequired": "Tags are required",
     "MaxLength20000": "Max length - 20 000",
-    "DescriptionIsRequired": "Description is required"
+    "MinLength100": "Min length - 100",
+    "DescriptionIsRequired": "Description is required",
+    "CommentMaxLength": "Max length - 400"
   },
   "ReviewForm": {
     "AddImage": "Add Image",
@@ -38,7 +40,7 @@
     "Category": "Category",
     "Tags": "Tags",
     "EnterTag": "Enter a new tag",
-    "Description": "Description",
+    "Description": "Description:",
     "MarkdownPreview": "Markdown preview",
     "CreateReview": "Creating a review",
     "ChangeReview": "Change the review",
