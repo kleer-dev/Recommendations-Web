@@ -42,14 +42,14 @@ public class GetReviewDtoQueryHandler
         return await _mediator.Send(getReviewQuery, cancellationToken);
     }
 
-    private async Task<bool> GetLikeStatus(Guid? userId, Guid reviewId,
+    private async Task<bool> GetLikeStatus(Guid userId, Guid reviewId,
         CancellationToken cancellationToken)
     {
         var getLikeStatus = new GetLikeStatusQuery(userId, reviewId);
         return await _mediator.Send(getLikeStatus, cancellationToken);
     }
     
-    private async Task<double> GetUserRating(Guid? userId, Guid productId,
+    private async Task<double> GetUserRating(Guid userId, Guid productId,
         CancellationToken cancellationToken)
     {
         var getRatingQuery = new GetUserRatingQuery(userId, productId);

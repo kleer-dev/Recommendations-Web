@@ -10,9 +10,5 @@ public class ImageConfiguration : IEntityTypeConfiguration<Image>
     {
         builder.HasKey(image => image.Id);
         builder.HasIndex(image => image.Id).IsUnique();
-
-        builder.Property(image => image.FileName).IsRequired();
-        builder.Property(image => image.Url).IsRequired();
-        builder.Property(image => image.FolderName).IsRequired();
     }
 }

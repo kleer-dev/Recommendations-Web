@@ -1,6 +1,7 @@
 using MediatR;
-using Recommendations.Application.CommandsQueries.Like.Commands.GetOrCreate;
+using Recommendations.Application.CommandsQueries.Like.Commands.Create;
 using Recommendations.Application.CommandsQueries.Like.Commands.SetUserLikesCount;
+using Recommendations.Application.CommandsQueries.Like.Queries.Get;
 using Recommendations.Application.CommandsQueries.Review.Queries.Get;
 using Recommendations.Application.Interfaces;
 
@@ -20,7 +21,8 @@ public class SetLikeCommandHandler : IRequestHandler<SetLikeCommand, Guid>
     public async Task<Guid> Handle(SetLikeCommand request,
         CancellationToken cancellationToken)
     {
-        var like = await GetOrCreateLike(request, cancellationToken);
+        var like = await GetLike(request.UserId, request.ReviewId, cancellationToken)
+                   ?? await CreateLike(request.UserId, request.ReviewId, cancellationToken);
         like.Status = request.IsLike;
 
         _context.Likes.Update(like);
@@ -39,12 +41,18 @@ public class SetLikeCommandHandler : IRequestHandler<SetLikeCommand, Guid>
         return await _mediator.Send(getReviewQuery, cancellationToken);
     }
 
-    private async Task<Domain.Like> GetOrCreateLike(SetLikeCommand request,
+    private async Task<Domain.Like?> GetLike(Guid userId, Guid reviewId,
         CancellationToken cancellationToken)
     {
-        var getOrCreateLikeCommand = new GetOrCreateLikeCommand(request.UserId,
-            request.ReviewId, request.IsLike);
-        return await _mediator.Send(getOrCreateLikeCommand, cancellationToken);
+        var getLikeQuery = new GetLikeQuery(userId, reviewId);
+        return await _mediator.Send(getLikeQuery, cancellationToken);
+    }
+    
+    private async Task<Domain.Like> CreateLike(Guid userId, Guid reviewId,
+        CancellationToken cancellationToken)
+    {
+        var createLikeCommand = new CreateLikeCommand(userId, reviewId);
+        return await _mediator.Send(createLikeCommand, cancellationToken);
     }
 
     private async Task SetUserLikesCount(Guid userId,

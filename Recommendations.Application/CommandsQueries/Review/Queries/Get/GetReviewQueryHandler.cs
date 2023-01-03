@@ -26,7 +26,7 @@ public class GetReviewQueryHandler : IRequestHandler<GetReviewQuery, Domain.Revi
             .Include(r => r.Images)
             .FirstOrDefaultAsync(r => r.Id == request.ReviewId, cancellationToken);
         if (review is null)
-            throw new NullReferenceException($"Review with id: {request.ReviewId} not found");
+            throw new NullReferenceException("Review not found");
 
         return review;
     }

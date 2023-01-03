@@ -8,11 +8,13 @@ import {Injectable} from "@angular/core";
 })
 export class SearchService {
 
+  readonly baseUrl: string = "api/search"
+
   constructor(private http: HttpClient) {
 
   }
 
   findReview(searchQuery: string | null) : Observable<ReviewPreviewModel[]> {
-    return this.http.get<ReviewPreviewModel[]>(`api/search/reviews?searchQuery=${searchQuery}`)
+    return this.http.get<ReviewPreviewModel[]>(`${this.baseUrl}/reviews?searchQuery=${searchQuery}`)
   }
 }

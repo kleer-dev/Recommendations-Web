@@ -12,6 +12,6 @@ public class RatingConfiguration : IEntityTypeConfiguration<Rating>
         builder.HasIndex(rating => rating.Id).IsUnique();
 
         builder.Property(rating => rating.Value)
-            .IsRequired();
+            .HasDefaultValue(1);
     }
 }

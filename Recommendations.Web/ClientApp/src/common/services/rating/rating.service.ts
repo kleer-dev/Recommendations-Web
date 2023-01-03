@@ -7,11 +7,13 @@ import {HttpClient} from "@angular/common/http";
 })
 export class RatingService {
 
+  readonly baseUrl: string = "api/ratings"
+
   constructor(private http: HttpClient) {
 
   }
 
   changeRating(reviewId: number, value: number): Observable<any> {
-    return this.http.post('api/ratings', {reviewId: reviewId, value: value})
+    return this.http.post(this.baseUrl, {reviewId: reviewId, value: value})
   }
 }

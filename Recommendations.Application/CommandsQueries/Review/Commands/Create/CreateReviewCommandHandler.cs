@@ -51,7 +51,7 @@ public class CreateReviewCommandHandler : IRequestHandler<CreateReviewCommand, G
         await _mediator.Send(createTagCommand, cancellationToken);
     }
 
-    private async Task<Domain.User> GetUser(Guid? userId,
+    private async Task<Domain.User> GetUser(Guid userId,
         CancellationToken cancellationToken)
     {
         var getUserQuery = new GetUserQuery(userId);

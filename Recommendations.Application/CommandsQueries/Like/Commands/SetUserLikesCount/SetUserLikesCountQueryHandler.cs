@@ -30,7 +30,7 @@ public class SetUserLikesCountQueryHandler
         return Unit.Value;
     }
 
-    private async Task<Domain.User> GetUser(Guid? userId,
+    private async Task<Domain.User> GetUser(Guid userId,
         CancellationToken cancellationToken)
     {
         var getUserQuery = new GetUserQuery(userId);

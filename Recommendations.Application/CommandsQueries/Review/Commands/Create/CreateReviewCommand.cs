@@ -7,7 +7,7 @@ namespace Recommendations.Application.CommandsQueries.Review.Commands.Create;
 
 public class CreateReviewCommand : IRequest<Guid>, IMapWith<Domain.Review>
 {
-    public Guid? UserId { get; set; }
+    public Guid UserId { get; set; }
     public string Title { get; set; }
     public string ProductName { get; set; }
     public string CategoryName { get; set; }

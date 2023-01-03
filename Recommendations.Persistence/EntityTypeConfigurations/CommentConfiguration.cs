@@ -12,9 +12,6 @@ public class CommentConfiguration : IEntityTypeConfiguration<Comment>
         builder.HasIndex(comment => comment.Id).IsUnique();
 
         builder.Property(comment => comment.Text)
-            .HasMaxLength(400)
-            .IsRequired();
-
-        builder.Property(comment => comment.CreationDate).IsRequired();
+            .HasMaxLength(400);
     }
 }

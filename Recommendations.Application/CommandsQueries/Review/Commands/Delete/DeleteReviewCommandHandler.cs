@@ -41,7 +41,7 @@ public class DeleteReviewCommandHandler : IRequestHandler<DeleteReviewCommand, U
         return await _mediator.Send(getReviewQuery, cancellationToken);
     }
     
-    private async Task SetUserLikesCount(Guid? userId,
+    private async Task SetUserLikesCount(Guid userId,
         CancellationToken cancellationToken)
     {
         var setUserLikeQuery = new SetUserLikesCountQuery(userId);

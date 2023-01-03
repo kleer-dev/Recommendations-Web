@@ -16,16 +16,15 @@ export class ErrorInterceptor implements HttpInterceptor {
     }
     return next.handle(req).pipe(
       catchError(error => {
-        switch (error.status) {
-          case 401:
-            this.router.navigate(['/login'])
-            break;
-          case 403:
-            this.router.navigate(['/login'])
-            break;
-          case 404:
-            this.router.navigate(['/not-found'])
-            break;
+        if (error.status === 401) {
+          this.router.navigate(['/login'])
+        }
+        if (error.status === 403) {
+          this.router.navigate(['/login'])
+        }
+        if (error.status === 404) {
+          console.log(error.status)
+          this.router.navigate(['/not-found'])
         }
         return of(error);
       })

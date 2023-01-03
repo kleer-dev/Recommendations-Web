@@ -1,43 +1,31 @@
 using MediatR;
-using Microsoft.EntityFrameworkCore;
 using Recommendations.Application.CommandsQueries.Review.Queries.Get;
 using Recommendations.Application.CommandsQueries.User.Queries.Get;
 using Recommendations.Application.Interfaces;
 
-namespace Recommendations.Application.CommandsQueries.Like.Commands.GetOrCreate;
+namespace Recommendations.Application.CommandsQueries.Like.Commands.Create;
 
-public class GetOrCreateLikeCommandHandler
-    : IRequestHandler<GetOrCreateLikeCommand, Domain.Like>
+public class CreateLikeCommandHandler
+    : IRequestHandler<CreateLikeCommand, Domain.Like>
 {
     private readonly IRecommendationsDbContext _context;
     private readonly IMediator _mediator;
 
-    public GetOrCreateLikeCommandHandler(IRecommendationsDbContext context,
+    public CreateLikeCommandHandler(IRecommendationsDbContext context,
         IMediator mediator)
     {
         _context = context;
         _mediator = mediator;
     }
 
-    public async Task<Domain.Like> Handle(GetOrCreateLikeCommand request,
-        CancellationToken cancellationToken)
-    {
-        var like = await _context.Likes.FirstOrDefaultAsync(l =>
-            l.Review.Id == request.ReviewId &&
-            l.User.Id == request.UserId, cancellationToken)
-                   ?? await CreateLike(request, cancellationToken);
-        
-        return like;
-    }
-
-    private async Task<Domain.Like> CreateLike(GetOrCreateLikeCommand command,
+    public async Task<Domain.Like> Handle(CreateLikeCommand request,
         CancellationToken cancellationToken)
     {
         var like = new Domain.Like 
         {
-            Review = await GetReview(command.ReviewId, cancellationToken),
-            Status = command.IsLike ?? false,
-            User = await GetUser(command.UserId, cancellationToken)
+            Review = await GetReview(request.ReviewId, cancellationToken),
+            Status = true,
+            User = await GetUser(request.UserId, cancellationToken)
         };
         await _context.Likes.AddAsync(like, cancellationToken);
         await _context.SaveChangesAsync(cancellationToken);
@@ -52,7 +40,7 @@ public class GetOrCreateLikeCommandHandler
         return await _mediator.Send(getReviewCommand, cancellationToken);
     }
     
-    private async Task<Domain.User> GetUser(Guid? userId,
+    private async Task<Domain.User> GetUser(Guid userId,
         CancellationToken cancellationToken)
     {
         var getUserQuery = new GetUserQuery(userId);

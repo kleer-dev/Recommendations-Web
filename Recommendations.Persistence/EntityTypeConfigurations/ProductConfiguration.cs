@@ -12,13 +12,11 @@ public class ProductConfiguration : IEntityTypeConfiguration<Product>
         builder.HasIndex(product => product.Id).IsUnique();
 
         builder.Property(product => product.Name)
-            .HasMaxLength(100)
-            .IsRequired();
+            .HasMaxLength(100);
 
         builder.Property(product => product.AverageRate)
-            .HasDefaultValue(1)
-            .IsRequired();
-        
+            .HasDefaultValue(1);
+
         builder.HasOne(product => product.Review)
             .WithOne(review => review.Product)
             .HasForeignKey<Review>(review => review.Id);

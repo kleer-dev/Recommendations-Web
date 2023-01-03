@@ -28,7 +28,7 @@ public class GetUpdateReviewQueryHandler
             .Include(r => r.Images)
             .FirstOrDefaultAsync(r => r.Id == request.ReviewId, cancellationToken);
         if (review is null)
-            throw new NullReferenceException($"The review with id {request.ReviewId} not found");
+            throw new NullReferenceException("The review not found");
 
         return _mapper.Map<GetUpdateReviewDto>(review);
     }

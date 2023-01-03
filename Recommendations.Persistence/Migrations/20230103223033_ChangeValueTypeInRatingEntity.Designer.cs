@@ -2,6 +2,7 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 using Recommendations.Persistence.DbContexts;
@@ -11,9 +12,11 @@ using Recommendations.Persistence.DbContexts;
 namespace Recommendations.Persistence.Migrations
 {
     [DbContext(typeof(RecommendationsDbContext))]
-    partial class RecommendationsDbContextModelSnapshot : ModelSnapshot
+    [Migration("20230103223033_ChangeValueTypeInRatingEntity")]
+    partial class ChangeValueTypeInRatingEntity
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -167,9 +170,6 @@ namespace Recommendations.Persistence.Migrations
                     b.HasIndex("Id")
                         .IsUnique();
 
-                    b.HasIndex("Name")
-                        .IsUnique();
-
                     b.ToTable("Categories");
                 });
 
@@ -301,9 +301,7 @@ namespace Recommendations.Persistence.Migrations
                         .HasColumnType("uuid");
 
                     b.Property<int>("Value")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("integer")
-                        .HasDefaultValue(1);
+                        .HasColumnType("integer");
 
                     b.HasKey("Id");
 
@@ -372,9 +370,6 @@ namespace Recommendations.Persistence.Migrations
                     b.HasKey("Id");
 
                     b.HasIndex("Id")
-                        .IsUnique();
-
-                    b.HasIndex("Name")
                         .IsUnique();
 
                     b.ToTable("Tags");

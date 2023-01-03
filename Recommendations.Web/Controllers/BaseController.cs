@@ -17,9 +17,8 @@ public class BaseController : ControllerBase
         _mapper = mapper;
     }
 
-    protected Guid? UserId => User.Identity!.IsAuthenticated
+    protected Guid UserId => User.Identity!.IsAuthenticated
         ? Guid.Parse(User.FindFirstValue(ClaimTypes.NameIdentifier)!)
-        : null;
-
+        : Guid.Empty;
     protected string Role => User.FindFirstValue(ClaimTypes.Role)!;
 }

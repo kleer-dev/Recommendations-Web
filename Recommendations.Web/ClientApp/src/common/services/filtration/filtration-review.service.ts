@@ -5,12 +5,10 @@ import {ReviewUserPageModel} from "../../models/ReviewUserPageModel";
 @Injectable({
   providedIn: 'root'
 })
-export class FiltrationService {
+export class FiltrationReviewService {
 
   filtrateData(fieldName: string, filterText: string,
                data: ReviewUserPageModel[]): ReviewUserPageModel[] {
-    console.log(fieldName)
-    console.log(filterText)
     return filterBy(data, {
       logic: 'and',
       filters: [

@@ -4,9 +4,9 @@ namespace Recommendations.Application.CommandsQueries.Review.Queries.GetReviewsB
 
 public class GetReviewsByUserIdQuery : IRequest<GetReviewsByUserIdVm>
 {
-    public Guid? UserId { get; set; }
+    public Guid UserId { get; set; }
 
-    public GetReviewsByUserIdQuery(Guid? userId)
+    public GetReviewsByUserIdQuery(Guid userId)
     {
         UserId = userId;
     }

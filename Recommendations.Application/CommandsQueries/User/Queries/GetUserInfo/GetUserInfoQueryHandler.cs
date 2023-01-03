@@ -20,8 +20,6 @@ public class GetUserInfoQueryHandler : IRequestHandler<GetUserInfoQuery, GetUser
     public async Task<GetUserDto> Handle(GetUserInfoQuery request,
         CancellationToken cancellationToken)
     {
-        if (request.UserId is null)
-            throw new NullReferenceException("The user id is null");
         var user = await _context.Users
             .FirstOrDefaultAsync(u => u.Id == request.UserId, cancellationToken);
         if (user is null)

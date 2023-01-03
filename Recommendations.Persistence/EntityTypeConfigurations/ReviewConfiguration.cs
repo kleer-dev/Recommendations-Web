@@ -12,19 +12,13 @@ public class ReviewConfiguration : IEntityTypeConfiguration<Review>
         builder.HasIndex(review => review.Id).IsUnique();
 
         builder.Property(review => review.Title)
-            .HasMaxLength(100)
-            .IsRequired();
+            .HasMaxLength(100);
 
         builder.Property(review => review.Description)
-            .HasMaxLength(5000)
-            .IsRequired();
+            .HasMaxLength(5000);
 
         builder.Property(review => review.AuthorRate)
-            .HasDefaultValue(1)
-            .IsRequired();
-
-        builder.Property(review => review.CreationDate)
-            .IsRequired();
+            .HasDefaultValue(1);
 
         builder.HasOne(rating => rating.Product)
             .WithOne(product => product.Review)

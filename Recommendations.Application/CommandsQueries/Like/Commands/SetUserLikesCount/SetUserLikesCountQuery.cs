@@ -4,9 +4,9 @@ namespace Recommendations.Application.CommandsQueries.Like.Commands.SetUserLikes
 
 public class SetUserLikesCountQuery : IRequest
 {
-    public Guid? UserId { get; set; }
+    public Guid UserId { get; set; }
 
-    public SetUserLikesCountQuery(Guid? userId)
+    public SetUserLikesCountQuery(Guid userId)
     {
         UserId = userId;
     }

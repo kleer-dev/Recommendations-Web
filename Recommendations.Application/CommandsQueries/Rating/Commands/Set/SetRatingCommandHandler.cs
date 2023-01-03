@@ -23,7 +23,7 @@ public class SetRatingCommandHandler : IRequestHandler<SetRatingCommand, Unit>
         CancellationToken cancellationToken)
     {
         var review = await GetReview(request.ReviewId, cancellationToken);
-        var rating = await GetRating(request, review.Product.Id, cancellationToken) 
+        var rating = await GetRating(request.UserId, review.Product.Id, cancellationToken) 
                      ?? await CreateRating(request.UserId, review.Product.Id,
                          request.Value, cancellationToken);
         rating.Value = request.Value;
@@ -42,14 +42,14 @@ public class SetRatingCommandHandler : IRequestHandler<SetRatingCommand, Unit>
         return await _mediator.Send(getReviewCommand, cancellationToken);
     }
 
-    private async Task<Domain.Rating?> GetRating(SetRatingCommand request, Guid productId,
+    private async Task<Domain.Rating?> GetRating(Guid userId, Guid productId,
         CancellationToken cancellationToken)
     {
-        var getRatingQuery = new GetUserRatingQuery(request.UserId, productId);
+        var getRatingQuery = new GetUserRatingQuery(userId, productId);
         return await _mediator.Send(getRatingQuery, cancellationToken);;
     }
 
-    private async Task<Domain.Rating> CreateRating(Guid? userId, Guid productId, int value,
+    private async Task<Domain.Rating> CreateRating(Guid userId, Guid productId, int value,
         CancellationToken cancellationToken)
     {
         var createRatingCommand = new CreateRatingCommand(userId, productId, value);

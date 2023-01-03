@@ -12,7 +12,6 @@ public class LikeConfiguration : IEntityTypeConfiguration<Like>
         builder.HasIndex(like => like.Id).IsUnique();
 
         builder.Property(like => like.Status)
-            .HasDefaultValue(false)
-            .IsRequired();
+            .HasDefaultValue(false);
     }
 }

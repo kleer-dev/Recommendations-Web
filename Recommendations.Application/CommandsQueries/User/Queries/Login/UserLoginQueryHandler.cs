@@ -38,7 +38,7 @@ public class UserLoginQueryHandler : IRequestHandler<UserLoginQuery, Unit>
     {
         var user = await _userManager.FindByEmailAsync(request.Email);
         if (user is null)
-            throw new NullReferenceException($"The user with email: {request.Email} not found");
+            throw new NullReferenceException($"The user not found");
         
         return user;
     }
