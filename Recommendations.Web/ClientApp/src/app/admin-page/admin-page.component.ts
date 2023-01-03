@@ -14,7 +14,7 @@ export class AdminPageComponent implements OnInit{
 
   ColumnMode = ColumnMode;
   users!: UserModel[]
-  waiter!: Promise<boolean>
+  waiter: boolean = false
 
   constructor(private http: HttpClient,
               private router: Router,
@@ -30,7 +30,7 @@ export class AdminPageComponent implements OnInit{
       .subscribe({
         next: users => {
           this.users = users
-          this.waiter = Promise.resolve(true)
+          this.waiter = true
         }
       })
   }
