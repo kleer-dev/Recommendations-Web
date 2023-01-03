@@ -1,10 +1,11 @@
 import {Injectable} from '@angular/core';
-import {HttpClient} from "@angular/common/http";
+import {HttpClient, HttpHeaders} from "@angular/common/http";
 import {map, Observable} from "rxjs";
 import {Router} from "@angular/router";
 import {Roles} from "../../consts/Roles";
 import {UserModel} from "../../models/UserModel";
 import {RoleModel} from "../../models/RoleModel";
+import {FormGroup} from "@angular/forms";
 
 @Injectable({
   providedIn: 'root'
@@ -23,7 +24,6 @@ export class UserService {
       .pipe(map((isAuthenticated) => {
         if (!isAuthenticated) {
           this.isAuthenticated = false
-          // this.router.navigate(['/login'])
           return false;
         }
         this.isAuthenticated = true
@@ -62,6 +62,18 @@ export class UserService {
 
   getUserInfoById(userId: number): Observable<UserModel> {
     return this.http.get<UserModel>(`api/user/get-info/${userId}`)
+  }
+
+  login(form: FormGroup): Observable<any> {
+    return this.http.post('api/user/login', form.value, {headers: new HttpHeaders({
+        'X-Skip-Interceptor': 'true'
+      })})
+  }
+
+  registration(form: FormGroup): Observable<any> {
+    return this.http.post('api/user/registration', form.value, {headers: new HttpHeaders({
+        'X-Skip-Interceptor': 'true'
+      })})
   }
 
   logout() {

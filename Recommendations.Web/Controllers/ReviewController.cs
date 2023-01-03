@@ -36,7 +36,7 @@ public class ReviewController : BaseController
     }
 
     [AllowAnonymous]
-    [HttpGet]
+    [HttpGet("{reviewId:guid}")]
     public async Task<ActionResult<GetReviewDto>> Get(Guid reviewId)
     {
         var getReviewQuery = new GetReviewDtoQuery(reviewId, UserId);

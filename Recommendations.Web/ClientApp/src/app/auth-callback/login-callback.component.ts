@@ -19,8 +19,7 @@ export class LoginCallbackComponent {
         next: () => {
           this.userService.isAuthenticated = true
           this.router.navigate(['/'])
-        },
-        error: error => this.error = error
+        }
     });
   }
 }

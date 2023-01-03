@@ -20,11 +20,11 @@ public class AdminInitializer
     {
         if (await _userManager.FindByNameAsync(Roles.Admin) != null)
             return;
-
+        
         var userName = _configuration["Admin:Login"];
         var email = _configuration["Admin:Email"];
         var password = _configuration["Admin:Password"];
-
+        
         if (userName is null || email is null || password is null)
             throw new NullReferenceException("Administrator's data is not set");
 

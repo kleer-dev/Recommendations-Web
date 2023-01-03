@@ -6,12 +6,13 @@ import {formToFormData} from "src/common/functions/formToFormData";
 import {UpdateReviewModel} from "../../common/models/UpdateReviewModel";
 import {ReviewFormModel} from "../../common/models/ReviewFormModel";
 import {Log} from "oidc-client";
+import {ReviewsService} from "../../common/services/reviews/reviews.service";
 
 @Component({
   selector: 'app-update-review',
   templateUrl: 'update-review.component.html'
 })
-export class UpdateReviewComponent implements OnInit{
+export class UpdateReviewComponent implements OnInit {
 
   waiter: boolean = false
   reviewId: number = 0
@@ -25,18 +26,19 @@ export class UpdateReviewComponent implements OnInit{
   reviewForm!: ReviewFormModel
 
   constructor(private http: HttpClient, private router: Router,
-              private activatedRoute: ActivatedRoute) {
+              private activatedRoute: ActivatedRoute,
+              private reviewService: ReviewsService) {
 
   }
 
   async ngOnInit() {
     this.getUserIdFromQueryParams()
     this.reviewId = this.activatedRoute.snapshot.params['id']
-    this.http.get<UpdateReviewModel>(`api/reviews/get-update-review/${this.reviewId}`)
+    this.reviewService.getReviewForUpdate(this.reviewId)
       .subscribe({
-        next: async data => {
+        next: data => {
           this.review = data
-          await this.getImages(data.imagesUrls)
+          this.getImages(data.imagesUrls)
           this.tags = data.tags
           this.reviewForm = new FormGroup({
             reviewId: new FormControl(this.reviewId),
@@ -70,7 +72,7 @@ export class UpdateReviewComponent implements OnInit{
       })
   }
 
-  getUserIdFromQueryParams(){
+  getUserIdFromQueryParams() {
     this.activatedRoute.params.subscribe({
       next: value => this.userId = value['userid']
     })
@@ -78,21 +80,21 @@ export class UpdateReviewComponent implements OnInit{
 
   onSubmitForm() {
     this.waiter = false;
-    this.http.put("api/reviews", formToFormData(this.reviewForm))
+    this.reviewService.updateReview(this.reviewForm)
       .subscribe({
         next: _ => window.history.back(),
         error: err => {
-          console.error(err)
           this.waiter = true;
         }
       })
   }
 
-  async getImages(urls: string[]){
+  async getImages(urls: string[]) {
     let images = await Promise.all(urls.map(url =>
-      this.http.get(url, { responseType: 'blob' }).toPromise()));
+      this.http.get(url, {responseType: 'blob'}).toPromise()));
     this.files = images.map((image, index) => {
-      return new File([<BlobPart>image], `${index}.png`, { type: 'image/png' });
+      return new File([<BlobPart>image], `${index}.${image!.type}`,
+        {type: `image/png`});
     });
   }
 }

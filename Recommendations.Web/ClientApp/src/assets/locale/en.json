@@ -34,7 +34,7 @@
     "CommentMaxLength": "Max length - 400"
   },
   "ReviewForm": {
-    "AddImage": "Add Image",
+    "AddImage": "Add Image (max - 512kb)",
     "ReviewTitle": "Review Title",
     "ProductName": "Product name",
     "Category": "Category",

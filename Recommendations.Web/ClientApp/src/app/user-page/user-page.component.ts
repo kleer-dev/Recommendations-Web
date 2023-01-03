@@ -14,7 +14,7 @@ import {UserService} from "../../common/services/user/user.service";
   styleUrls: ['user-page.component.css']
 })
 export class UserPageComponent implements OnInit {
-  waiter!: Promise<boolean>
+  waiter: boolean = false
   ColumnMode = ColumnMode;
   reviews!: ReviewUserPageModel[]
   rows!: ReviewUserPageModel[]
@@ -46,7 +46,7 @@ export class UserPageComponent implements OnInit {
         .subscribe({
           next: data => {
             this.userData = data
-            this.waiter = Promise.resolve(true)
+            this.waiter = true
           }
         })
     }
@@ -55,7 +55,7 @@ export class UserPageComponent implements OnInit {
         .subscribe({
           next: data => {
             this.userData = data
-            this.waiter = Promise.resolve(true)
+            this.waiter = true
           }
         })
     }

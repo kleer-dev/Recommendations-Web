@@ -14,7 +14,7 @@
       <div class="col-lg-12 p-0 m-0 h-100 w-100 row mb-3 d-flex justify-content-center">
         <div class="row w-100 p-0 m-0">
           <h6>{{'ReviewForm.AddImage' | translate}}</h6>
-          <ngx-dropzone accept="image/png, image/jpeg" class="w-100
+          <ngx-dropzone [maxFileSize]="524288" [multiple]="true" [accept]="'image/*'" class="w-100
               d-flex justify-content-center" (change)="onSelectImage($event)">
             <ngx-dropzone-image-preview *ngFor="let file of files"
                                         [file]="file!" class="w-100"

@@ -5,6 +5,10 @@ import {ReviewPreviewModel} from "../../models/ReviewPreviewModel";
 import {FilteringParameters} from "../../consts/FilteringParameters";
 import {ReviewUserPageModel} from "../../models/ReviewUserPageModel";
 import {Observable} from "rxjs";
+import {FormControl, FormGroup} from "@angular/forms";
+import {formToFormData} from "../../functions/formToFormData";
+import {ReviewModel} from "../../models/ReviewModel";
+import {UpdateReviewModel} from "../../models/UpdateReviewModel";
 
 @Injectable({
   providedIn: 'root'
@@ -18,7 +22,7 @@ export class ReviewsService {
   waiter!: Promise<boolean>
 
   constructor(private http: HttpClient, private activateRoute: ActivatedRoute,
-              private router: Router, private activatedRoute: ActivatedRoute) {
+              private router: Router) {
 
   }
 
@@ -70,15 +74,33 @@ export class ReviewsService {
       });
   }
 
+  getReviewById(reviewId: number): Observable<ReviewModel> {
+    return this.http.get<ReviewModel>(`api/reviews/${reviewId}`)
+  }
+
   getReviewsByUserId(userId?: number | null): Observable<ReviewUserPageModel[]> {
     let url = `api/reviews/get-by-user`
     if (userId !== undefined)
       url = `${url}/${userId}`
-
     return this.http.get<ReviewUserPageModel[]>(url)
   }
 
   deleteReview(reviewId: number) {
     return this.http.delete(`api/reviews/${reviewId}`)
+  }
+
+  createReview(form: FormGroup, userId?: number): Observable<any> {
+    let url = "api/reviews"
+    if (userId)
+      url = `${url}/${userId}`
+    return this.http.post(url, formToFormData(form))
+  }
+
+  updateReview(form: FormGroup): Observable<any> {
+    return this.http.put("api/reviews", formToFormData(form))
+  }
+
+  getReviewForUpdate(reviewId: number) : Observable<UpdateReviewModel> {
+    return this.http.get<UpdateReviewModel>(`api/reviews/get-update-review/${reviewId}`)
   }
 }

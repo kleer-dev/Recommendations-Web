@@ -4,6 +4,7 @@ import {FormControl, FormGroup, Validators} from "@angular/forms";
 import {ActivatedRoute, Router} from "@angular/router";
 import {ReviewFormModel} from "src/common/models/ReviewFormModel";
 import {formToFormData} from "src/common/functions/formToFormData";
+import {ReviewsService} from "../../common/services/reviews/reviews.service";
 
 @Component({
   selector: 'app-create-review',
@@ -13,10 +14,12 @@ import {formToFormData} from "src/common/functions/formToFormData";
 export class CreateReviewComponent implements OnInit {
 
   waiter: boolean = true
-  userId?: number | null = null
+  userId?: number;
 
   constructor(private activatedRoute: ActivatedRoute,
-              private http: HttpClient, private router: Router) {
+              private http: HttpClient,
+              private router: Router,
+              private reviewService: ReviewsService) {
 
   }
 
@@ -58,17 +61,10 @@ export class CreateReviewComponent implements OnInit {
 
   onSubmitForm() {
     this.waiter = false
-    let url = "api/reviews"
-    if (this.userId){
-      url = `${url}/${this.userId}`
-    }
-    this.http.post(url, formToFormData(this.reviewForm))
+    this.reviewService.createReview(this.reviewForm, this.userId)
       .subscribe({
         next: _ => window.history.back(),
-        error: err => {
-          this.waiter = true
-          console.error(err)
-        }
+        error: () => this.waiter = true
       })
   }
 }

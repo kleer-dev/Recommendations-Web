@@ -10,17 +10,20 @@ import {Router} from "@angular/router";
 })
 export class SearchComponent {
 
-  constructor(private http: HttpClient, private router: Router, private cdr: ChangeDetectorRef) {
+  constructor(private http: HttpClient,
+              private router: Router,
+              private cdr: ChangeDetectorRef) {
 
   }
 
   searchForm = new FormGroup({
-    search: new FormControl('', [Validators.required])
+    search: new FormControl('', [
+      Validators.required
+    ])
   })
 
   search() {
     let searchQuery = this.searchForm.get('search')?.value
     this.router.navigate(['/search', searchQuery]);
   }
-
 }

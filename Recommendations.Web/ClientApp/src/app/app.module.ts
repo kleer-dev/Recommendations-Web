@@ -34,7 +34,7 @@ import {DataLoaderComponent} from "./loaders/data-loader/data-loader.component";
 import {UserPageComponent} from "./user-page/user-page.component";
 import {UpdateReviewComponent} from "./update-review/update-review.component";
 import {NgxDatatableModule} from '@swimlane/ngx-datatable';
-import {AuthInterceptor} from "../common/interceptors/auth.interceptor";
+import {ErrorInterceptor} from "../common/interceptors/error-interceptor.service";
 import {AuthGuard} from "../common/guards/auth.guard";
 import {LogoutComponent} from "./logout/logout.component";
 import {AdminPageComponent} from "./admin-page/admin-page.component";
@@ -42,6 +42,7 @@ import {RoleGuard} from "../common/guards/admin-role.guard";
 import {SearchPageComponent} from "./search-page/search-page.component";
 import {NgxGridModule} from "@egjs/ngx-grid";
 import {ReviewGridComponent} from "./reviews-grid/review-grid.component";
+import {NotFoundComponent} from "./not-found/not-found.component";
 
 @NgModule({
   declarations: [
@@ -64,7 +65,8 @@ import {ReviewGridComponent} from "./reviews-grid/review-grid.component";
     LogoutComponent,
     AdminPageComponent,
     SearchPageComponent,
-    ReviewGridComponent
+    ReviewGridComponent,
+    NotFoundComponent
   ],
   imports: [
     BrowserModule.withServerTransition({appId: 'ng-cli-universal'}),
@@ -83,7 +85,9 @@ import {ReviewGridComponent} from "./reviews-grid/review-grid.component";
       {path: 'logout', component: LogoutComponent},
       {path: 'profile', component: UserPageComponent, canActivate: [AuthGuard]},
       {path: 'profile/:userid', component: UserPageComponent, canActivate: [AuthGuard, RoleGuard]},
-      {path: 'search/:search-query', component: SearchPageComponent}
+      {path: 'search/:search-query', component: SearchPageComponent},
+      {path: 'not-found', component: NotFoundComponent},
+      {path: '**', component: NotFoundComponent}
     ]),
     NgbModule,
     ReviewFormModule,
@@ -121,7 +125,7 @@ import {ReviewGridComponent} from "./reviews-grid/review-grid.component";
   providers: [
     {
       provide: HTTP_INTERCEPTORS,
-      useClass: AuthInterceptor,
+      useClass: ErrorInterceptor,
       multi: true
     }
   ],
