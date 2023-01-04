@@ -91,6 +91,7 @@ export class UserPageComponent implements OnInit {
     let filterValue: string = this.filterForm.get('filterValue')?.value!
 
     this.rows = this.filtrationService.filtrateData(filterType, filterValue, this.reviews)
+    console.log(this.rows)
   }
 
   resetFiltration(){

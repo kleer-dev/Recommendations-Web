@@ -1,7 +1,7 @@
 export interface ReviewUserPageModel {
   reviewId: string
   reviewTitle: string
-  creationDate: Date
+  creationDate: string
   category: string
   product: string
   likesCount: number

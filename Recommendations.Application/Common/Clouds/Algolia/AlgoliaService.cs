@@ -33,7 +33,7 @@ public class AlgoliaService : IAlgoliaService
 
     public async Task<List<Guid>> Search(string query)
     {
-        var searchQuery = new Query { SearchQuery = query };
+        var searchQuery = new Query(query);
         var searchResult = await _searchIndex.SearchAsync<Review>(searchQuery);
         var reviewIds = searchResult.Hits.Select(r => r.Id);
 

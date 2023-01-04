@@ -10,7 +10,7 @@
       <div class="d-flex flex-column">
         <span class="wrap">{{'ReviewPage.Author' | translate}} {{review.authorName}} ({{review.authorLikesCount}})</span>
         <span class="wrap">
-          {{'ReviewPage.CreationDate' | translate}} {{review.creationDate | date:'d.M.yy, HH:MM'}}
+          {{'ReviewPage.CreationDate' | translate}} {{review.creationDate | date:'dd.MM.YY, HH:mm':'UTC+3'}}
         </span>
       </div>
 
@@ -100,7 +100,7 @@
       <div class="comment mb-2" *ngFor="let comment of this.signalrService.comments">
         <span class="comment-head mb-2">
           <div class="mr-3 wrap">{{comment.authorName}} ({{comment.authorLikesCount}})</div>
-          <div class="wrap">{{comment.creationDate | date:'d.M.yy, HH:mm'}}</div>
+          <div class="wrap">{{comment.creationDate | date:'dd.MM.YY, HH:mm':'UTC+3'}}</div>
         </span>
         <div class="comment-text-container wrap">
           {{comment.text}}
