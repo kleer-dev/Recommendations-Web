@@ -3,7 +3,7 @@
   <div class="col m-2 review" *ngFor="let review of reviews">
     <form class="d-flex justify-content-between flex-column w-100" [formGroup]="ReviewForm">
       <h6 class="w-100 d-flex justify-content-center">
-        {{review.creationDate | date:'d.M.yy, HH:MM'}}
+        {{review.creationDate | date:'dd.MM.YY, HH:mm':'UTC+3'}}
       </h6>
 
       <div *ngIf='review.imageUrl' class="d-flex w-100 justify-content-center align-items-center">

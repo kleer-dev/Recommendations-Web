@@ -3,21 +3,19 @@ using AutoMapper.QueryableExtensions;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 using Recommendations.Application.CommandsQueries.User.Queries.Get;
-using Recommendations.Application.Common.Interfaces;
+using Recommendations.Application.Interfaces;
 
 namespace Recommendations.Application.CommandsQueries.Comment.Queries.GetAll;
 
 public class GetAllCommentsQueryHandler : IRequestHandler<GetAllCommentsQuery, GetAllCommentsVm>
 {
     private readonly IRecommendationsDbContext _context;
-    private readonly IMediator _mediator;
     private readonly IMapper _mapper;
 
     public GetAllCommentsQueryHandler(IRecommendationsDbContext context,
-        IMediator mediator, IMapper mapper)
+        IMapper mapper)
     {
         _context = context;
-        _mediator = mediator;
         _mapper = mapper;
     }
 
@@ -32,6 +30,6 @@ public class GetAllCommentsQueryHandler : IRequestHandler<GetAllCommentsQuery, G
             .ProjectTo<GetAllCommentsDto>(_mapper.ConfigurationProvider)
             .ToListAsync(cancellationToken);
 
-        return new GetAllCommentsVm { Comments = comments };
+        return new GetAllCommentsVm(comments);
     }
 }

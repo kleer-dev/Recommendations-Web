@@ -6,10 +6,10 @@ namespace Recommendations.Application.CommandsQueries.Comment.Commands;
 
 public class CreateCommentCommand : IRequest<Guid>, IMapWith<Domain.Comment>
 {
-    public Guid? UserId { get; set; }
+    public Guid UserId { get; set; }
     public Guid ReviewId { get; set; }
     public string Text { get; set; }
-    
+
     public void Mapping(Profile profile)
     {
         profile.CreateMap<CreateCommentCommand, Domain.Comment>()

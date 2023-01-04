@@ -3,7 +3,7 @@ import {ReviewsService} from "../../common/services/reviews/reviews.service";
 import {ColumnMode} from '@swimlane/ngx-datatable';
 import {ReviewUserPageModel} from "../../common/models/ReviewUserPageModel";
 import {FormControl, FormGroup} from "@angular/forms";
-import {FiltrationService} from "../../common/services/filtration/filtration.service";
+import {FiltrationReviewService} from "../../common/services/filtration/filtration-review.service";
 import {ActivatedRoute} from "@angular/router";
 import {UserModel} from "../../common/models/UserModel";
 import {UserService} from "../../common/services/user/user.service";
@@ -14,7 +14,7 @@ import {UserService} from "../../common/services/user/user.service";
   styleUrls: ['user-page.component.css']
 })
 export class UserPageComponent implements OnInit {
-  waiter!: Promise<boolean>
+  waiter: boolean = false
   ColumnMode = ColumnMode;
   reviews!: ReviewUserPageModel[]
   rows!: ReviewUserPageModel[]
@@ -23,7 +23,7 @@ export class UserPageComponent implements OnInit {
   userId?: number | null = null
 
   constructor(public reviewsService: ReviewsService,
-              private filtrationService: FiltrationService,
+              private filtrationService: FiltrationReviewService,
               private activatedRoute: ActivatedRoute,
               private userService: UserService) {
 
@@ -44,13 +44,19 @@ export class UserPageComponent implements OnInit {
     if (userId === undefined){
       this.userService.getUserInfo()
         .subscribe({
-          next: data => this.userData = data
+          next: data => {
+            this.userData = data
+            this.waiter = true
+          }
         })
     }
     else {
       this.userService.getUserInfoById(userId)
         .subscribe({
-          next: data => this.userData = data
+          next: data => {
+            this.userData = data
+            this.waiter = true
+          }
         })
     }
   }
@@ -61,7 +67,6 @@ export class UserPageComponent implements OnInit {
         next: data => {
           this.reviews = data
           this.rows = this.reviews
-          this.waiter = Promise.resolve(true)
         }
       });
   }
@@ -69,7 +74,7 @@ export class UserPageComponent implements OnInit {
   deleteReview(reviewId: number) {
     this.reviewsService.deleteReview(reviewId)
       .subscribe({
-        complete: () => this.getReviews()
+        next: () => this.getReviews()
       })
   }
 
@@ -86,6 +91,7 @@ export class UserPageComponent implements OnInit {
     let filterValue: string = this.filterForm.get('filterValue')?.value!
 
     this.rows = this.filtrationService.filtrateData(filterType, filterValue, this.reviews)
+    console.log(this.rows)
   }
 
   resetFiltration(){

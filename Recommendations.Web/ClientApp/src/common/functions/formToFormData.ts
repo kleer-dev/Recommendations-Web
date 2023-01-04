@@ -8,6 +8,12 @@ export function formToFormData(form: FormGroup) {
     formData.append(key, value)
   }
 
+  if (form.get('tags')?.value) {
+    const tags = <string[]>form.get('tags')!.value;
+    formData.delete('tags')
+    tags.forEach(tag => formData.append('tags', tag));
+  }
+
   const images = form.get('images')!.value;
   for (const image of images) {
     formData.append('images', image);

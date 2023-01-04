@@ -10,13 +10,13 @@
       <div class="d-flex flex-column">
         <span class="wrap">{{'ReviewPage.Author' | translate}} {{review.authorName}} ({{review.authorLikesCount}})</span>
         <span class="wrap">
-          {{'ReviewPage.CreationDate' | translate}} {{review.creationDate | date:'d.M.yy, HH:MM'}}
+          {{'ReviewPage.CreationDate' | translate}} {{review.creationDate | date:'dd.MM.YY, HH:mm':'UTC+3'}}
         </span>
       </div>
 
     </div>
 
-    <div *ngIf="review.imagesUrls.length > 0" id="carouselExample" class="carousel slide mb-3 d-flex justify-content-center">
+    <div *ngIf="review.imagesUrls" id="carouselExample" class="carousel slide mb-3 d-flex justify-content-center">
       <div class="carousel-inner">
         <div class="carousel-item" [ngClass]="{'active': i === 0}" *ngFor="let image of review.imagesUrls; let i = index">
           <img src="{{image}}" class="d-block mx-auto" alt="...">
@@ -79,14 +79,20 @@
     </div>
   </div>
 
-  <div class="row mb-3 m-0 p-0">
+  <div class="row mb-3   m-0 p-0">
     <h5 class="mb-2">{{'ReviewPage.Comments' | translate}}</h5>
 
     <div class="write-comment-container mb-3">
-      <h6 class="mb-3">{{'ReviewPage.LeaveComment' | translate}}</h6>
-      <textarea id="comment" class="mb-2"></textarea>
-      <input (click)="sendComment()" type="button" class="btn btn-success"
-             value="{{'ReviewPage.Send' | translate}}">
+      <h6 class="mb-2">{{'ReviewPage.LeaveComment' | translate}}</h6>
+      <div class="text-danger mb-2" *ngIf="commentForm.controls.commentText.hasError('maxlength') &&
+            commentForm.controls['commentText'].touched">
+        {{'Validation.CommentMaxLength' | translate}}
+      </div>
+      <form class="w-100 p-0 m-0 d-flex flex-column" [formGroup]="commentForm" (ngSubmit)="sendComment()">
+        <textarea formControlName="commentText" id="comment" class="mb-2"></textarea>
+        <input [disabled]="!commentForm.valid" (click)="sendComment()" type="button" class="btn btn-success"
+               value="{{'ReviewPage.Send' | translate}}">
+      </form>
     </div>
 
     <div class="comments-container">
@@ -94,7 +100,7 @@
       <div class="comment mb-2" *ngFor="let comment of this.signalrService.comments">
         <span class="comment-head mb-2">
           <div class="mr-3 wrap">{{comment.authorName}} ({{comment.authorLikesCount}})</div>
-          <div class="wrap">{{comment.creationDate | date:'d.M.yy, HH:mm'}}</div>
+          <div class="wrap">{{comment.creationDate | date:'dd.MM.YY, HH:mm':'UTC+3'}}</div>
         </span>
         <div class="comment-text-container wrap">
           {{comment.text}}

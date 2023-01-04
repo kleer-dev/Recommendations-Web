@@ -1,6 +1,6 @@
 using MediatR;
 using Microsoft.EntityFrameworkCore;
-using Recommendations.Application.Common.Interfaces;
+using Recommendations.Application.Interfaces;
 
 namespace Recommendations.Application.CommandsQueries.Review.Queries.Get;
 
@@ -18,16 +18,15 @@ public class GetReviewQueryHandler : IRequestHandler<GetReviewQuery, Domain.Revi
     {
         var review = await _context.Reviews
             .Include(r => r.Product)
+            .ThenInclude(r => r.UserRatings)
             .Include(r => r.User)
             .Include(r => r.Category)
             .Include(r => r.Likes)
             .Include(r => r.Tags)
-            .Include(r => r.Product)
-            .ThenInclude(r => r.UserRatings)
             .Include(r => r.Images)
             .FirstOrDefaultAsync(r => r.Id == request.ReviewId, cancellationToken);
         if (review is null)
-            throw new NullReferenceException($"Review with id: {request.ReviewId} not found");
+            throw new NullReferenceException("Review not found");
 
         return review;
     }

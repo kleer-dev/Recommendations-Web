@@ -22,7 +22,6 @@ export class RegistrationComponent {
   checkPasswordConfirmation: ValidatorFn = (group: AbstractControl): ValidationErrors | null => {
     const password = group.get('password')?.value;
     const passwordConfirm = group.get('passwordConfirmation')?.value;
-
     return password === passwordConfirm ? null : {notSame: true}
   };
 
@@ -46,7 +45,7 @@ export class RegistrationComponent {
   }, {validators: this.checkPasswordConfirmation})
 
   onSubmit() {
-    this.http.post('api/user/registration', this.registrationForm.value)
+    this.userService.registration(this.registrationForm)
       .subscribe({
         next: () => {
           this.userService.isAuthenticated = true

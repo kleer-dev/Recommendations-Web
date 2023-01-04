@@ -1,19 +1,15 @@
-using System;
-using System.Collections.Generic;
-using System.Threading;
-using System.Threading.Tasks;
 using AutoMapper;
 using MediatR;
-using Microsoft.EntityFrameworkCore;
-using Recommendations.Application.CommandsQueries.Image.Queries.GetImagesByReviewId;
-using Recommendations.Application.CommandsQueries.Like.Queries.Get;
+using Recommendations.Application.CommandsQueries.Image.Queries.GetImageListByReviewId;
+using Recommendations.Application.CommandsQueries.Like.Queries.GetLikeStatus;
 using Recommendations.Application.CommandsQueries.Rating.Queries.GetUserRating;
 using Recommendations.Application.CommandsQueries.Review.Queries.Get;
-using Recommendations.Application.Common.Interfaces;
+using Recommendations.Application.Interfaces;
 
 namespace Recommendations.Application.CommandsQueries.Review.Queries.GetDto;
 
-public class GetReviewDtoQueryHandler : IRequestHandler<GetReviewDtoQuery, GetReviewDto>
+public class GetReviewDtoQueryHandler
+    : IRequestHandler<GetReviewDtoQuery, GetReviewDto>
 {
     private readonly IRecommendationsDbContext _context;
     private readonly IMapper _mapper;
@@ -42,49 +38,30 @@ public class GetReviewDtoQueryHandler : IRequestHandler<GetReviewDtoQuery, GetRe
     private async Task<Domain.Review> GetReview(Guid reviewId,
         CancellationToken cancellationToken)
     {
-        var getReviewQuery = new GetReviewQuery
-        {
-            ReviewId = reviewId
-        };
-        var review = await _mediator.Send(getReviewQuery, cancellationToken);
-
-        return review;
+        var getReviewQuery = new GetReviewQuery(reviewId);
+        return await _mediator.Send(getReviewQuery, cancellationToken);
     }
 
-    private async Task<bool> GetLikeStatus(Guid? userId, Guid reviewId,
+    private async Task<bool> GetLikeStatus(Guid userId, Guid reviewId,
         CancellationToken cancellationToken)
     {
-        var getLikeStatus = new GetLikeQuery
-        {
-            UserId = userId,
-            ReviewId = reviewId
-        };
-        var like = await _mediator.Send(getLikeStatus, cancellationToken);
-
-        return like?.Status ?? false;
+        var getLikeStatus = new GetLikeStatusQuery(userId, reviewId);
+        return await _mediator.Send(getLikeStatus, cancellationToken);
     }
     
-    private async Task<double> GetUserRating(Guid? userId, Guid productId,
+    private async Task<double> GetUserRating(Guid userId, Guid productId,
         CancellationToken cancellationToken)
     {
-        var getRatingQuery = new GetUserRatingQuery
-        {
-            UserId = userId,
-            ProductId = productId
-        };
+        var getRatingQuery = new GetUserRatingQuery(userId, productId);
         var rating = await _mediator.Send(getRatingQuery, cancellationToken);
-
-        return rating is null ? 1 : rating.Value;
+        return rating?.Value ?? 1;
     }
     
-    private async Task<List<string>> GetImagesUrls(Guid reviewId,
+    private async Task<List<string>?> GetImagesUrls(Guid reviewId,
         CancellationToken cancellationToken)
     {
-        var getImagesByReviewIdQuery = new GetImagesByReviewIdQuery
-        {
-            ReviewId = reviewId
-        };
+        var getImagesByReviewIdQuery = new GetImageListByReviewIdQuery(reviewId);
         var images = await _mediator.Send(getImagesByReviewIdQuery, cancellationToken);
-        return images.Select(i => i.Url).ToList();
+        return images?.Select(i => i.Url).ToList();
     }
 }

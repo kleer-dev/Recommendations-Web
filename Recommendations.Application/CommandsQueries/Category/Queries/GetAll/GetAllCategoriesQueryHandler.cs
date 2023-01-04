@@ -2,11 +2,12 @@ using AutoMapper;
 using AutoMapper.QueryableExtensions;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
-using Recommendations.Application.Common.Interfaces;
+using Recommendations.Application.Interfaces;
 
 namespace Recommendations.Application.CommandsQueries.Category.Queries.GetAll;
 
-public class GetAllCategoriesQueryHandler : IRequestHandler<GetAllCategoriesQuery, GetAllCategoriesVm>
+public class GetAllCategoriesQueryHandler
+    : IRequestHandler<GetAllCategoriesQuery, GetAllCategoriesVm>
 {
     private readonly IRecommendationsDbContext _context;
     private readonly IMapper _mapper;

@@ -13,14 +13,8 @@ namespace Recommendations.Web.Controllers;
 [Route("api/likes")]
 public class LikeController : BaseController
 {
-    private readonly IMapper _mapper;
-    private readonly IMediator _mediator;
-
-    public LikeController(IMapper mapper, IMediator mediator)
-    {
-        _mapper = mapper;
-        _mediator = mediator;
-    }
+    public LikeController(IMediator mediator, IMapper mapper)
+        : base(mediator, mapper) { }
 
     [HttpPost]
     public async Task<ActionResult> SetLike([FromBody] LikeDto dto)
@@ -28,7 +22,7 @@ public class LikeController : BaseController
         var setLikeCommand = _mapper.Map<SetLikeCommand>(dto);
         setLikeCommand.UserId = UserId;
         await _mediator.Send(setLikeCommand);
-
+        
         return Ok();
     }
 }

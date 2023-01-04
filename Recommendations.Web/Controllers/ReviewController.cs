@@ -20,55 +20,37 @@ namespace Recommendations.Web.Controllers;
 [Route("api/reviews")]
 public class ReviewController : BaseController
 {
-    private readonly IMapper _mapper;
-    private readonly IMediator _mediator;
-
-    public ReviewController(IMapper mapper, IMediator mediator)
-    {
-        _mapper = mapper;
-        _mediator = mediator;
-    }
+    public ReviewController(IMediator mediator, IMapper mapper)
+        : base(mediator, mapper) { }
 
     [AllowAnonymous]
     [HttpGet("get-all")]
     public async Task<ActionResult<IEnumerable<GetAllReviewsDto>>> GetAllReviews(string? filtrate,
         int? count, string? tag)
     {
-        var getReviewsByParam = new GetReviewsByParamQuery
-        {
-            Count = count,
-            Filtrate = filtrate,
-            Tag = tag
-        };
+        var getReviewsByParam = new GetReviewsByParamQuery(count, filtrate, tag);
         var getReviewsByParamVm = await _mediator.Send(getReviewsByParam);
         var reviews = getReviewsByParamVm.Reviews.ToList();
-
+        
         return Ok(reviews);
     }
 
     [AllowAnonymous]
-    [HttpGet]
+    [HttpGet("{reviewId:guid}")]
     public async Task<ActionResult<GetReviewDto>> Get(Guid reviewId)
     {
-        var getReviewQuery = new GetReviewDtoQuery
-        {
-            ReviewId = reviewId,
-            UserId = UserId
-        };
+        var getReviewQuery = new GetReviewDtoQuery(reviewId, UserId);
         var review = await _mediator.Send(getReviewQuery);
-
+        
         return Ok(review);
     }
     
     [HttpGet("get-by-user")]
     public async Task<ActionResult<IEnumerable<GetReviewsByUserIdDto>>> GetReviewsByUser()
     {
-        var getReviewsByUserIdQuery = new GetReviewsByUserIdQuery
-        {
-            UserId = UserId
-        };
+        var getReviewsByUserIdQuery = new GetReviewsByUserIdQuery(UserId);
         var reviewsVm = await _mediator.Send(getReviewsByUserIdQuery);
-
+        
         return Ok(reviewsVm.Reviews);
     }
     
@@ -76,24 +58,18 @@ public class ReviewController : BaseController
     [HttpGet("get-by-user/{userId:guid}")]
     public async Task<ActionResult<IEnumerable<GetReviewsByUserIdDto>>> GetReviewsByUser(Guid userId)
     {
-        var getReviewsByUserIdQuery = new GetReviewsByUserIdQuery
-        {
-            UserId = userId
-        };
+        var getReviewsByUserIdQuery = new GetReviewsByUserIdQuery(userId);
         var reviewsVm = await _mediator.Send(getReviewsByUserIdQuery);
-
+        
         return Ok(reviewsVm.Reviews);
     }
 
     [HttpGet("get-update-review/{reviewId:guid}")]
     public async Task<ActionResult> GetUpdateReview(Guid reviewId)
     {
-        var getUpdateReviewQuery = new GetUpdateReviewQuery
-        {
-            ReviewId = reviewId
-        };
+        var getUpdateReviewQuery = new GetUpdateReviewQuery(reviewId);
         var review = await _mediator.Send(getUpdateReviewQuery);
-
+        
         return Ok(review);
     }
 
@@ -103,7 +79,7 @@ public class ReviewController : BaseController
         var createReviewCommand = _mapper.Map<CreateReviewCommand>(dto);
         createReviewCommand.UserId = UserId;
         var reviewId = await _mediator.Send(createReviewCommand);
-
+        
         return Created("api/reviews", reviewId);
     }
     
@@ -114,7 +90,7 @@ public class ReviewController : BaseController
         var createReviewCommand = _mapper.Map<CreateReviewCommand>(dto);
         createReviewCommand.UserId = userId;
         var reviewId = await _mediator.Send(createReviewCommand);
-
+        
         return Created("api/reviews", reviewId);
     }
 
@@ -130,12 +106,9 @@ public class ReviewController : BaseController
     [HttpDelete("{reviewId:guid}")]
     public async Task<ActionResult> Delete(Guid reviewId)
     {
-        var deleteReviewCommand = new DeleteReviewCommand
-        {
-            ReviewId = reviewId
-        };
+        var deleteReviewCommand = new DeleteReviewCommand(reviewId);
         await _mediator.Send(deleteReviewCommand);
-
+        
         return NoContent();
     }
 }

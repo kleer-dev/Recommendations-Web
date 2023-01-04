@@ -5,11 +5,18 @@ import {ReviewPreviewModel} from "../../models/ReviewPreviewModel";
 import {FilteringParameters} from "../../consts/FilteringParameters";
 import {ReviewUserPageModel} from "../../models/ReviewUserPageModel";
 import {Observable} from "rxjs";
+import {FormControl, FormGroup} from "@angular/forms";
+import {formToFormData} from "../../functions/formToFormData";
+import {ReviewModel} from "../../models/ReviewModel";
+import {UpdateReviewModel} from "../../models/UpdateReviewModel";
 
 @Injectable({
   providedIn: 'root'
 })
 export class ReviewsService {
+
+  readonly baseUrl: string = "api/reviews"
+
   filtrate?: string | null = FilteringParameters.recent;
   count?: number | undefined;
   tag: string | undefined
@@ -18,7 +25,7 @@ export class ReviewsService {
   waiter!: Promise<boolean>
 
   constructor(private http: HttpClient, private activateRoute: ActivatedRoute,
-              private router: Router, private activatedRoute: ActivatedRoute) {
+              private router: Router) {
 
   }
 
@@ -58,8 +65,8 @@ export class ReviewsService {
     this.getParams()
 
     let getUrl = this.tag === undefined
-      ? `api/reviews/get-all?filtrate=${this.filtrate}&count=${this.count}`
-      : `api/reviews/get-all?filtrate=${this.filtrate}&count=${this.count}&tag=${this.tag}`;
+      ? `${this.baseUrl}/get-all?filtrate=${this.filtrate}&count=${this.count}`
+      : `${this.baseUrl}/get-all?filtrate=${this.filtrate}&count=${this.count}&tag=${this.tag}`;
 
     this.http.get<ReviewPreviewModel>(getUrl)
       .subscribe({
@@ -70,15 +77,33 @@ export class ReviewsService {
       });
   }
 
+  getReviewById(reviewId: number): Observable<ReviewModel> {
+    return this.http.get<ReviewModel>(`${this.baseUrl}/${reviewId}`)
+  }
+
   getReviewsByUserId(userId?: number | null): Observable<ReviewUserPageModel[]> {
-    let url = `api/reviews/get-by-user`
+    let url = `${this.baseUrl}/get-by-user`
     if (userId !== undefined)
       url = `${url}/${userId}`
-
     return this.http.get<ReviewUserPageModel[]>(url)
   }
 
   deleteReview(reviewId: number) {
-    return this.http.delete(`api/reviews/${reviewId}`)
+    return this.http.delete(`${this.baseUrl}/${reviewId}`)
+  }
+
+  createReview(form: FormGroup, userId?: number): Observable<any> {
+    let url = this.baseUrl
+    if (userId)
+      url = `${url}/${userId}`
+    return this.http.post(url, formToFormData(form))
+  }
+
+  updateReview(form: FormGroup): Observable<any> {
+    return this.http.put(this.baseUrl, formToFormData(form))
+  }
+
+  getReviewForUpdate(reviewId: number) : Observable<UpdateReviewModel> {
+    return this.http.get<UpdateReviewModel>(`${this.baseUrl}/get-update-review/${reviewId}`)
   }
 }

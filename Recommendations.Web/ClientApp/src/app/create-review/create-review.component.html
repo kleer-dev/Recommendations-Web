@@ -4,7 +4,7 @@
   <h3 class="d-flex justify-content-center align-items-center">{{'ReviewForm.CreateReview' | translate}}</h3>
 </div>
 
-<app-review-form (onSubmitForm)="onSubmitForm()"
+<app-review-form *ngIf="waiter" (onSubmitForm)="onSubmitForm()"
                  [reviewForm]="reviewForm"
                   [tags]="[]">
 </app-review-form>

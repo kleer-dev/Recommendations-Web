@@ -15,7 +15,7 @@ public class UpdateReviewCommand : IRequest, IMapWith<Domain.Review>
     public int AuthorRate { get; set; }
     public IFormFile[] Images { get; set; }
     public string[] Tags { get; set; }
-    
+
     public void Mapping(Profile profile)
     {
         profile.CreateMap<UpdateReviewCommand, Domain.Review>()

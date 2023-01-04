@@ -5,7 +5,8 @@ using Recommendations.Application.Common.Exceptions;
 
 namespace Recommendations.Application.CommandsQueries.User.Queries.ExternalLoginCallback;
 
-public class ExternalLoginCallbackQueryHandler : IRequestHandler<ExternalLoginCallbackQuery, Unit>
+public class ExternalLoginCallbackQueryHandler
+    : IRequestHandler<ExternalLoginCallbackQuery, Unit>
 {
     private readonly SignInManager<Domain.User> _signInManager;
     private readonly UserManager<Domain.User> _userManager;
@@ -19,18 +20,16 @@ public class ExternalLoginCallbackQueryHandler : IRequestHandler<ExternalLoginCa
         _userManager = userManager;
     }
 
-    public async Task<Unit> Handle(ExternalLoginCallbackQuery request, CancellationToken cancellationToken)
+    public async Task<Unit> Handle(ExternalLoginCallbackQuery request,
+        CancellationToken cancellationToken)
     {
         var info = await _signInManager.GetExternalLoginInfoAsync();            
         var result = await _signInManager.ExternalLoginSignInAsync(info!.LoginProvider,
-            info.ProviderKey, SaveCookiesAfterExitingBrowser , bypassTwoFactor: true);
-
+            info.ProviderKey, SaveCookiesAfterExitingBrowser, bypassTwoFactor: true);
         if (result.Succeeded) 
             return Unit.Value;
-
-        var user = await GetUserByEmail(info)
-                   ?? await CreateUser(info);
         
+        var user = await GetUserByEmail(info) ?? await CreateUser(info);
         await _userManager.AddLoginAsync(user, info);
         await _signInManager.SignInAsync(user, SaveCookiesAfterExitingBrowser);
         
@@ -45,7 +44,6 @@ public class ExternalLoginCallbackQueryHandler : IRequestHandler<ExternalLoginCa
             Email = info.Principal.FindFirstValue(ClaimTypes.Email)
         };
         var createResult = await _userManager.CreateAsync(newUser);
-        
         if (!createResult.Succeeded)
             throw new AuthenticationException(createResult.Errors
                 .Select(e => e.Description).Aggregate((errors, error) => $"{errors}, {error}"));

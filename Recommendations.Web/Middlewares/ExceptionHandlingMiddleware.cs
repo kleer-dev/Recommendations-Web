@@ -1,5 +1,6 @@
 using System.Net;
 using System.Text.Json;
+using FluentValidation;
 using Recommendations.Application.Common.Exceptions;
 
 namespace Recommendations.Web.Middlewares;
@@ -22,10 +23,6 @@ public class ExceptionHandlingMiddleware
         {
             await _next(httpContext);
         }
-        catch (NotFoundException e)
-        {
-            await HandleExceptionAsync(httpContext, e, HttpStatusCode.NotFound);
-        }
         catch (AuthenticationException e)
         {
             await HandleExceptionAsync(httpContext, e, HttpStatusCode.Unauthorized);
@@ -33,6 +30,10 @@ public class ExceptionHandlingMiddleware
         catch (RecordIsExistException e)
         {
             await HandleExceptionAsync(httpContext, e, HttpStatusCode.Conflict);
+        }
+        catch (ValidationException e)
+        {
+            await HandleExceptionAsync(httpContext, e, HttpStatusCode.BadRequest);
         }
         catch (Exception e)
         {
@@ -48,7 +49,7 @@ public class ExceptionHandlingMiddleware
 
         var error = new
         {
-            Message = exception.Message,
+            exception.Message,
             StatusCode = (int)statusCode,
         };
         var result = JsonSerializer.Serialize(error);

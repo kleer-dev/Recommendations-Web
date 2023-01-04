@@ -1,7 +1,7 @@
 using AutoMapper;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
-using Recommendations.Application.Common.Interfaces;
+using Recommendations.Application.Interfaces;
 
 namespace Recommendations.Application.CommandsQueries.Comment.Queries.Get;
 
@@ -22,8 +22,7 @@ public class GetCommentQueryHandler : IRequestHandler<GetCommentQuery, GetCommen
         var comment = await _context.Comments
             .Include(c => c.User)
             .FirstOrDefaultAsync(c => c.Id == request.CommentId, cancellationToken);
-        var commentDto = _mapper.Map<GetCommentDto>(comment);
 
-        return commentDto;
+        return _mapper.Map<GetCommentDto>(comment);
     }
 }

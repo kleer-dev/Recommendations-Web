@@ -1,15 +1,18 @@
 import {Injectable} from '@angular/core';
-import {HttpClient} from "@angular/common/http";
+import {HttpClient, HttpHeaders} from "@angular/common/http";
 import {map, Observable} from "rxjs";
 import {Router} from "@angular/router";
 import {Roles} from "../../consts/Roles";
 import {UserModel} from "../../models/UserModel";
 import {RoleModel} from "../../models/RoleModel";
+import {FormGroup} from "@angular/forms";
 
 @Injectable({
   providedIn: 'root'
 })
 export class UserService {
+
+  readonly baseUrl: string = "api/user"
 
   isAuthenticated: boolean = false
   isAdmin: boolean = false
@@ -19,11 +22,10 @@ export class UserService {
   }
 
   checkAuthentication(): Observable<boolean> {
-    return this.http.get<boolean>('api/user/check-auth')
+    return this.http.get<boolean>(`${this.baseUrl}/check-auth`)
       .pipe(map((isAuthenticated) => {
         if (!isAuthenticated) {
           this.isAuthenticated = false
-          // this.router.navigate(['/login'])
           return false;
         }
         this.isAuthenticated = true
@@ -32,7 +34,7 @@ export class UserService {
   }
 
   getRole(): Observable<boolean> {
-    return this.http.get<RoleModel>('api/user/get-role')
+    return this.http.get<RoleModel>(`${this.baseUrl}/get-role`)
       .pipe(map((role) => {
         if (role.roleName !== Roles.admin) {
           this.isAdmin = false
@@ -53,19 +55,33 @@ export class UserService {
   }
 
   getAllUsers(): Observable<UserModel[]> {
-    return this.http.get<UserModel[]>('api/user/get-all-users')
+    return this.http.get<UserModel[]>(`${this.baseUrl}/get-all-users`)
   }
 
   getUserInfo(): Observable<UserModel> {
-    return this.http.get<UserModel>(`api/user/get-info`)
+    return this.http.get<UserModel>(`${this.baseUrl}/get-info`)
   }
 
   getUserInfoById(userId: number): Observable<UserModel> {
-    return this.http.get<UserModel>(`api/user/get-info/${userId}`)
+    return this.http.get<UserModel>(`${this.baseUrl}/get-info/${userId}`)
+  }
+
+  login(form: FormGroup): Observable<any> {
+    return this.http.post(`${this.baseUrl}/login`, form.value,
+      {headers: new HttpHeaders({
+        'X-Skip-Interceptor': 'true'
+      })})
+  }
+
+  registration(form: FormGroup): Observable<any> {
+    return this.http.post(`${this.baseUrl}/registration`, form.value,
+      {headers: new HttpHeaders({
+        'X-Skip-Interceptor': 'true'
+      })})
   }
 
   logout() {
-    this.http.post('api/user/logout', {})
+    this.http.post(`${this.baseUrl}/logout`, {})
       .subscribe({
         next: () => this.router.navigate(['/login'])
       })

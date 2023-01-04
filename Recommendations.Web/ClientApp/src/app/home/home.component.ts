@@ -16,7 +16,8 @@ export class HomeComponent {
   tags: any
 
   constructor(public reviewService: ReviewsService,
-              private activateRoute: ActivatedRoute, private router: Router,
+              private activateRoute: ActivatedRoute,
+              private router: Router,
               private tagService: TagService,
               private userService: UserService) {
   }
@@ -30,7 +31,6 @@ export class HomeComponent {
   })
 
   ngOnInit() {
-    this.userService.checkAuthentication()
     this.reviewService.getAllReviews()
     this.tagService.getAllTags()
       .subscribe({
@@ -70,7 +70,8 @@ export class HomeComponent {
 
   async onTagSelect(event: any) {
     let tagName = event.target.value
-    await this.reviewService.setParams(this.reviewService.filtrate, this.reviewService.count, tagName)
+    await this.reviewService.setParams(this.reviewService.filtrate,
+      this.reviewService.count, tagName)
     await this.reviewService.getParams()
     this.reviewService.getAllReviews()
   }

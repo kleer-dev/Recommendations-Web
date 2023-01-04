@@ -13,14 +13,8 @@ namespace Recommendations.Web.Controllers;
 [Route("api/comments")]
 public class CommentController : BaseController
 {
-    private readonly IMediator _mediator;
-    private readonly IMapper _mapper;
-
     public CommentController(IMediator mediator, IMapper mapper)
-    {
-        _mediator = mediator;
-        _mapper = mapper;
-    }
+        : base(mediator, mapper) { }
 
     [HttpPost]
     public async Task<ActionResult<Guid>> Send([FromBody] CreateCommentDto dto)
@@ -28,7 +22,7 @@ public class CommentController : BaseController
         var createCommentCommand = _mapper.Map<CreateCommentCommand>(dto);
         createCommentCommand.UserId = UserId;
         var commentId = await _mediator.Send(createCommentCommand);
-
+        
         return Ok(commentId);
     }
     
@@ -36,12 +30,9 @@ public class CommentController : BaseController
     [HttpGet("{reviewId:guid}")]
     public async Task<ActionResult<IEnumerable<GetAllCommentsDto>>> GetAll(Guid reviewId)
     {
-        var getAllCommentsQuery = new GetAllCommentsQuery
-        {
-            ReviewId = reviewId
-        };
+        var getAllCommentsQuery = new GetAllCommentsQuery(reviewId);
         var commentsVm = await _mediator.Send(getAllCommentsQuery);
-
+        
         return Ok(commentsVm.Comments);
     }
 }

@@ -1,3 +1,4 @@
+using AutoMapper;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 using Recommendations.Application.CommandsQueries.Category.Queries.GetAll;
@@ -8,13 +9,9 @@ namespace Recommendations.Web.Controllers;
 [Route("api/categories")]
 public class CategoryController : BaseController
 {
-    private readonly IMediator _mediator;
-
-    public CategoryController(IMediator mediator)
-    {
-        _mediator = mediator;
-    }
-
+    public CategoryController(IMediator mediator, IMapper mapper)
+        : base(mediator, mapper) { }
+    
     [HttpGet]
     public async Task<ActionResult<GetAllCategoriesDto>> GetAll()
     {

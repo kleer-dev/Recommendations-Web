@@ -164,6 +164,12 @@ namespace Recommendations.Persistence.Migrations
 
                     b.HasKey("Id");
 
+                    b.HasIndex("Id")
+                        .IsUnique();
+
+                    b.HasIndex("Name")
+                        .IsUnique();
+
                     b.ToTable("Categories");
                 });
 
@@ -181,12 +187,16 @@ namespace Recommendations.Persistence.Migrations
 
                     b.Property<string>("Text")
                         .IsRequired()
-                        .HasColumnType("text");
+                        .HasMaxLength(400)
+                        .HasColumnType("character varying(400)");
 
                     b.Property<Guid>("UserId")
                         .HasColumnType("uuid");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("Id")
+                        .IsUnique();
 
                     b.HasIndex("ReviewId");
 
@@ -218,6 +228,9 @@ namespace Recommendations.Persistence.Migrations
 
                     b.HasKey("Id");
 
+                    b.HasIndex("Id")
+                        .IsUnique();
+
                     b.HasIndex("ReviewId");
 
                     b.ToTable("Images");
@@ -233,12 +246,17 @@ namespace Recommendations.Persistence.Migrations
                         .HasColumnType("uuid");
 
                     b.Property<bool>("Status")
-                        .HasColumnType("boolean");
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("boolean")
+                        .HasDefaultValue(false);
 
                     b.Property<Guid>("UserId")
                         .HasColumnType("uuid");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("Id")
+                        .IsUnique();
 
                     b.HasIndex("ReviewId");
 
@@ -250,22 +268,21 @@ namespace Recommendations.Persistence.Migrations
             modelBuilder.Entity("Recommendations.Domain.Product", b =>
                 {
                     b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd()
                         .HasColumnType("uuid");
 
                     b.Property<double>("AverageRate")
-                        .HasColumnType("double precision");
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("double precision")
+                        .HasDefaultValue(1.0);
 
                     b.Property<string>("Name")
                         .IsRequired()
-                        .HasColumnType("text");
-
-                    b.Property<Guid>("ReviewId")
-                        .HasColumnType("uuid");
+                        .HasMaxLength(100)
+                        .HasColumnType("character varying(100)");
 
                     b.HasKey("Id");
 
-                    b.HasIndex("ReviewId")
+                    b.HasIndex("Id")
                         .IsUnique();
 
                     b.ToTable("Products");
@@ -283,10 +300,15 @@ namespace Recommendations.Persistence.Migrations
                     b.Property<Guid>("UserId")
                         .HasColumnType("uuid");
 
-                    b.Property<double>("Value")
-                        .HasColumnType("double precision");
+                    b.Property<int>("Value")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("integer")
+                        .HasDefaultValue(1);
 
                     b.HasKey("Id");
+
+                    b.HasIndex("Id")
+                        .IsUnique();
 
                     b.HasIndex("ProductId");
 
@@ -302,7 +324,9 @@ namespace Recommendations.Persistence.Migrations
                         .HasColumnType("uuid");
 
                     b.Property<int>("AuthorRate")
-                        .HasColumnType("integer");
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("integer")
+                        .HasDefaultValue(1);
 
                     b.Property<Guid>("CategoryId")
                         .HasColumnType("uuid");
@@ -312,11 +336,13 @@ namespace Recommendations.Persistence.Migrations
 
                     b.Property<string>("Description")
                         .IsRequired()
-                        .HasColumnType("text");
+                        .HasMaxLength(5000)
+                        .HasColumnType("character varying(5000)");
 
                     b.Property<string>("Title")
                         .IsRequired()
-                        .HasColumnType("text");
+                        .HasMaxLength(100)
+                        .HasColumnType("character varying(100)");
 
                     b.Property<Guid>("UserId")
                         .HasColumnType("uuid");
@@ -324,6 +350,9 @@ namespace Recommendations.Persistence.Migrations
                     b.HasKey("Id");
 
                     b.HasIndex("CategoryId");
+
+                    b.HasIndex("Id")
+                        .IsUnique();
 
                     b.HasIndex("UserId");
 
@@ -341,6 +370,12 @@ namespace Recommendations.Persistence.Migrations
                         .HasColumnType("text");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("Id")
+                        .IsUnique();
+
+                    b.HasIndex("Name")
+                        .IsUnique();
 
                     b.ToTable("Tags");
                 });
@@ -366,7 +401,9 @@ namespace Recommendations.Persistence.Migrations
                         .HasColumnType("boolean");
 
                     b.Property<int>("LikesCount")
-                        .HasColumnType("integer");
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("integer")
+                        .HasDefaultValue(0);
 
                     b.Property<bool>("LockoutEnabled")
                         .HasColumnType("boolean");
@@ -402,6 +439,9 @@ namespace Recommendations.Persistence.Migrations
                         .HasColumnType("character varying(256)");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("Id")
+                        .IsUnique();
 
                     b.HasIndex("NormalizedEmail")
                         .HasDatabaseName("EmailIndex");
@@ -532,7 +572,7 @@ namespace Recommendations.Persistence.Migrations
                 {
                     b.HasOne("Recommendations.Domain.Review", "Review")
                         .WithOne("Product")
-                        .HasForeignKey("Recommendations.Domain.Product", "ReviewId")
+                        .HasForeignKey("Recommendations.Domain.Product", "Id")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 

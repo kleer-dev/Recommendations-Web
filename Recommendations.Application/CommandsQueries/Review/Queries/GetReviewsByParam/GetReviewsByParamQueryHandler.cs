@@ -3,7 +3,7 @@ using Recommendations.Application.CommandsQueries.Review.Queries.GetAll;
 using Recommendations.Application.CommandsQueries.Review.Queries.GetMostRatedList;
 using Recommendations.Application.CommandsQueries.Review.Queries.GetRecentList;
 using Recommendations.Application.Common.Constants;
-using Recommendations.Application.Common.Interfaces;
+using Recommendations.Application.Interfaces;
 
 namespace Recommendations.Application.CommandsQueries.Review.Queries.GetReviewsByParam;
 
@@ -23,8 +23,7 @@ public class GetReviewsByParamQueryHandler
     public async Task<GetAllReviewsVm> Handle(GetReviewsByParamQuery request,
         CancellationToken cancellationToken)
     {
-        var filtrateParam = request.Filtrate;
-        var reviews = filtrateParam switch
+        var reviews = request.Filtrate switch
         {
             FilteringParameters.MostRated =>
                 await GetMostRatedReviews(request.Count, cancellationToken),
@@ -32,9 +31,9 @@ public class GetReviewsByParamQueryHandler
                 await GetRecentReviews(request.Count, cancellationToken),
             _ => throw new ArgumentOutOfRangeException()
         };
-
-        if (request.Tag != null)
-            reviews = reviews.Where(r => r.Tags.Contains(request.Tag)).ToList();
+        if (request.Tag is not null)
+            reviews = reviews.Where(r => 
+                r.Tags.Contains(request.Tag)).ToList();
 
         return new GetAllReviewsVm { Reviews = reviews };
     }
@@ -42,24 +41,16 @@ public class GetReviewsByParamQueryHandler
     private async Task<List<GetAllReviewsDto>> GetRecentReviews(int? count,
         CancellationToken cancellationToken)
     {
-        var getRecentReviewsQuery = new GetRecentReviewsQuery
-        {
-            Count = count
-        };
+        var getRecentReviewsQuery = new GetRecentReviewsQuery(count);
         var reviewsVm = await _mediator.Send(getRecentReviewsQuery, cancellationToken);
-
         return reviewsVm.Reviews.ToList();
     }
 
     private async Task<List<GetAllReviewsDto>> GetMostRatedReviews(int? count,
         CancellationToken cancellationToken)
     {
-        var getMostRatedReviewsQuery = new GetMostRatedListQuery
-        {
-            Count = count
-        };
+        var getMostRatedReviewsQuery = new GetMostRatedListQuery(count);
         var reviewsVm = await _mediator.Send(getMostRatedReviewsQuery, cancellationToken);
-
         return reviewsVm.Reviews.ToList();
     }
 }

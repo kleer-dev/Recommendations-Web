@@ -3,7 +3,7 @@ using Recommendations.Application.CommandsQueries.Like.Commands.Create;
 using Recommendations.Application.CommandsQueries.Like.Commands.SetUserLikesCount;
 using Recommendations.Application.CommandsQueries.Like.Queries.Get;
 using Recommendations.Application.CommandsQueries.Review.Queries.Get;
-using Recommendations.Application.Common.Interfaces;
+using Recommendations.Application.Interfaces;
 
 namespace Recommendations.Application.CommandsQueries.Like.Commands.Set;
 
@@ -21,7 +21,8 @@ public class SetLikeCommandHandler : IRequestHandler<SetLikeCommand, Guid>
     public async Task<Guid> Handle(SetLikeCommand request,
         CancellationToken cancellationToken)
     {
-        var like = await GetLike(request, cancellationToken);
+        var like = await GetLike(request.UserId, request.ReviewId, cancellationToken)
+                   ?? await CreateLike(request.UserId, request.ReviewId, cancellationToken);
         like.Status = request.IsLike;
 
         _context.Likes.Update(like);
@@ -36,49 +37,28 @@ public class SetLikeCommandHandler : IRequestHandler<SetLikeCommand, Guid>
     private async Task<Domain.Review> GetReview(Guid reviewId,
         CancellationToken cancellationToken)
     {
-        var getReviewQuery = new GetReviewQuery
-        {
-            ReviewId = reviewId
-        };
+        var getReviewQuery = new GetReviewQuery(reviewId);
         return await _mediator.Send(getReviewQuery, cancellationToken);
     }
 
-    private async Task<Domain.Like> GetLike(SetLikeCommand request,
+    private async Task<Domain.Like?> GetLike(Guid userId, Guid reviewId,
         CancellationToken cancellationToken)
     {
-        var getLikeQuery = new GetLikeQuery
-        {
-            ReviewId = request.ReviewId,
-            UserId = request.UserId
-        };
-
-        var like = await _mediator.Send(getLikeQuery, cancellationToken)
-                   ?? await CreateLike(request, cancellationToken);
-
-        return like;
+        var getLikeQuery = new GetLikeQuery(userId, reviewId);
+        return await _mediator.Send(getLikeQuery, cancellationToken);
     }
-
-    private async Task<Domain.Like> CreateLike(SetLikeCommand request,
+    
+    private async Task<Domain.Like> CreateLike(Guid userId, Guid reviewId,
         CancellationToken cancellationToken)
     {
-        var createLikeCommand = new CreateLikeCommand
-        {
-            ReviewId = request.ReviewId,
-            UserId = request.UserId,
-            isLike = request.IsLike
-        };
-        var like = await _mediator.Send(createLikeCommand, cancellationToken);
-        
-        return like;
+        var createLikeCommand = new CreateLikeCommand(userId, reviewId);
+        return await _mediator.Send(createLikeCommand, cancellationToken);
     }
 
     private async Task SetUserLikesCount(Guid userId,
         CancellationToken cancellationToken)
     {
-        var setUserLikeQuery = new SetUserLikesCountQuery
-        {
-            UserId = userId
-        };
+        var setUserLikeQuery = new SetUserLikesCountQuery(userId);
         await _mediator.Send(setUserLikeQuery, cancellationToken);
     }
 }

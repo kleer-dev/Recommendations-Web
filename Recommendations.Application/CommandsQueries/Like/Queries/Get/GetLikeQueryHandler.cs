@@ -1,10 +1,10 @@
 using MediatR;
 using Microsoft.EntityFrameworkCore;
-using Recommendations.Application.Common.Interfaces;
+using Recommendations.Application.Interfaces;
 
 namespace Recommendations.Application.CommandsQueries.Like.Queries.Get;
 
-public class GetLikeQueryHandler : IRequestHandler<GetLikeQuery, Domain.Like>
+public class GetLikeQueryHandler : IRequestHandler<GetLikeQuery, Domain.Like?>
 {
     private readonly IRecommendationsDbContext _context;
 
@@ -13,7 +13,7 @@ public class GetLikeQueryHandler : IRequestHandler<GetLikeQuery, Domain.Like>
         _context = context;
     }
 
-    public async Task<Domain.Like> Handle(GetLikeQuery request,
+    public async Task<Domain.Like?> Handle(GetLikeQuery request,
         CancellationToken cancellationToken)
     {
         var like = await _context.Likes.FirstOrDefaultAsync(l =>

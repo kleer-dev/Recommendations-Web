@@ -1,6 +1,7 @@
 using MediatR;
+using Recommendations.Application.CommandsQueries.Like.Queries.GetAllUserLikesCount;
 using Recommendations.Application.CommandsQueries.User.Queries.Get;
-using Recommendations.Application.Common.Interfaces;
+using Recommendations.Application.Interfaces;
 
 namespace Recommendations.Application.CommandsQueries.Like.Commands.SetUserLikesCount;
 
@@ -21,7 +22,7 @@ public class SetUserLikesCountQueryHandler
         CancellationToken cancellationToken)
     {
         var user = await GetUser(request.UserId, cancellationToken);
-        user.LikesCount = GetLikesCount(user);
+        user.LikesCount = await GetLikesCount(user.Id, cancellationToken);
 
         _context.Users.Update(user);
         await _context.SaveChangesAsync(cancellationToken);
@@ -29,22 +30,17 @@ public class SetUserLikesCountQueryHandler
         return Unit.Value;
     }
 
-    private async Task<Domain.User> GetUser(Guid? userId,
+    private async Task<Domain.User> GetUser(Guid userId,
         CancellationToken cancellationToken)
     {
-        var getUserQuery = new GetUserQuery
-        {
-            UserId = userId
-        };
+        var getUserQuery = new GetUserQuery(userId);
         return await _mediator.Send(getUserQuery, cancellationToken);
     }
     
-    private int GetLikesCount(Domain.User user)
+    private async Task<int> GetLikesCount(Guid userId,
+        CancellationToken cancellationToken)
     {
-        var likesCount = _context.Likes
-            .Where(l => l.Review.User.Id == user.Id)
-            .Count(l => l.Status == true);
-        
-        return likesCount;
+        var getAllUserLikesCountQuery = new GetAllUserLikesCountQuery(userId);
+        return await _mediator.Send(getAllUserLikesCountQuery, cancellationToken);
     }
 }

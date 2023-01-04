@@ -3,7 +3,7 @@ using MediatR;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Recommendations.Application.Common.Exceptions;
-using Recommendations.Application.Common.Interfaces;
+using Recommendations.Application.Interfaces;
 
 namespace Recommendations.Application.CommandsQueries.User.Commands.Registration;
 
@@ -30,7 +30,7 @@ public class UserRegistrationCommandHandler : IRequestHandler<UserRegistrationCo
         var isUserExist = await CheckUserExistence(request, cancellationToken);
         if (isUserExist)
             throw new RecordIsExistException(typeof(Domain.User));
-
+        
         var user = _mapper.Map<Domain.User>(request);
         await _userManager.CreateAsync(user, request.Password);
         await _signInManager.SignInAsync(user, request.Remember);

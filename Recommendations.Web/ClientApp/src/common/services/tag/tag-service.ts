@@ -6,11 +6,13 @@ import {HttpClient} from "@angular/common/http";
 })
 export class TagService {
 
+  readonly baseUrl: string = "api/tags"
+
   constructor(private http: HttpClient) {
 
   }
 
   getAllTags(){
-    return this.http.get<any>("api/tags")
+    return this.http.get<any>(this.baseUrl)
   }
 }

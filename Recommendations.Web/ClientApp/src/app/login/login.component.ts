@@ -32,7 +32,7 @@ export class LoginComponent {
   })
 
   onSubmit() {
-    this.http.post('api/user/login', this.loginForm.value)
+    this.userService.login(this.loginForm)
       .subscribe({
         next: () => {
           this.userService.isAuthenticated = true
@@ -44,8 +44,9 @@ export class LoginComponent {
             this.error = 'User with this email does not exist'
           if (err.status === 401)
             this.error = 'Invalid password'
+          if (err.status === 403)
+            this.error = 'Access denied'
         }
       })
   }
-
 }

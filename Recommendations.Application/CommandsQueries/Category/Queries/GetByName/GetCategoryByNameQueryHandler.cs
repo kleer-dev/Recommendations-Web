@@ -1,6 +1,6 @@
 using MediatR;
 using Microsoft.EntityFrameworkCore;
-using Recommendations.Application.Common.Interfaces;
+using Recommendations.Application.Interfaces;
 
 namespace Recommendations.Application.CommandsQueries.Category.Queries.GetByName;
 
@@ -8,18 +8,15 @@ public class GetCategoryByNameQueryHandler : IRequestHandler<GetCategoryByNameQu
 {
     private readonly IRecommendationsDbContext _context;
 
-    public GetCategoryByNameQueryHandler(IRecommendationsDbContext context)
-    {
+    public GetCategoryByNameQueryHandler(IRecommendationsDbContext context) =>
         _context = context;
-    }
 
     public async Task<Domain.Category> Handle(GetCategoryByNameQuery request,
         CancellationToken cancellationToken)
     {
         var category = await _context.Categories
-            .FirstOrDefaultAsync(c => c.Name == request.Name, cancellationToken);
-        if (category is null)
-            throw new NullReferenceException("The category not found");
+            .FirstOrDefaultAsync(c => c.Name == request.Name,
+                cancellationToken) ?? throw new NullReferenceException("The category not found");
 
         return category;
     }

@@ -2,9 +2,9 @@ using AutoMapper;
 using AutoMapper.QueryableExtensions;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
-using Recommendations.Application.CommandsQueries.Image.Queries.GetImagesByReviewId;
+using Recommendations.Application.CommandsQueries.Image.Queries.GetFirstImageUrlByReviewId;
 using Recommendations.Application.CommandsQueries.Review.Queries.GetAll;
-using Recommendations.Application.Common.Interfaces;
+using Recommendations.Application.Interfaces;
 
 namespace Recommendations.Application.CommandsQueries.Review.Queries.GetRecentList;
 
@@ -37,7 +37,6 @@ public class GetRecentReviewsQueryHandler
             .Take(request.Count.Value)
             .ProjectTo<GetAllReviewsDto>(_mapper.ConfigurationProvider)
             .ToListAsync(cancellationToken);
-
         foreach (var review in reviews)
             review.ImageUrl = await GetFirstImageUrl(review.Id, cancellationToken);
 
@@ -47,11 +46,7 @@ public class GetRecentReviewsQueryHandler
     private async Task<string?> GetFirstImageUrl(Guid reviewId,
         CancellationToken cancellationToken)
     {
-        var getImagesByReviewIdQuery = new GetImagesByReviewIdQuery
-        {
-            ReviewId = reviewId
-        };
-        var images = await _mediator.Send(getImagesByReviewIdQuery, cancellationToken);
-        return images.Select(i => i.Url).FirstOrDefault();
+        var getFirstImageByReviewId = new GetFirstImageUrlByReviewIdQuery(reviewId);
+        return await _mediator.Send(getFirstImageByReviewId, cancellationToken);
     }
 }

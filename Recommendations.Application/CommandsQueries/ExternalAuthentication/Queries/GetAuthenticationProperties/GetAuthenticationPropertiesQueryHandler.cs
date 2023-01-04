@@ -4,7 +4,8 @@ using Microsoft.AspNetCore.Identity;
 
 namespace Recommendations.Application.CommandsQueries.ExternalAuthentication.Queries.GetAuthenticationProperties;
 
-public class GetAuthenticationPropertiesQueryHandler : IRequestHandler<GetAuthenticationPropertiesQuery, AuthenticationProperties>
+public class GetAuthenticationPropertiesQueryHandler
+    : IRequestHandler<GetAuthenticationPropertiesQuery, AuthenticationProperties>
 {
     private readonly SignInManager<Domain.User> _signInManager;
 

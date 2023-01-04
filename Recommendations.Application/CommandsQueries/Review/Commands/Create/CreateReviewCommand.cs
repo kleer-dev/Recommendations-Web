@@ -1,4 +1,3 @@
-using System;
 using AutoMapper;
 using MediatR;
 using Microsoft.AspNetCore.Http;
@@ -8,7 +7,7 @@ namespace Recommendations.Application.CommandsQueries.Review.Commands.Create;
 
 public class CreateReviewCommand : IRequest<Guid>, IMapWith<Domain.Review>
 {
-    public Guid? UserId { get; set; }
+    public Guid UserId { get; set; }
     public string Title { get; set; }
     public string ProductName { get; set; }
     public string CategoryName { get; set; }
@@ -16,7 +15,7 @@ public class CreateReviewCommand : IRequest<Guid>, IMapWith<Domain.Review>
     public int AuthorRate { get; set; }
     public IFormFile[] Images { get; set; }
     public string[] Tags { get; set; }
-    
+
     public void Mapping(Profile profile)
     {
         profile.CreateMap<CreateReviewCommand, Domain.Review>()
