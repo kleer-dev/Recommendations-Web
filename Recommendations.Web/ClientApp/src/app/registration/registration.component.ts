@@ -53,7 +53,7 @@ export class RegistrationComponent {
         },
         error: err => {
           if (err.status === 409)
-            this.error = 'A user with the same email or login already exists'
+            this.error = 'exist'
         }
       })
   }

@@ -9,26 +9,34 @@ export class CommentsSignalrService {
   hubConnection!: HubConnection
   public comments: CommentModel[] = []
 
-  constructor() {}
+  constructor() {
+  }
 
   public async connect(): Promise<void> {
     this.hubConnection = new HubConnectionBuilder()
       .withUrl('/comments')
       .build()
     await this.hubConnection.start();
+    this.hubConnection.serverTimeoutInMilliseconds = 600000
     this.addListeners()
   }
 
-  private addListeners() {
+  addListeners() {
     this.hubConnection.on('CommentNotification',
-      (comment: CommentModel) => {this.comments.push(comment)})
+      (comment: CommentModel) => {
+        this.comments.push(comment)
+      })
   }
 
-  public async connectToGroup(reviewId: string){
+  async connectToGroup(reviewId: string) {
     await this.hubConnection.invoke("ConnectToGroup", reviewId)
   }
 
-  public async NotifyAboutComment(reviewId: string, commentId: string) {
+  async NotifyAboutComment(reviewId: string, commentId: string) {
     await this.hubConnection.invoke("Notify", reviewId, commentId)
+  }
+
+  async closeConnection() {
+    await this.hubConnection.stop().finally(() => {});
   }
 }

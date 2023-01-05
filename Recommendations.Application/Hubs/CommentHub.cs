@@ -23,6 +23,7 @@ public class CommentHub : Hub
    {
       var getCommentQuery = new GetCommentQuery(commentId);
       var comment = await _mediator.Send(getCommentQuery);
+      Console.WriteLine(comment.Text);
       await Clients.Group(reviewId.ToString())
          .SendAsync("CommentNotification", comment);
    }

@@ -2,6 +2,7 @@ import {Injectable} from '@angular/core';
 import {ActivatedRouteSnapshot, CanActivate, Router, RouterStateSnapshot} from '@angular/router';
 import {HttpClient} from "@angular/common/http";
 import {UserService} from "../services/user/user.service";
+import {first, Observable, tap} from "rxjs";
 
 @Injectable({
   providedIn: 'root'
@@ -14,14 +15,12 @@ export class RoleGuard implements CanActivate {
 
   }
 
-  canActivate(next: ActivatedRouteSnapshot, state: RouterStateSnapshot) {
-    this.userService.getRole()
-      .subscribe({
-        next: value => {
-          if (!value)
-            this.router.navigate(['/']);
-        }
-      })
-    return this.userService.getRole()
+  canActivate(next: ActivatedRouteSnapshot, state: RouterStateSnapshot)
+    : Observable<boolean> | Promise<boolean> | boolean {
+    return this.userService.getRole().pipe(tap(isAdmin => {
+      if (!isAdmin){
+        this.router.navigate(['/'])
+      }
+    }), first())
   }
 }

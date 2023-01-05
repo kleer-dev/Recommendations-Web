@@ -35,9 +35,17 @@ public class ExceptionHandlingMiddleware
         {
             await HandleExceptionAsync(httpContext, e, HttpStatusCode.BadRequest);
         }
-        catch (Exception e)
+        catch (NotFoundException e)
         {
             await HandleExceptionAsync(httpContext, e, HttpStatusCode.NotFound);
+        }
+        catch (AccessDeniedException e)
+        {
+            await HandleExceptionAsync(httpContext, e, HttpStatusCode.Forbidden);
+        }
+        catch (Exception e)
+        {
+            await HandleExceptionAsync(httpContext, e, HttpStatusCode.InternalServerError);
         }
     }
 

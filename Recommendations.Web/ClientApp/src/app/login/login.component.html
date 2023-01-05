@@ -4,13 +4,22 @@
 
     <h3 class="d-flex justify-content-center">{{'Forms.Titles.Login' | translate}}</h3>
 
-    <div class="col w-100 d-flex justify-content-around mb-3">
+    <div class="col w-100 d-flex align-items-center text-center justify-content-center mb-3">
       <div class="fw-semibold">{{'Forms.Titles.HaveNoAnAccount' | translate}}
-        <a routerLink="/registration">{{'Forms.Titles.SignUp' | translate}}</a></div>
+        <a routerLink="/registration">{{'Forms.Titles.SignUp' | translate}}</a>
+      </div>
     </div>
 
-    <div class="text-danger d-flex justify-content-center mb-2">
-      {{ error }}
+    <div *ngIf="error === 'notExist'" class="text-danger text-center d-flex justify-content-center mb-2">
+      {{'Validation.NotExist' | translate}}
+    </div>
+
+    <div *ngIf="error === 'invalidPassword'" class="text-danger text-center d-flex justify-content-center mb-2">
+      {{'Validation.InvalidPassword' | translate}}
+    </div>
+
+    <div *ngIf="error === 'accountBlocked'" class="text-danger text-center d-flex justify-content-center mb-2">
+      {{'Validation.AccountBlocked' | translate}}
     </div>
 
     <div class="col mb-2">

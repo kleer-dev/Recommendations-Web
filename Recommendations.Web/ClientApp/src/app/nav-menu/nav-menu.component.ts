@@ -15,11 +15,7 @@ export class NavMenuComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.userService.checkAuthentication()
-      .subscribe({
-        next: value => this.userService.isAuthenticated = value
-      })
-    this.userService.checkRole()
+
   }
 
   collapse() {

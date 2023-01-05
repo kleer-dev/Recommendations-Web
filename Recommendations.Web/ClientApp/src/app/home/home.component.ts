@@ -13,6 +13,7 @@ import {UserService} from "../../common/services/user/user.service";
 })
 export class HomeComponent {
 
+  waiter: boolean = false;
   tags: any
 
   constructor(public reviewService: ReviewsService,
@@ -34,7 +35,10 @@ export class HomeComponent {
     this.reviewService.getAllReviews()
     this.tagService.getAllTags()
       .subscribe({
-        next: (data) => this.tags = data
+        next: (data) => {
+          this.tags = data
+          this.waiter = true
+        }
       })
   }
 

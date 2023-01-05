@@ -4,6 +4,7 @@ using Recommendations.Application.Common.Mappings;
 using Recommendations.Application.Hubs;
 using Recommendations.Application.Interfaces;
 using Recommendations.Persistence;
+using Recommendations.Web.Filters;
 using Recommendations.Web.Middlewares;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -27,6 +28,8 @@ builder.Services.AddAutoMapper(config =>
 
 builder.Services.AddApplication(builder.Configuration);
 await builder.Services.AddPersistence(builder.Configuration);
+
+builder.Services.AddScoped<UserAccessStatusValidationFilter>();
 
 var app = builder.Build();
 

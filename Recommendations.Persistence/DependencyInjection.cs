@@ -89,8 +89,11 @@ public static class DependencyInjection
             .GetRequiredService<UserManager<User>>();
         var rolesManager = serviceProvider
             .GetRequiredService<RoleManager<IdentityRole<Guid>>>();
+        var recommendationsDbContext = serviceProvider
+            .GetRequiredService<IRecommendationsDbContext>();
 
         await new RoleInitializer(rolesManager).InitializeAsync();
         await new AdminInitializer(userManager, configuration).InitializeAsync();
+        await new CategoriesInitializer(recommendationsDbContext).InitializeAsync(new CancellationToken());
     }
 }

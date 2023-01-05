@@ -16,7 +16,7 @@
 
     </div>
 
-    <div *ngIf="review.imagesUrls" id="carouselExample" class="carousel slide mb-3 d-flex justify-content-center">
+    <div *ngIf="review.imagesUrls.length > 0" id="carouselExample" class="carousel slide mb-3 d-flex justify-content-center">
       <div class="carousel-inner">
         <div class="carousel-item" [ngClass]="{'active': i === 0}" *ngFor="let image of review.imagesUrls; let i = index">
           <img src="{{image}}" class="d-block mx-auto" alt="...">

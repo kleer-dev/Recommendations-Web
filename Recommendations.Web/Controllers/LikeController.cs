@@ -20,7 +20,7 @@ public class LikeController : BaseController
     public async Task<ActionResult> SetLike([FromBody] LikeDto dto)
     {
         var setLikeCommand = _mapper.Map<SetLikeCommand>(dto);
-        setLikeCommand.UserId = UserId;
+        setLikeCommand.UserId = CurrentUserId;
         await _mediator.Send(setLikeCommand);
         
         return Ok();

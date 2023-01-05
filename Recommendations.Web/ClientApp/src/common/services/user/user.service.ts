@@ -68,16 +68,20 @@ export class UserService {
 
   login(form: FormGroup): Observable<any> {
     return this.http.post(`${this.baseUrl}/login`, form.value,
-      {headers: new HttpHeaders({
-        'X-Skip-Interceptor': 'true'
-      })})
+      {
+        headers: new HttpHeaders({
+          'X-Skip-Interceptor': 'true'
+        })
+      });
   }
 
   registration(form: FormGroup): Observable<any> {
     return this.http.post(`${this.baseUrl}/registration`, form.value,
-      {headers: new HttpHeaders({
-        'X-Skip-Interceptor': 'true'
-      })})
+      {
+        headers: new HttpHeaders({
+          'X-Skip-Interceptor': 'true'
+        })
+      })
   }
 
   logout() {
@@ -85,5 +89,17 @@ export class UserService {
       .subscribe({
         next: () => this.router.navigate(['/login'])
       })
+  }
+
+  deleteUser(userId: number): Observable<any> {
+    return this.http.delete(`${this.baseUrl}/${userId}`)
+  }
+
+  blockUser(userId: number) : Observable<any> {
+    return this.http.post(`${this.baseUrl}/block/${userId}`, {})
+  }
+
+  unblockUser(userId: number) : Observable<any> {
+    return this.http.post(`${this.baseUrl}/unblock/${userId}`, {})
   }
 }

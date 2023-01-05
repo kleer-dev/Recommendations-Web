@@ -14,10 +14,11 @@ export class LoginCallbackComponent {
   constructor(private http: HttpClient, private router: Router,
               private userService: UserService) {
 
-    this.http.get('api/user/external-login-callback')
+    this.http.get<boolean>('api/user/external-login-callback')
       .subscribe({
         next: () => {
           this.userService.isAuthenticated = true
+          this.userService.checkRole()
           this.router.navigate(['/'])
         }
     });

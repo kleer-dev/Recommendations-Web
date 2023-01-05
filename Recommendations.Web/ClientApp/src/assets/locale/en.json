@@ -31,7 +31,11 @@
     "MaxLength20000": "Max length - 20 000",
     "MinLength100": "Min length - 100",
     "DescriptionIsRequired": "Description is required",
-    "CommentMaxLength": "Max length - 400"
+    "CommentMaxLength": "Max length - 400",
+    "UserExist": "A user with the same email or login already exists",
+    "NotExist": "User with this email does not exist",
+    "InvalidPassword": "Invalid Password",
+    "AccountBlocked": "Your account has been blocked"
   },
   "ReviewForm": {
     "AddImage": "Add Image (max - 512kb)",
@@ -107,10 +111,14 @@
     "Users": "Users",
     "UserName": "Username",
     "Email": "Email",
-    "LikesCount": "Like count"
+    "Role": "Role",
+    "AccessStatus": "Access denied",
+    "Block": "Block",
+    "Unblock": "Unblock"
   },
   "SearchPage": {
     "SearchResults": "Search results:",
     "NothingWasFound": "Nothing was found"
-  }
+  },
+  "AccessDenied": "Access Denied"
 }

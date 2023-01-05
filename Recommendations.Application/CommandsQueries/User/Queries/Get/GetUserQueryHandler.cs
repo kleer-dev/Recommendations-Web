@@ -1,5 +1,6 @@
 using MediatR;
 using Microsoft.EntityFrameworkCore;
+using Recommendations.Application.Common.Exceptions;
 using Recommendations.Application.Interfaces;
 
 namespace Recommendations.Application.CommandsQueries.User.Queries.Get;
@@ -21,7 +22,7 @@ public class GetUserQueryHandler : IRequestHandler<GetUserQuery, Domain.User>
             .Include(r => r.Likes)
             .FirstOrDefaultAsync(r => r.Id == request.UserId, cancellationToken);
         if (user is null)
-            throw new NullReferenceException("The user not found");
+            throw new NotFoundException("The user not found");
 
         return user;
     }

@@ -2,11 +2,14 @@ import {Injectable} from '@angular/core';
 import {HttpInterceptor, HttpRequest, HttpHandler, HttpEvent} from '@angular/common/http';
 import {catchError, Observable, of} from 'rxjs';
 import {Router} from "@angular/router";
+import {UserService} from "../services/user/user.service";
+import {state} from "@angular/animations";
 
 @Injectable()
 export class ErrorInterceptor implements HttpInterceptor {
 
-  constructor(private router: Router) {
+  constructor(private router: Router, private userService: UserService) {
+
   }
 
   intercept(req: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
@@ -20,10 +23,10 @@ export class ErrorInterceptor implements HttpInterceptor {
           this.router.navigate(['/login'])
         }
         if (error.status === 403) {
-          this.router.navigate(['/login'])
+          this.userService.isAuthenticated = false
+          this.router.navigate(['/access-denied'])
         }
         if (error.status === 404) {
-          console.log(error.status)
           this.router.navigate(['/not-found'])
         }
         return of(error);

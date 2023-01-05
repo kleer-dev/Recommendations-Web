@@ -39,16 +39,48 @@
         </ng-template>
       </ngx-datatable-column>
 
+      <ngx-datatable-column name="{{'Profile.Role' | translate}}">
+        <ng-template let-row="row" ngx-datatable-cell-template>
+          {{row.role}}
+        </ng-template>
+      </ngx-datatable-column>
+
+      <ngx-datatable-column name="{{'Profile.AccessStatus' | translate}}">
+        <ng-template let-row="row" ngx-datatable-cell-template>
+          {{row.accessStatus}}
+        </ng-template>
+      </ngx-datatable-column>
+
       <ngx-datatable-column [sortable]="false"
+                            [canAutoResize]="false"
+                            [minWidth]="510"
+                            [maxWidth]="550"
                             [headerClass]="'text-center'"
                             name="{{'Profile.Actions' | translate}}">
         <ng-template let-row="row" ngx-datatable-cell-template>
-          <div class="h-100 d-flex justify-content-center align-items-center">
-            <button [routerLink]="['/profile', row.id]"
-                    class="btn btn-primary">
-              {{'Profile.View' | translate}}
-            </button>
-          </div>
+         <div class="d-flex justify-content-center align-items-center w-100">
+           <button [routerLink]="['/profile', row.id]"
+                   class="btn btn-primary mr-2">
+             {{'Profile.View' | translate}}
+           </button>
+
+           <button (click)="deleteUser(row.id)" class="btn btn-danger mr-2">
+             {{'Profile.Delete' | translate}}
+           </button>
+
+           <div class="btn-group" role="group" aria-label="Basic mixed styles example">
+             <button (click)="blockUser(row.id)"
+                     type="button"
+                     class="btn btn-dark">
+               {{'Profile.Block' | translate}}
+             </button>
+             <button (click)="unblockUser(row.id)"
+                     type="button"
+                     class="btn btn-success">
+               {{'Profile.Unblock' | translate}}
+             </button>
+           </div>
+         </div>
         </ng-template>
       </ngx-datatable-column>
 

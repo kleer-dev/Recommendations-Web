@@ -4,7 +4,10 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Recommendations.Application.CommandsQueries.ExternalAuthentication.Queries.GetAuthenticationProperties;
+using Recommendations.Application.CommandsQueries.User.Commands.Block;
+using Recommendations.Application.CommandsQueries.User.Commands.Delete;
 using Recommendations.Application.CommandsQueries.User.Commands.Registration;
+using Recommendations.Application.CommandsQueries.User.Commands.Unblock;
 using Recommendations.Application.CommandsQueries.User.Queries;
 using Recommendations.Application.CommandsQueries.User.Queries.ExternalLoginCallback;
 using Recommendations.Application.CommandsQueries.User.Queries.GetAllUsers;
@@ -43,7 +46,7 @@ public class UserController : BaseController
     [HttpGet("get-info")]
     public async Task<ActionResult<GetUserDto>> GetInfo()
     {
-        var getUserInfoQuery = new GetUserInfoQuery(UserId);
+        var getUserInfoQuery = new GetUserInfoQuery(CurrentUserId);
         var userInfo = await _mediator.Send(getUserInfoQuery);
         return Ok(userInfo);
     }
@@ -56,10 +59,10 @@ public class UserController : BaseController
         var userInfo = await _mediator.Send(getUserInfoQuery);
         return Ok(userInfo);
     }
-
+    
     [AllowAnonymous]
     [HttpGet("get-role")]
-    public ActionResult<RoleDto> GetRole()
+    public ActionResult<string> GetCurrentUserRole()
     {
         var roleDto = new RoleDto(Role);
         return Ok(roleDto);
@@ -116,6 +119,36 @@ public class UserController : BaseController
     public async Task<ActionResult> Logout()
     {
         await _signInManager.SignOutAsync();
+        return Ok();
+    }
+
+    [Authorize(Roles = Roles.Admin)]
+    [HttpDelete("{userId:guid}")]
+    public async Task<ActionResult> Delete(Guid userId)
+    {
+        var deleteUserCommand = new DeleteUserCommand(userId);
+        await _mediator.Send(deleteUserCommand);
+        
+        return NoContent();
+    }
+
+    [Authorize(Roles = Roles.Admin)]
+    [HttpPost("block/{userId:guid}")]
+    public async Task<ActionResult> BlockUser(Guid userId)
+    {
+        var blockUserCommand = new BlockUserCommand(userId);
+        await _mediator.Send(blockUserCommand);
+        
+        return Ok();
+    }
+    
+    [Authorize(Roles = Roles.Admin)]
+    [HttpPost("unblock/{userId:guid}")]
+    public async Task<ActionResult> UnblockUser(Guid userId)
+    {
+        var unblockUserCommand = new UnblockUserCommand(userId);
+        await _mediator.Send(unblockUserCommand);
+        
         return Ok();
     }
 }
