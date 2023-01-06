@@ -1,6 +1,7 @@
 import {Component, OnInit} from '@angular/core';
 import {UserService} from "../../common/services/user/user.service";
 import {FormControl, FormGroup} from "@angular/forms";
+import {firstValueFrom} from "rxjs";
 
 @Component({
   selector: 'app-nav-menu',
@@ -14,12 +15,10 @@ export class NavMenuComponent implements OnInit {
 
   }
 
-  ngOnInit(): void {
-    this.userService.checkAuthentication()
-      .subscribe({
-        next: value => this.userService.isAuthenticated = value
-      })
+  async ngOnInit() {
+    await firstValueFrom(this.userService.checkAuthentication())
     this.userService.checkRole()
+    console.log(this.userService.isAuthenticated)
   }
 
   collapse() {

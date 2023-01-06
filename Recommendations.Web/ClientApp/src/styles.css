@@ -16,7 +16,7 @@ code {
   color: #e01a76;
 }
 
-table{
+table {
   border: 1px solid #eee;
   table-layout: fixed;
   width: 100%;
@@ -30,31 +30,31 @@ table th {
   border: 1px solid #dddddd;
 }
 
-table td{
+table td {
   padding: 5px 10px;
   border: 1px solid #eee;
   text-align: left;
 }
 
-table tbody tr:nth-child(odd){
+table tbody tr:nth-child(odd) {
   background: #fff;
 }
 
-table tbody tr:nth-child(even){
+table tbody tr:nth-child(even) {
   background: #F7F7F7;
 }
 
-blockquote{
+blockquote {
   border-left: 3px solid black;
   padding-left: 10px;
 }
 
-.container-sm{
+.container-sm {
   margin-top: 100px;
   margin-bottom: 20px;
 }
 
-.wrap{
+.wrap {
   -webkit-hyphens: auto;
   -moz-hyphens: auto;
   -ms-hyphens: auto;
@@ -62,11 +62,11 @@ blockquote{
   overflow-wrap: break-word;
 }
 
-app-fullscreen-loader{
+app-fullscreen-loader {
   z-index: 999;
   position: absolute;
   height: 100vh;
-  width: 100% ;
+  width: 100%;
   top: 0;
-  left:0
+  left: 0
 }

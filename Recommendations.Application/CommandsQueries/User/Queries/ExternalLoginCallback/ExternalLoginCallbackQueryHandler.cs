@@ -1,6 +1,7 @@
 using System.Security.Claims;
 using MediatR;
 using Microsoft.AspNetCore.Identity;
+using Recommendations.Application.Common.Constants;
 using Recommendations.Application.Common.Exceptions;
 
 namespace Recommendations.Application.CommandsQueries.User.Queries.ExternalLoginCallback;
@@ -10,8 +11,8 @@ public class ExternalLoginCallbackQueryHandler
 {
     private readonly SignInManager<Domain.User> _signInManager;
     private readonly UserManager<Domain.User> _userManager;
-    
-    private const bool SaveCookiesAfterExitingBrowser = false;
+
+    private const bool SaveCookiesAfterExitingBrowser = true;
 
     public ExternalLoginCallbackQueryHandler(SignInManager<Domain.User> signInManager,
         UserManager<Domain.User> userManager)
@@ -23,16 +24,19 @@ public class ExternalLoginCallbackQueryHandler
     public async Task<Unit> Handle(ExternalLoginCallbackQuery request,
         CancellationToken cancellationToken)
     {
-        var info = await _signInManager.GetExternalLoginInfoAsync();            
+        var info = await _signInManager.GetExternalLoginInfoAsync();
         var result = await _signInManager.ExternalLoginSignInAsync(info!.LoginProvider,
             info.ProviderKey, SaveCookiesAfterExitingBrowser, bypassTwoFactor: true);
-        if (result.Succeeded) 
+        if (result.Succeeded)
             return Unit.Value;
-        
+
         var user = await GetUserByEmail(info) ?? await CreateUser(info);
+        if (user.AccessStatus == UserAccessStatuses.Blocked)
+            throw new AccessDeniedException($"The user with id: {user.Id} has been blocked");
+
         await _userManager.AddLoginAsync(user, info);
         await _signInManager.SignInAsync(user, SaveCookiesAfterExitingBrowser);
-        
+
         return Unit.Value;
     }
 
@@ -44,9 +48,12 @@ public class ExternalLoginCallbackQueryHandler
             Email = info.Principal.FindFirstValue(ClaimTypes.Email)
         };
         var createResult = await _userManager.CreateAsync(newUser);
+        await _userManager.AddToRoleAsync(newUser, Roles.User);
+        
         if (!createResult.Succeeded)
             throw new AuthenticationException(createResult.Errors
-                .Select(e => e.Description).Aggregate((errors, error) => $"{errors}, {error}"));
+                .Select(e => e.Description)
+                .Aggregate((errors, error) => $"{errors}, {error}"));
 
         return newUser;
     }
@@ -55,7 +62,7 @@ public class ExternalLoginCallbackQueryHandler
     {
         var email = info.Principal.FindFirstValue(ClaimTypes.Email);
         if (email is null)
-            throw new AuthenticationException("Email is empty");
+            throw new AuthenticationException("User email is empty");
 
         return await _userManager.FindByEmailAsync(email);
     }

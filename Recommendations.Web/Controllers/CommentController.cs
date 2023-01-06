@@ -20,7 +20,7 @@ public class CommentController : BaseController
     public async Task<ActionResult<Guid>> Send([FromBody] CreateCommentDto dto)
     {
         var createCommentCommand = _mapper.Map<CreateCommentCommand>(dto);
-        createCommentCommand.UserId = UserId;
+        createCommentCommand.UserId = CurrentUserId;
         var commentId = await _mediator.Send(createCommentCommand);
         
         return Ok(commentId);

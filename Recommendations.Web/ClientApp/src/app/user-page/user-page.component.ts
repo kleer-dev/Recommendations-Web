@@ -7,6 +7,7 @@ import {FiltrationReviewService} from "../../common/services/filtration/filtrati
 import {ActivatedRoute} from "@angular/router";
 import {UserModel} from "../../common/models/UserModel";
 import {UserService} from "../../common/services/user/user.service";
+import {firstValueFrom} from "rxjs";
 
 @Component({
   selector: 'app-user-page',
@@ -34,52 +35,34 @@ export class UserPageComponent implements OnInit {
     filterValue: new FormControl()
   })
 
-  ngOnInit() {
+  async ngOnInit() {
     this.getUserIdFromQueryParams()
-    this.getReviews()
-    this.getUserInfo(this.userId!)
+    await this.getReviews()
+    await this.getUserInfo(this.userId!)
   }
 
-  getUserInfo(userId?: number){
-    if (userId === undefined){
-      this.userService.getUserInfo()
-        .subscribe({
-          next: data => {
-            this.userData = data
-            this.waiter = true
-          }
-        })
-    }
-    else {
-      this.userService.getUserInfoById(userId)
-        .subscribe({
-          next: data => {
-            this.userData = data
-            this.waiter = true
-          }
-        })
+  async getUserInfo(userId?: number) {
+    if (userId === undefined) {
+      this.userData = await firstValueFrom(this.userService.getUserInfo())
+      this.waiter = true
+    } else {
+      this.userData = await firstValueFrom(this.userService.getUserInfoById(userId))
+      this.waiter = true
     }
   }
 
-  getReviews(){
-    this.reviewsService.getReviewsByUserId(this.userId)
-      .subscribe({
-        next: data => {
-          this.reviews = data
-          this.rows = this.reviews
-        }
-      });
+  async getReviews() {
+    this.reviews = await firstValueFrom(this.reviewsService.getReviewsByUserId(this.userId))
+    this.rows = this.reviews
   }
 
-  deleteReview(reviewId: number) {
-    this.reviewsService.deleteReview(reviewId)
-      .subscribe({
-        next: () => this.getReviews()
-      })
+  async deleteReview(reviewId: number) {
+    this.rows = this.reviews.filter(review => review.reviewId !== reviewId.toString())
+    await firstValueFrom(this.reviewsService.deleteReview(reviewId))
   }
 
-  getUserIdFromQueryParams(){
-     this.activatedRoute.params.subscribe({
+  getUserIdFromQueryParams() {
+    this.activatedRoute.params.subscribe({
       next: value => {
         this.userId = value['userid']
       }
@@ -94,7 +77,7 @@ export class UserPageComponent implements OnInit {
     console.log(this.rows)
   }
 
-  resetFiltration(){
+  resetFiltration() {
     this.rows = this.reviews
   }
 }

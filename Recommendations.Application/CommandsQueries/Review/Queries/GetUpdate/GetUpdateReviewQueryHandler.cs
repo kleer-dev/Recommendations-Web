@@ -1,6 +1,7 @@
 using AutoMapper;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
+using Recommendations.Application.Common.Exceptions;
 using Recommendations.Application.Interfaces;
 
 namespace Recommendations.Application.CommandsQueries.Review.Queries.GetUpdate;
@@ -28,7 +29,7 @@ public class GetUpdateReviewQueryHandler
             .Include(r => r.Images)
             .FirstOrDefaultAsync(r => r.Id == request.ReviewId, cancellationToken);
         if (review is null)
-            throw new NullReferenceException("The review not found");
+            throw new NotFoundException("The review not found");
 
         return _mapper.Map<GetUpdateReviewDto>(review);
     }

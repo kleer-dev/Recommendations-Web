@@ -34,9 +34,10 @@ export class UserService {
   }
 
   getRole(): Observable<boolean> {
-    return this.http.get<RoleModel>(`${this.baseUrl}/get-role`)
-      .pipe(map((role) => {
-        if (role.roleName !== Roles.admin) {
+    return this.http.get<UserModel>(`${this.baseUrl}/get-info`)
+      .pipe(map((user) => {
+        console.log(user)
+        if (user.role !== Roles.admin) {
           this.isAdmin = false
           return false;
         }
@@ -49,6 +50,7 @@ export class UserService {
     this.getRole()
       .subscribe({
         next: value => {
+          console.log(value)
           this.isAdmin = value
         }
       })
@@ -68,16 +70,20 @@ export class UserService {
 
   login(form: FormGroup): Observable<any> {
     return this.http.post(`${this.baseUrl}/login`, form.value,
-      {headers: new HttpHeaders({
-        'X-Skip-Interceptor': 'true'
-      })})
+      {
+        headers: new HttpHeaders({
+          'X-Skip-Interceptor': 'true'
+        })
+      });
   }
 
   registration(form: FormGroup): Observable<any> {
     return this.http.post(`${this.baseUrl}/registration`, form.value,
-      {headers: new HttpHeaders({
-        'X-Skip-Interceptor': 'true'
-      })})
+      {
+        headers: new HttpHeaders({
+          'X-Skip-Interceptor': 'true'
+        })
+      })
   }
 
   logout() {
@@ -85,5 +91,21 @@ export class UserService {
       .subscribe({
         next: () => this.router.navigate(['/login'])
       })
+  }
+
+  deleteUser(userId: number): Observable<any> {
+    return this.http.delete(`${this.baseUrl}/${userId}`)
+  }
+
+  blockUser(userId: number): Observable<any> {
+    return this.http.post(`${this.baseUrl}/block/${userId}`, {})
+  }
+
+  unblockUser(userId: number): Observable<any> {
+    return this.http.post(`${this.baseUrl}/unblock/${userId}`, {})
+  }
+
+  setRole(userId: number, role: string): Observable<any> {
+    return this.http.post(`${this.baseUrl}/set-role`, {userId, role})
   }
 }

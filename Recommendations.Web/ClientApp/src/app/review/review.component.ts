@@ -1,4 +1,4 @@
-import {Component, OnInit} from "@angular/core";
+import {Component, OnDestroy, OnInit} from "@angular/core";
 import {ActivatedRoute, Router} from "@angular/router";
 import {HttpClient} from "@angular/common/http";
 import {ReviewModel} from "../../common/models/ReviewModel";
@@ -9,15 +9,17 @@ import {ReviewsService} from "../../common/services/reviews/reviews.service";
 import {RatingService} from "../../common/services/rating/rating.service";
 import {LikeService} from "../../common/services/like/like.service";
 import {CommentService} from "../../common/services/comment/comment.service";
+import {UserService} from "../../common/services/user/user.service";
+import {async, firstValueFrom} from "rxjs";
 
 @Component({
   selector: 'app-review',
   templateUrl: 'review.component.html',
   styleUrls: ['review.component.css']
 })
-export class ReviewComponent implements OnInit {
+export class ReviewComponent implements OnInit, OnDestroy {
 
-  waiter!: Promise<boolean>;
+  waiter: boolean = false;
   review!: ReviewModel;
   reviewId: number = 0;
   rate: number = 0;
@@ -29,9 +31,13 @@ export class ReviewComponent implements OnInit {
               private ratingService: RatingService,
               private likeService: LikeService,
               private commentService: CommentService,
-              private router: Router) {
+              private router: Router,
+              private userService: UserService) {
     this.getReview()
     this.getAllComments()
+    if (this.userService.isAuthenticated) {
+
+    }
   }
 
   async ngOnInit(): Promise<void> {
@@ -39,16 +45,12 @@ export class ReviewComponent implements OnInit {
     await this.signalrService.connectToGroup(this.reviewId.toString())
   }
 
-  getReview() {
+  async getReview() {
     this.reviewId = this.activateRoute.snapshot.params['id']
-    this.reviewsService.getReviewById(this.reviewId)
-      .subscribe({
-        next: data => {
-          this.review = data
-          this.waiter = Promise.resolve(true)
-          this.rate = this.review.userRating
-        }
-      })
+
+    this.review = await firstValueFrom(this.reviewsService.getReviewById(this.reviewId))
+    this.rate = this.review.userRating
+    this.waiter = true
   }
 
   onRateChange(rating: number) {
@@ -68,11 +70,8 @@ export class ReviewComponent implements OnInit {
       .subscribe()
   }
 
-  getAllComments() {
-    this.commentService.getAllComments(this.reviewId)
-      .subscribe({
-        next: (comments) => this.signalrService.comments = comments
-      });
+  async getAllComments() {
+    this.signalrService.comments = await firstValueFrom(this.commentService.getAllComments(this.reviewId))
   }
 
   commentForm = new FormGroup({
@@ -83,14 +82,14 @@ export class ReviewComponent implements OnInit {
 
   async sendComment() {
     let commentText = this.commentForm.get('commentText')!.value
-    this.commentService.sendComment(this.reviewId, commentText!)
-      .subscribe({
-        next: async (commentId) => {
-          await this.signalrService.NotifyAboutComment(this.reviewId.toString(), commentId)
-          this.getAllComments()
-          this.commentForm.patchValue({commentText: ''});
-        }
-      })
+    this.commentForm.patchValue({commentText: ''});
+    let commentId = await firstValueFrom(this.commentService.sendComment(this.reviewId, commentText!))
+    await this.signalrService.NotifyAboutComment(this.reviewId.toString(), commentId)
+    await this.getAllComments()
+  }
+
+  async ngOnDestroy(): Promise<void> {
+    await this.signalrService.closeConnection()
   }
 }
 

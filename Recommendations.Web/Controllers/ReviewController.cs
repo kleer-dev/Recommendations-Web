@@ -39,7 +39,7 @@ public class ReviewController : BaseController
     [HttpGet("{reviewId:guid}")]
     public async Task<ActionResult<GetReviewDto>> Get(Guid reviewId)
     {
-        var getReviewQuery = new GetReviewDtoQuery(reviewId, UserId);
+        var getReviewQuery = new GetReviewDtoQuery(reviewId, CurrentUserId);
         var review = await _mediator.Send(getReviewQuery);
         
         return Ok(review);
@@ -48,7 +48,7 @@ public class ReviewController : BaseController
     [HttpGet("get-by-user")]
     public async Task<ActionResult<IEnumerable<GetReviewsByUserIdDto>>> GetReviewsByUser()
     {
-        var getReviewsByUserIdQuery = new GetReviewsByUserIdQuery(UserId);
+        var getReviewsByUserIdQuery = new GetReviewsByUserIdQuery(CurrentUserId);
         var reviewsVm = await _mediator.Send(getReviewsByUserIdQuery);
         
         return Ok(reviewsVm.Reviews);
@@ -77,7 +77,7 @@ public class ReviewController : BaseController
     public async Task<ActionResult> Create([FromForm] CreateReviewDto dto)
     {
         var createReviewCommand = _mapper.Map<CreateReviewCommand>(dto);
-        createReviewCommand.UserId = UserId;
+        createReviewCommand.UserId = CurrentUserId;
         var reviewId = await _mediator.Send(createReviewCommand);
         
         return Created("api/reviews", reviewId);

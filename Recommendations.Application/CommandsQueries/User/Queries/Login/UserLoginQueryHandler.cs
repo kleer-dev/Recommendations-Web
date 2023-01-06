@@ -1,5 +1,6 @@
 using MediatR;
 using Microsoft.AspNetCore.Identity;
+using Recommendations.Application.Common.Constants;
 using Recommendations.Application.Common.Exceptions;
 using AuthenticationException = Recommendations.Application.Common.Exceptions.AuthenticationException;
 
@@ -20,16 +21,18 @@ public class UserLoginQueryHandler : IRequestHandler<UserLoginQuery, Unit>
     public async Task<Unit> Handle(UserLoginQuery request,
         CancellationToken cancellationToken)
     {
-        var user = await ConfirmUser(request);
+        var user = await CheckUser(request);
         await _signInManager.SignInAsync(user, request.Remember);
-        
+
         return Unit.Value;
     }
 
-    private async Task<Domain.User> ConfirmUser(UserLoginQuery request)
+    private async Task<Domain.User> CheckUser(UserLoginQuery request)
     {
         var user = await GetUserByEmail(request);
         await CheckUserPassword(user, request.Password);
+        if (user.AccessStatus == UserAccessStatuses.Blocked)
+            throw new AccessDeniedException($"The user with id: {user.Id} has been blocked");
 
         return user;
     }
@@ -38,8 +41,8 @@ public class UserLoginQueryHandler : IRequestHandler<UserLoginQuery, Unit>
     {
         var user = await _userManager.FindByEmailAsync(request.Email);
         if (user is null)
-            throw new NullReferenceException($"The user not found");
-        
+            throw new NotFoundException("The user not found");
+
         return user;
     }
 

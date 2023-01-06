@@ -35,17 +35,17 @@ export class LoginComponent {
     this.userService.login(this.loginForm)
       .subscribe({
         next: () => {
+          this.router.navigate(['/'])
           this.userService.isAuthenticated = true
           this.userService.checkRole()
-          this.router.navigate(['/'])
         },
         error: err => {
           if (err.status === 404)
-            this.error = 'User with this email does not exist'
+            this.error = 'notExist'
           if (err.status === 401)
-            this.error = 'Invalid password'
+            this.error = 'invalidPassword'
           if (err.status === 403)
-            this.error = 'Access denied'
+            this.error = 'accountBlocked'
         }
       })
   }

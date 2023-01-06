@@ -2,7 +2,7 @@ import {BrowserModule} from '@angular/platform-browser';
 import {NgModule, SecurityContext} from '@angular/core';
 import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 import {HTTP_INTERCEPTORS, HttpClient, HttpClientModule} from '@angular/common/http';
-import {RouterModule} from '@angular/router';
+import {PreloadAllModules, RouterModule} from '@angular/router';
 
 import {AppComponent} from './app.component';
 import {NavMenuComponent} from './nav-menu/nav-menu.component';
@@ -40,9 +40,9 @@ import {LogoutComponent} from "./logout/logout.component";
 import {AdminPageComponent} from "./admin-page/admin-page.component";
 import {RoleGuard} from "../common/guards/admin-role.guard";
 import {SearchPageComponent} from "./search-page/search-page.component";
-import {NgxGridModule} from "@egjs/ngx-grid";
 import {ReviewGridComponent} from "./reviews-grid/review-grid.component";
 import {NotFoundComponent} from "./not-found/not-found.component";
+import {AccessDeniedComponent} from "./access-denied/access-denied.component";
 
 @NgModule({
   declarations: [
@@ -66,7 +66,8 @@ import {NotFoundComponent} from "./not-found/not-found.component";
     AdminPageComponent,
     SearchPageComponent,
     ReviewGridComponent,
-    NotFoundComponent
+    NotFoundComponent,
+    AccessDeniedComponent
   ],
   imports: [
     BrowserModule.withServerTransition({appId: 'ng-cli-universal'}),
@@ -86,9 +87,10 @@ import {NotFoundComponent} from "./not-found/not-found.component";
       {path: 'profile', component: UserPageComponent, canActivate: [AuthGuard]},
       {path: 'profile/:userid', component: UserPageComponent, canActivate: [AuthGuard, RoleGuard]},
       {path: 'search/:search-query', component: SearchPageComponent},
+      {path: 'access-denied', component: AccessDeniedComponent},
       {path: 'not-found', component: NotFoundComponent},
       {path: '**', component: NotFoundComponent}
-    ]),
+    ], {preloadingStrategy: PreloadAllModules}),
     NgbModule,
     ReviewFormModule,
     NgbRatingModule,
@@ -119,8 +121,7 @@ import {NotFoundComponent} from "./not-found/not-found.component";
         deps: [HttpClient],
       },
       useDefaultLang: false,
-    }),
-    NgxGridModule,
+    })
   ],
   providers: [
     {

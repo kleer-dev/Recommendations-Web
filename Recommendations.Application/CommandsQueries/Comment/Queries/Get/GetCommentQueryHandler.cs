@@ -1,6 +1,7 @@
 using AutoMapper;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
+using Recommendations.Application.Common.Exceptions;
 using Recommendations.Application.Interfaces;
 
 namespace Recommendations.Application.CommandsQueries.Comment.Queries.Get;
@@ -22,6 +23,8 @@ public class GetCommentQueryHandler : IRequestHandler<GetCommentQuery, GetCommen
         var comment = await _context.Comments
             .Include(c => c.User)
             .FirstOrDefaultAsync(c => c.Id == request.CommentId, cancellationToken);
+        if (comment is null)
+            throw new NotFoundException("The comment not found");
 
         return _mapper.Map<GetCommentDto>(comment);
     }

@@ -10,8 +10,8 @@
       </div>
     </div>
 
-    <div class="text-danger d-flex justify-content-center mb-2">
-      {{ error }}
+    <div *ngIf="error === 'exist'" class="text-danger text-center d-flex justify-content-center mb-2">
+      {{'Validation.UserExist' | translate}}
     </div>
 
     <div class="col mb-2">

@@ -1,5 +1,6 @@
 using MediatR;
 using Microsoft.EntityFrameworkCore;
+using Recommendations.Application.Common.Exceptions;
 using Recommendations.Application.Interfaces;
 
 namespace Recommendations.Application.CommandsQueries.Review.Queries.Get;
@@ -26,7 +27,7 @@ public class GetReviewQueryHandler : IRequestHandler<GetReviewQuery, Domain.Revi
             .Include(r => r.Images)
             .FirstOrDefaultAsync(r => r.Id == request.ReviewId, cancellationToken);
         if (review is null)
-            throw new NullReferenceException("Review not found");
+            throw new NotFoundException("Review not found");
 
         return review;
     }

@@ -2,9 +2,11 @@ using System.Security.Claims;
 using AutoMapper;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
+using Recommendations.Web.Filters;
 
 namespace Recommendations.Web.Controllers;
 
+[ServiceFilter(typeof(UserAccessStatusValidationFilter))]
 [ApiController]
 public class BaseController : ControllerBase
 {
@@ -17,7 +19,7 @@ public class BaseController : ControllerBase
         _mapper = mapper;
     }
 
-    protected Guid UserId => User.Identity!.IsAuthenticated
+    protected Guid CurrentUserId => User.Identity!.IsAuthenticated
         ? Guid.Parse(User.FindFirstValue(ClaimTypes.NameIdentifier)!)
         : Guid.Empty;
     protected string Role => User.FindFirstValue(ClaimTypes.Role)!;
