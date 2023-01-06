@@ -7,6 +7,7 @@ using Recommendations.Application.CommandsQueries.ExternalAuthentication.Queries
 using Recommendations.Application.CommandsQueries.User.Commands.Block;
 using Recommendations.Application.CommandsQueries.User.Commands.Delete;
 using Recommendations.Application.CommandsQueries.User.Commands.Registration;
+using Recommendations.Application.CommandsQueries.User.Commands.SetRole;
 using Recommendations.Application.CommandsQueries.User.Commands.Unblock;
 using Recommendations.Application.CommandsQueries.User.Queries;
 using Recommendations.Application.CommandsQueries.User.Queries.ExternalLoginCallback;
@@ -48,6 +49,7 @@ public class UserController : BaseController
     {
         var getUserInfoQuery = new GetUserInfoQuery(CurrentUserId);
         var userInfo = await _mediator.Send(getUserInfoQuery);
+        
         return Ok(userInfo);
     }
     
@@ -57,15 +59,18 @@ public class UserController : BaseController
     {
         var getUserInfoQuery = new GetUserInfoQuery(userId);
         var userInfo = await _mediator.Send(getUserInfoQuery);
+        
         return Ok(userInfo);
     }
-    
-    [AllowAnonymous]
-    [HttpGet("get-role")]
-    public ActionResult<string> GetCurrentUserRole()
+
+    [Authorize(Roles = Roles.Admin)]
+    [HttpPost("set-role")]
+    public async Task<ActionResult> SetRole(SetRoleDto dto)
     {
-        var roleDto = new RoleDto(Role);
-        return Ok(roleDto);
+        var setUserRoleCommand = _mapper.Map<SetUserRoleCommand>(dto);
+        await _mediator.Send(setUserRoleCommand);
+        
+        return Ok();
     }
 
     [AllowAnonymous]

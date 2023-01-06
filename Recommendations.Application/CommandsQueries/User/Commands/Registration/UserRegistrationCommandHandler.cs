@@ -2,6 +2,7 @@ using AutoMapper;
 using MediatR;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
+using Recommendations.Application.Common.Constants;
 using Recommendations.Application.Common.Exceptions;
 using Recommendations.Application.Interfaces;
 
@@ -33,6 +34,7 @@ public class UserRegistrationCommandHandler : IRequestHandler<UserRegistrationCo
         
         var user = _mapper.Map<Domain.User>(request);
         await _userManager.CreateAsync(user, request.Password);
+        await _userManager.AddToRoleAsync(user, Roles.User);
         await _signInManager.SignInAsync(user, request.Remember);
 
         return user.Id;

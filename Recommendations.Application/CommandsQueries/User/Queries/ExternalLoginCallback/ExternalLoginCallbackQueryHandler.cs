@@ -12,7 +12,7 @@ public class ExternalLoginCallbackQueryHandler
     private readonly SignInManager<Domain.User> _signInManager;
     private readonly UserManager<Domain.User> _userManager;
 
-    private const bool SaveCookiesAfterExitingBrowser = false;
+    private const bool SaveCookiesAfterExitingBrowser = true;
 
     public ExternalLoginCallbackQueryHandler(SignInManager<Domain.User> signInManager,
         UserManager<Domain.User> userManager)
@@ -48,9 +48,12 @@ public class ExternalLoginCallbackQueryHandler
             Email = info.Principal.FindFirstValue(ClaimTypes.Email)
         };
         var createResult = await _userManager.CreateAsync(newUser);
+        await _userManager.AddToRoleAsync(newUser, Roles.User);
+        
         if (!createResult.Succeeded)
             throw new AuthenticationException(createResult.Errors
-                .Select(e => e.Description).Aggregate((errors, error) => $"{errors}, {error}"));
+                .Select(e => e.Description)
+                .Aggregate((errors, error) => $"{errors}, {error}"));
 
         return newUser;
     }
@@ -59,7 +62,7 @@ public class ExternalLoginCallbackQueryHandler
     {
         var email = info.Principal.FindFirstValue(ClaimTypes.Email);
         if (email is null)
-            throw new AuthenticationException("Email is empty");
+            throw new AuthenticationException("User email is empty");
 
         return await _userManager.FindByEmailAsync(email);
     }

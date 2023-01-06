@@ -18,8 +18,9 @@ export class RoleGuard implements CanActivate {
   canActivate(next: ActivatedRouteSnapshot, state: RouterStateSnapshot)
     : Observable<boolean> | Promise<boolean> | boolean {
     return this.userService.getRole().pipe(tap(isAdmin => {
+      console.log(isAdmin)
       if (!isAdmin){
-        this.router.navigate(['/'])
+        this.router.navigate(['/access-denied'])
       }
     }), first())
   }

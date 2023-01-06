@@ -1,6 +1,7 @@
 using System.Security.Claims;
 using MediatR;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Filters;
 using Recommendations.Application.CommandsQueries.User.Queries.Get;
 using Recommendations.Application.Common.Constants;
@@ -48,7 +49,7 @@ public class UserAccessStatusValidationFilter : Attribute, IAsyncActionFilter
         await next();
     }
 
-    private Guid? GetUserId(ActionExecutingContext context)
+    private Guid? GetUserId(ActionContext context)
     {
         var claim = context.HttpContext.User
             .FindFirstValue(ClaimTypes.NameIdentifier);

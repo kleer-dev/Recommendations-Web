@@ -14,9 +14,14 @@ public class RoleInitializer
 
     public async Task InitializeAsync()
     {
-        if (await _roleManager.RoleExistsAsync(Roles.Admin))
-            return;
-        var role = new IdentityRole<Guid>(Roles.Admin);
-        await _roleManager.CreateAsync(role);
+        var roles = new[] { Roles.Admin, Roles.User };
+        
+        foreach (var role in roles)
+        {
+            if (await _roleManager.RoleExistsAsync(role))
+                continue;
+            var identityRole = new IdentityRole<Guid>(role);
+            await _roleManager.CreateAsync(identityRole);
+        }
     }
 }

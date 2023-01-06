@@ -82,11 +82,10 @@ export class ReviewComponent implements OnInit, OnDestroy {
 
   async sendComment() {
     let commentText = this.commentForm.get('commentText')!.value
-
+    this.commentForm.patchValue({commentText: ''});
     let commentId = await firstValueFrom(this.commentService.sendComment(this.reviewId, commentText!))
     await this.signalrService.NotifyAboutComment(this.reviewId.toString(), commentId)
     await this.getAllComments()
-    this.commentForm.patchValue({commentText: ''});
   }
 
   async ngOnDestroy(): Promise<void> {
