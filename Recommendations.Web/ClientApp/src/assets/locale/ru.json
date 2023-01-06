@@ -120,5 +120,8 @@
     "SearchResults": "Результаты поиска:",
     "NothingWasFound": "Ничего не найдено"
   },
-  "AccessDenied": "Доступ запрещен"
+  "AccessDenied": {
+    "AccessDenied": "Доступ запрещен",
+    "RoleChanged": "Ваша роль была изменена. Пожалуйста, перезайдите в ваш аккаунт."
+  }
 }

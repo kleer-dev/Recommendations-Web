@@ -77,7 +77,7 @@
   "HomePage": {
     "TagCloud": "Tag cloud:",
     "Recent": "Recent",
-    "MostRated": "MostRated",
+    "MostRated": "Most Rated",
     "Count": "Count",
     "AverageRate": "Average rate:",
     "Product": "Product:",
@@ -120,5 +120,8 @@
     "SearchResults": "Search results:",
     "NothingWasFound": "Nothing was found"
   },
-  "AccessDenied": "Access Denied"
+  "AccessDenied": {
+    "AccessDenied": "Access Denied",
+    "RoleChanged": "Your role has been changed. Please re-login to your account."
+  }
 }

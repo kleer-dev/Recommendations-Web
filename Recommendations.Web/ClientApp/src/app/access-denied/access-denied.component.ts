@@ -11,7 +11,7 @@ import {UserService} from "../../common/services/user/user.service";
 })
 export class AccessDeniedComponent {
 
-  constructor(private userService: UserService) {
+  constructor(public userService: UserService) {
 
   }
 
