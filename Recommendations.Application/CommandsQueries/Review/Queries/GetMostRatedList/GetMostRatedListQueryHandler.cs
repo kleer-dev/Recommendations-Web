@@ -33,7 +33,6 @@ public class GetMostRatedListQueryHandler
             .Include(r => r.Tags)
             .Include(r => r.Category)
             .Include(r => r.Product)
-            .Include(r => r.Product.UserRatings)
             .OrderByDescending(r => r.Product.AverageRate)
             .Take(request.Count.Value)
             .ProjectTo<GetAllReviewsDto>(_mapper.ConfigurationProvider)

@@ -42,9 +42,14 @@ export class AdminPageComponent implements OnInit {
   }
 
   deleteUser(userId: number) {
-    this.users = this.users.filter(user => user.id !== userId)
+    this.waiter = false
     this.userService.deleteUser(userId)
-      .subscribe({})
+      .subscribe({
+        next: () => {
+          this.users = this.users.filter(user => user.id !== userId)
+          this.waiter = true
+        }
+      })
   }
 
   async getUserInfo() {

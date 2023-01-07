@@ -76,6 +76,7 @@ public class ReviewController : BaseController
         return Ok(review);
     }
 
+    [AllowAnonymous]
     [HttpGet("get-linked-reviews/{reviewId:guid}")]
     public async Task<ActionResult<IEnumerable<GetLinkedReviewsDto>>> GetLinkedReview(Guid reviewId)
     {

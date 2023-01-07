@@ -1,7 +1,7 @@
 .linked-review {
   color: #0a53be;
   cursor: pointer;
-  padding: 5px;
+  padding: 8px;
   border-radius: 5px;
   transition: .2s all linear;
 }
@@ -14,20 +14,4 @@
 :host-context(.bootstrap-dark) .linked-review:hover {
   color: white;
   background: #191d21;
-}
-
-:host-context(.bootstrap-dark) .accordion-item {
-  color: white;
-  background: #191d21;
-}
-
-:host-context(.bootstrap-dark) .accordion-button  {
-  color: white;
-  background: #191d21;
-}
-
-:host-context(.bootstrap-dark) .accordion-button::after  {
-  color: white !important;
-  border-radius: 50px;
-
 }
