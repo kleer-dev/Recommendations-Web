@@ -1,5 +1,3 @@
-using Recommendations.Domain;
-
 namespace Recommendations.Application.Interfaces;
 
 public interface IAlgoliaService

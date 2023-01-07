@@ -3,7 +3,7 @@ import {HttpClient} from "@angular/common/http";
 import {Router} from "@angular/router";
 import {UserService} from "../../common/services/user/user.service";
 import {UserModel} from "../../common/models/UserModel";
-import {firstValueFrom} from "rxjs";
+import {firstValueFrom, lastValueFrom} from "rxjs";
 import {ColumnMode} from '@swimlane/ngx-datatable';
 import {Roles} from "../../common/consts/Roles";
 
@@ -34,14 +34,17 @@ export class AdminPageComponent implements OnInit {
   }
 
   async getAllUsers() {
-    this.users = (await firstValueFrom(this.userService.getAllUsers()))
-      .filter(user => user.id != this.currentUserInfo.id)
+    let users = await firstValueFrom(this.userService.getAllUsers())
+    if (users) {
+      this.users = users.filter(user => user.id !== this.currentUserInfo.id)
+    }
     this.waiter = true
   }
 
-  async deleteUser(userId: number) {
-    await firstValueFrom(this.userService.deleteUser(userId))
+  deleteUser(userId: number) {
     this.users = this.users.filter(user => user.id !== userId)
+    this.userService.deleteUser(userId)
+      .subscribe({})
   }
 
   async getUserInfo() {

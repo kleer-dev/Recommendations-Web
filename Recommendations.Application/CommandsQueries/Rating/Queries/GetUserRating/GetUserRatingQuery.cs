@@ -5,11 +5,10 @@ namespace Recommendations.Application.CommandsQueries.Rating.Queries.GetUserRati
 public class GetUserRatingQuery : IRequest<Domain.Rating?>
 {
     public Guid UserId { get; set; }
-    public Guid ProductId { get; set; }
-
-    public GetUserRatingQuery(Guid userId, Guid productId)
+    public Guid ReviewId { get; set; }
+    public GetUserRatingQuery(Guid userId, Guid reviewId)
     {
         UserId = userId;
-        ProductId = productId;
+        ReviewId = reviewId;
     }
 }

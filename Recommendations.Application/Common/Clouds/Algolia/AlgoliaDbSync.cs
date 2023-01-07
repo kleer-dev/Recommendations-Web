@@ -1,3 +1,4 @@
+using AutoMapper;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.ChangeTracking;
 using Recommendations.Application.Interfaces;
@@ -9,11 +10,14 @@ public class AlgoliaDbSync
 {
     private readonly IRecommendationsDbContext _context;
     private readonly IAlgoliaService _algoliaService;
+    private readonly IMapper _mapper;
 
-    public AlgoliaDbSync(IRecommendationsDbContext context, IAlgoliaService algoliaService)
+    public AlgoliaDbSync(IRecommendationsDbContext context,
+        IAlgoliaService algoliaService, IMapper mapper)
     {
         _context = context;
         _algoliaService = algoliaService;
+        _mapper = mapper;
     }
 
     public async Task Synchronize()
@@ -29,11 +33,12 @@ public class AlgoliaDbSync
     {
         var entity = entityEntry.Entity;
         await LoadAllEntityReferences(entity);
-        
+        var sendDto = _mapper.Map<AlgoliaDto>(entity);
+
         switch (entityEntry.State)
         {
             case EntityState.Added or EntityState.Modified or EntityState.Unchanged:
-                await _algoliaService.AddOrUpdateRecord(entity);
+                await _algoliaService.AddOrUpdateRecord(sendDto);
                 break;
             case EntityState.Deleted:
                 await _algoliaService.DeleteRecord(entity);

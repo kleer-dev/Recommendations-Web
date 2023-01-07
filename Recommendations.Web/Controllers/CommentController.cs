@@ -19,9 +19,9 @@ public class CommentController : BaseController
     [HttpPost]
     public async Task<ActionResult<Guid>> Send([FromBody] CreateCommentDto dto)
     {
-        var createCommentCommand = _mapper.Map<CreateCommentCommand>(dto);
+        var createCommentCommand = Mapper.Map<CreateCommentCommand>(dto);
         createCommentCommand.UserId = CurrentUserId;
-        var commentId = await _mediator.Send(createCommentCommand);
+        var commentId = await Mediator.Send(createCommentCommand);
         
         return Ok(commentId);
     }
@@ -31,7 +31,7 @@ public class CommentController : BaseController
     public async Task<ActionResult<IEnumerable<GetAllCommentsDto>>> GetAll(Guid reviewId)
     {
         var getAllCommentsQuery = new GetAllCommentsQuery(reviewId);
-        var commentsVm = await _mediator.Send(getAllCommentsQuery);
+        var commentsVm = await Mediator.Send(getAllCommentsQuery);
         
         return Ok(commentsVm.Comments);
     }

@@ -94,6 +94,7 @@ public static class DependencyInjection
 
         await new RoleInitializer(rolesManager).InitializeAsync();
         await new AdminInitializer(userManager, configuration).InitializeAsync();
-        await new CategoriesInitializer(recommendationsDbContext).InitializeAsync(new CancellationToken());
+        await new CategoriesInitializer(recommendationsDbContext)
+            .InitializeAsync(new CancellationToken());
     }
 }

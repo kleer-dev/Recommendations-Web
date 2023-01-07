@@ -48,7 +48,10 @@
     "MarkdownPreview": "Markdown превью",
     "CreateReview": "Создание обзора",
     "ChangeReview": "Изменить обзор",
-    "Send": "Отправить"
+    "Send": "Отправить",
+    "SelectLinkProduction": "Выберите произведение",
+    "SelectOrCreateProduction": "Выберите произведение или введите новое",
+    "EnterProductName": "Введите новое произведение"
   },
   "Header": {
     "Theme": "Тема:",

@@ -1,0 +1,18 @@
+<div class="accordion w-100 p-0 m-0" id="accordionExample">
+  <div class="accordion-item">
+    <h6 class="accordion-header" id="headingOne">
+      <button class="accordion-button collapsed fw-semibold" type="button"
+              data-bs-toggle="collapse" data-bs-target="#collapseOne"
+              aria-expanded="true" aria-controls="collapseOne">
+        Accordion Item #1
+      </button>
+    </h6>
+    <div *ngFor="let review of linkedReviews" id="collapseOne"
+         class="accordion-collapse collapse mt-1 mb-1 p-2" aria-labelledby="headingOne"
+         data-bs-parent="#accordionExample">
+      <div [routerLink]="['/review', review.id]" class="linked-review wrap fw-semibold">
+        {{review.title}}
+      </div>
+    </div>
+  </div>
+</div>

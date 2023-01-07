@@ -7,6 +7,9 @@ import {UpdateReviewModel} from "../../common/models/UpdateReviewModel";
 import {ReviewFormModel} from "../../common/models/ReviewFormModel";
 import {Log} from "oidc-client";
 import {ReviewsService} from "../../common/services/reviews/reviews.service";
+import {firstValueFrom} from "rxjs";
+import {ProductModel} from "../../common/models/ProductModel";
+import {ProductsService} from "../../common/services/products/products.service";
 
 @Component({
   selector: 'app-update-review',
@@ -18,20 +21,20 @@ export class UpdateReviewComponent implements OnInit {
   reviewId: number = 0
   review!: UpdateReviewModel
   tags: string[] = []
-
   userId: number | null = null
-
   files: File[] = []
-
   reviewForm!: ReviewFormModel
+  products: ProductModel[] = []
 
   constructor(private http: HttpClient, private router: Router,
               private activatedRoute: ActivatedRoute,
-              private reviewService: ReviewsService) {
+              private reviewService: ReviewsService,
+              private productsService: ProductsService) {
 
   }
 
   async ngOnInit() {
+    await this.getAllProducts()
     this.getUserIdFromQueryParams()
     this.reviewId = this.activatedRoute.snapshot.params['id']
     this.reviewService.getReviewForUpdate(this.reviewId)
@@ -96,6 +99,10 @@ export class UpdateReviewComponent implements OnInit {
       return new File([<BlobPart>image], `${index}.${image!.type}`,
         {type: `image/png`});
     });
+  }
+
+  async getAllProducts() {
+    this.products = await firstValueFrom(this.productsService.getAll())
   }
 }
 

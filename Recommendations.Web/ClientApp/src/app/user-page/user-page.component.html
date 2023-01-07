@@ -29,8 +29,13 @@
        </select>
      </div>
      <div class="col-md-5 m-0 p-0 mb-2">
-       <input class="form-control mr-2" placeholder="{{'Profile.EnterFilterText' | translate}}"
+       <input *ngIf="filterForm.get('filterType')!.value !== 'creationDate'"
+              class="form-control mr-2" placeholder="{{'Profile.EnterFilterText' | translate}}"
               formControlName="filterValue" type="text" value="">
+
+       <input *ngIf="filterForm.get('filterType')!.value === 'creationDate'"
+              class="form-control mr-2" placeholder="{{'Profile.EnterFilterText' | translate}}"
+              formControlName="filterValue" type="date" value="">
      </div>
       <div class="col m-0 p-0 w-100">
         <input class="btn btn-primary mr-2" type="submit" value="{{'Profile.Filter' | translate}}">
@@ -103,7 +108,7 @@
         </ng-template>
       </ngx-datatable-column>
 
-      <ngx-datatable-column [sortable]="false"
+      <ngx-datatable-column [sortable]="true"
                             [minWidth]="350"
                             name="{{'Profile.Actions' | translate}}">
         <ng-template let-row="row" ngx-datatable-cell-template>

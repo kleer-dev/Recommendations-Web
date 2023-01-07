@@ -18,7 +18,7 @@ public class SearchController : BaseController
     public async Task<ActionResult<IEnumerable<GetAllReviewsDto>>> FindReviews(string searchQuery)
     {
         var searchReviewsQuery = new SearchReviewsQuery(searchQuery);
-        var searchResults = await _mediator.Send(searchReviewsQuery);
+        var searchResults = await Mediator.Send(searchReviewsQuery);
         
         return searchResults.Reviews.ToList();
     }

@@ -268,6 +268,7 @@ namespace Recommendations.Persistence.Migrations
             modelBuilder.Entity("Recommendations.Domain.Product", b =>
                 {
                     b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
                         .HasColumnType("uuid");
 
                     b.Property<double>("AverageRate")
@@ -283,6 +284,9 @@ namespace Recommendations.Persistence.Migrations
                     b.HasKey("Id");
 
                     b.HasIndex("Id")
+                        .IsUnique();
+
+                    b.HasIndex("Name")
                         .IsUnique();
 
                     b.ToTable("Products");
@@ -339,6 +343,9 @@ namespace Recommendations.Persistence.Migrations
                         .HasMaxLength(5000)
                         .HasColumnType("character varying(5000)");
 
+                    b.Property<Guid>("ProductId")
+                        .HasColumnType("uuid");
+
                     b.Property<string>("Title")
                         .IsRequired()
                         .HasMaxLength(100)
@@ -353,6 +360,8 @@ namespace Recommendations.Persistence.Migrations
 
                     b.HasIndex("Id")
                         .IsUnique();
+
+                    b.HasIndex("ProductId");
 
                     b.HasIndex("UserId");
 
@@ -574,17 +583,6 @@ namespace Recommendations.Persistence.Migrations
                     b.Navigation("User");
                 });
 
-            modelBuilder.Entity("Recommendations.Domain.Product", b =>
-                {
-                    b.HasOne("Recommendations.Domain.Review", "Review")
-                        .WithOne("Product")
-                        .HasForeignKey("Recommendations.Domain.Product", "Id")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Review");
-                });
-
             modelBuilder.Entity("Recommendations.Domain.Rating", b =>
                 {
                     b.HasOne("Recommendations.Domain.Product", "Product")
@@ -612,6 +610,12 @@ namespace Recommendations.Persistence.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
+                    b.HasOne("Recommendations.Domain.Product", "Product")
+                        .WithMany("Reviews")
+                        .HasForeignKey("ProductId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
                     b.HasOne("Recommendations.Domain.User", "User")
                         .WithMany("Reviews")
                         .HasForeignKey("UserId")
@@ -619,6 +623,8 @@ namespace Recommendations.Persistence.Migrations
                         .IsRequired();
 
                     b.Navigation("Category");
+
+                    b.Navigation("Product");
 
                     b.Navigation("User");
                 });
@@ -645,6 +651,8 @@ namespace Recommendations.Persistence.Migrations
 
             modelBuilder.Entity("Recommendations.Domain.Product", b =>
                 {
+                    b.Navigation("Reviews");
+
                     b.Navigation("UserRatings");
                 });
 
@@ -655,9 +663,6 @@ namespace Recommendations.Persistence.Migrations
                     b.Navigation("Images");
 
                     b.Navigation("Likes");
-
-                    b.Navigation("Product")
-                        .IsRequired();
                 });
 
             modelBuilder.Entity("Recommendations.Domain.User", b =>

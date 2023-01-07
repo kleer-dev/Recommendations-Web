@@ -17,10 +17,11 @@ public class GetUserRatingQueryHandler : IRequestHandler<GetUserRatingQuery, Dom
         CancellationToken cancellationToken)
     {
         var rating = await _context.Ratings
-            .Include(r => r.Product)
             .Include(r => r.User)
-            .FirstOrDefaultAsync(r => r.User.Id == request.UserId
-                    && r.Product.Id == request.ProductId, cancellationToken);
+            .Include(r => r.Product)
+            .Where(r => r.User.Id == request.UserId
+                        && r.Product.Reviews.Any(p => p.Id == request.ReviewId))
+            .FirstOrDefaultAsync(cancellationToken);
 
         return rating;
     }

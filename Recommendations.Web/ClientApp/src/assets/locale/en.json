@@ -48,7 +48,10 @@
     "MarkdownPreview": "Markdown preview",
     "CreateReview": "Creating a review",
     "ChangeReview": "Change the review",
-    "Send": "Send"
+    "Send": "Send",
+    "SelectLinkProduction": "Select product",
+    "SelectOrCreateProduction": "Select a product or enter a new product name",
+    "EnterProductName": "Enter a new product name"
   },
   "Header": {
     "Theme": "Theme:",

@@ -16,6 +16,7 @@ using Recommendations.Application.CommandsQueries.User.Queries.GetUserInfo;
 using Recommendations.Application.CommandsQueries.User.Queries.Login;
 using Recommendations.Application.Common.Constants;
 using Recommendations.Domain;
+using Recommendations.Web.Filters;
 using Recommendations.Web.Models.User;
 
 namespace Recommendations.Web.Controllers;
@@ -38,7 +39,7 @@ public class UserController : BaseController
     public async Task<ActionResult<IEnumerable<GetUserDto>>> GetAllUsers()
     {
         var getAllUsersQuery = new GetAllUsersQuery();
-        var usersVm = await _mediator.Send(getAllUsersQuery);
+        var usersVm = await Mediator.Send(getAllUsersQuery);
 
         return usersVm.Users.ToList();
     }
@@ -48,7 +49,7 @@ public class UserController : BaseController
     public async Task<ActionResult<GetUserDto>> GetInfo()
     {
         var getUserInfoQuery = new GetUserInfoQuery(CurrentUserId);
-        var userInfo = await _mediator.Send(getUserInfoQuery);
+        var userInfo = await Mediator.Send(getUserInfoQuery);
         
         return Ok(userInfo);
     }
@@ -58,17 +59,17 @@ public class UserController : BaseController
     public async Task<ActionResult<GetUserDto>> GetInfo(Guid userId)
     {
         var getUserInfoQuery = new GetUserInfoQuery(userId);
-        var userInfo = await _mediator.Send(getUserInfoQuery);
+        var userInfo = await Mediator.Send(getUserInfoQuery);
         
         return Ok(userInfo);
     }
-
+    
     [Authorize(Roles = Roles.Admin)]
     [HttpPost("set-role")]
     public async Task<ActionResult> SetRole(SetRoleDto dto)
     {
-        var setUserRoleCommand = _mapper.Map<SetUserRoleCommand>(dto);
-        await _mediator.Send(setUserRoleCommand);
+        var setUserRoleCommand = Mapper.Map<SetUserRoleCommand>(dto);
+        await Mediator.Send(setUserRoleCommand);
         
         return Ok();
     }
@@ -82,8 +83,8 @@ public class UserController : BaseController
     [HttpPost("registration")]
     public async Task<ActionResult> Registration([FromBody] UserRegistrationDto dto)
     {
-        var registrationCommand = _mapper.Map<UserRegistrationCommand>(dto);
-        var userId = await _mediator.Send(registrationCommand);
+        var registrationCommand = Mapper.Map<UserRegistrationCommand>(dto);
+        var userId = await Mediator.Send(registrationCommand);
 
         return Created("api/users/registration", userId);
     }
@@ -92,8 +93,8 @@ public class UserController : BaseController
     [HttpPost("login")]
     public async Task<ActionResult> Login([FromBody] UserLoginDto dto)
     {
-        var loginQuery = _mapper.Map<UserLoginQuery>(dto);
-        await _mediator.Send(loginQuery);
+        var loginQuery = Mapper.Map<UserLoginQuery>(dto);
+        await Mediator.Send(loginQuery);
 
         return Ok();
     }
@@ -105,7 +106,7 @@ public class UserController : BaseController
         var getAuthenticationPropertiesQuery
             = new GetAuthenticationPropertiesQuery(provider, "/login-callback");
         var authenticationProperties =
-            await _mediator.Send(getAuthenticationPropertiesQuery);
+            await Mediator.Send(getAuthenticationPropertiesQuery);
 
         return Challenge(authenticationProperties, provider);
     }
@@ -115,7 +116,7 @@ public class UserController : BaseController
     public async Task<ActionResult> HandleExternalLogin()
     {
         var externalLoginCallbackQuery = new ExternalLoginCallbackQuery();
-        await _mediator.Send(externalLoginCallbackQuery);
+        await Mediator.Send(externalLoginCallbackQuery);
 
         return Ok();
     }
@@ -132,7 +133,7 @@ public class UserController : BaseController
     public async Task<ActionResult> Delete(Guid userId)
     {
         var deleteUserCommand = new DeleteUserCommand(userId);
-        await _mediator.Send(deleteUserCommand);
+        await Mediator.Send(deleteUserCommand);
         
         return NoContent();
     }
@@ -142,7 +143,7 @@ public class UserController : BaseController
     public async Task<ActionResult> BlockUser(Guid userId)
     {
         var blockUserCommand = new BlockUserCommand(userId);
-        await _mediator.Send(blockUserCommand);
+        await Mediator.Send(blockUserCommand);
         
         return Ok();
     }
@@ -152,7 +153,7 @@ public class UserController : BaseController
     public async Task<ActionResult> UnblockUser(Guid userId)
     {
         var unblockUserCommand = new UnblockUserCommand(userId);
-        await _mediator.Send(unblockUserCommand);
+        await Mediator.Send(unblockUserCommand);
         
         return Ok();
     }

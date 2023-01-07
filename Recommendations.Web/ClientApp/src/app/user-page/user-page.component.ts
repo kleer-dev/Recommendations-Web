@@ -56,9 +56,13 @@ export class UserPageComponent implements OnInit {
     this.rows = this.reviews
   }
 
-  async deleteReview(reviewId: number) {
+  deleteReview(reviewId: number) {
     this.rows = this.reviews.filter(review => review.reviewId !== reviewId.toString())
-    await firstValueFrom(this.reviewsService.deleteReview(reviewId))
+    this.reviews = this.rows
+    this.reviewsService.deleteReview(reviewId)
+      .subscribe({
+        error: err => console.log(err)
+      })
   }
 
   getUserIdFromQueryParams() {

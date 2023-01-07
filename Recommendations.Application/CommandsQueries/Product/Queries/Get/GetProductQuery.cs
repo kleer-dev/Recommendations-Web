@@ -1,6 +1,6 @@
 using MediatR;
 
-namespace Recommendations.Application.CommandsQueries.Product.Queries;
+namespace Recommendations.Application.CommandsQueries.Product.Queries.Get;
 
 public class GetProductQuery : IRequest<Domain.Product>
 {

@@ -9,6 +9,7 @@ import {FormControl, FormGroup} from "@angular/forms";
 import {formToFormData} from "../../functions/formToFormData";
 import {ReviewModel} from "../../models/ReviewModel";
 import {UpdateReviewModel} from "../../models/UpdateReviewModel";
+import {LinkedReviewModel} from "../../models/LinkedReviewModel";
 
 @Injectable({
   providedIn: 'root'
@@ -105,5 +106,9 @@ export class ReviewsService {
 
   getReviewForUpdate(reviewId: number) : Observable<UpdateReviewModel> {
     return this.http.get<UpdateReviewModel>(`${this.baseUrl}/get-update-review/${reviewId}`)
+  }
+
+  getLinkedReviews(reviewId: number) : Observable<LinkedReviewModel[]> {
+    return this.http.get<LinkedReviewModel[]>(`${this.baseUrl}/get-linked-reviews/${reviewId}`)
   }
 }

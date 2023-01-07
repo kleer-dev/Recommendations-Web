@@ -38,8 +38,8 @@
       </button>
     </div>
 
-    <div class="row d-flex flex-column p-0 mb-3">
-      <div class="title-container mb-3">
+    <div class="row d-flex flex-column p-0 mb-2">
+      <div class="title-container">
         <div class="rating-bar mt-2 mb-3 m-0 p-0">
           <div class="d-flex flex-column">
             <span>{{'ReviewPage.RateProduct' | translate}}</span>
@@ -63,6 +63,8 @@
           <div class="wrap">{{'ReviewPage.AverageRating' | translate}} {{review.averageRate}}</div>
         </div>
       </div>
+
+      <app-linked-reviews class="w-100 p-0 m-0 mb-2 mt-2" [linkedReviews]="linkedReviews"></app-linked-reviews>
 
       <h6 class="mb-2 wrap">{{'ReviewPage.ProductName' | translate}} {{review.productName}}</h6>
       <h6 class="mb-2 wrap">{{'ReviewPage.Category' | translate}} {{review.category}}</h6>

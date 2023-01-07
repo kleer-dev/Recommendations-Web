@@ -3,14 +3,14 @@ import {ActivatedRoute, Router} from "@angular/router";
 import {HttpClient} from "@angular/common/http";
 import {ReviewModel} from "../../common/models/ReviewModel";
 import {CommentsSignalrService} from "../../common/services/signalr/comments-signalr.service";
-import {CommentModel} from "../../common/models/CommentModel";
 import {FormControl, FormGroup, Validators} from "@angular/forms";
 import {ReviewsService} from "../../common/services/reviews/reviews.service";
 import {RatingService} from "../../common/services/rating/rating.service";
 import {LikeService} from "../../common/services/like/like.service";
 import {CommentService} from "../../common/services/comment/comment.service";
 import {UserService} from "../../common/services/user/user.service";
-import {async, firstValueFrom} from "rxjs";
+import {firstValueFrom} from "rxjs";
+import {LinkedReviewModel} from "../../common/models/LinkedReviewModel";
 
 @Component({
   selector: 'app-review',
@@ -23,6 +23,7 @@ export class ReviewComponent implements OnInit, OnDestroy {
   review!: ReviewModel;
   reviewId: number = 0;
   rate: number = 0;
+  linkedReviews: LinkedReviewModel[] = []
 
   constructor(private activateRoute: ActivatedRoute,
               private http: HttpClient,
@@ -35,14 +36,13 @@ export class ReviewComponent implements OnInit, OnDestroy {
               private userService: UserService) {
     this.getReview()
     this.getAllComments()
-    if (this.userService.isAuthenticated) {
-
-    }
   }
 
   async ngOnInit(): Promise<void> {
+    this.router.routeReuseStrategy.shouldReuseRoute = () => false;
     await this.signalrService.connect()
     await this.signalrService.connectToGroup(this.reviewId.toString())
+    await this.getLinkedReviews()
   }
 
   async getReview() {
@@ -90,6 +90,10 @@ export class ReviewComponent implements OnInit, OnDestroy {
 
   async ngOnDestroy(): Promise<void> {
     await this.signalrService.closeConnection()
+  }
+
+  async getLinkedReviews() {
+    this.linkedReviews = await firstValueFrom(this.reviewsService.getLinkedReviews(this.reviewId))
   }
 }
 

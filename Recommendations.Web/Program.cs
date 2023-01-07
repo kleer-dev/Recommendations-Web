@@ -30,6 +30,7 @@ builder.Services.AddApplication(builder.Configuration);
 await builder.Services.AddPersistence(builder.Configuration);
 
 builder.Services.AddScoped<UserAccessStatusValidationFilter>();
+builder.Services.AddScoped<AdminRoleValidationFilter>();
 
 var app = builder.Build();
 
