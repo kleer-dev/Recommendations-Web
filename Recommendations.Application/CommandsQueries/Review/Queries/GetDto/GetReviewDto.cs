@@ -1,4 +1,5 @@
 using AutoMapper;
+using Recommendations.Application.CommandsQueries.Review.Queries.GetLinkedReviewsByReviewId;
 using Recommendations.Application.Common.Mappings;
 
 namespace Recommendations.Application.CommandsQueries.Review.Queries.GetDto;
@@ -19,7 +20,7 @@ public class GetReviewDto : IMapWith<Domain.Review>
     public string[] Tags { get; set; }
     public List<string>? ImagesUrls { get; set; }
     public DateTime CreationDate { get; set; }
-    
+
     public void Mapping(Profile profile)
     {
         profile.CreateMap<Domain.Review, GetReviewDto>()

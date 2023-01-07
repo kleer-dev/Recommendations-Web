@@ -17,7 +17,8 @@ export class UserService {
   isAuthenticated: boolean = false
   isAdmin: boolean = false
 
-  constructor(private http: HttpClient, private router: Router) {
+  constructor(private http: HttpClient,
+              private router: Router) {
 
   }
 
@@ -36,7 +37,6 @@ export class UserService {
   getRole(): Observable<boolean> {
     return this.http.get<UserModel>(`${this.baseUrl}/get-info`)
       .pipe(map((user) => {
-        console.log(user)
         if (user.role !== Roles.admin) {
           this.isAdmin = false
           return false;
@@ -50,7 +50,6 @@ export class UserService {
     this.getRole()
       .subscribe({
         next: value => {
-          console.log(value)
           this.isAdmin = value
         }
       })

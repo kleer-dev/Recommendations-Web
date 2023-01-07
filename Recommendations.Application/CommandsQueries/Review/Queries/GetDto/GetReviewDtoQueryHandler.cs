@@ -30,7 +30,7 @@ public class GetReviewDtoQueryHandler
         var getReviewDto = _mapper.Map<GetReviewDto>(review);
         getReviewDto.ImagesUrls = await GetImagesUrls(request.ReviewId, cancellationToken);
         getReviewDto.IsLike = await GetLikeStatus(request.UserId, request.ReviewId, cancellationToken);
-        getReviewDto.UserRating = await GetUserRating(request.UserId, review.Product.Id, cancellationToken);
+        getReviewDto.UserRating = await GetUserRating(request.UserId, review.Id, cancellationToken);
 
         return getReviewDto;
     }
@@ -49,10 +49,10 @@ public class GetReviewDtoQueryHandler
         return await _mediator.Send(getLikeStatus, cancellationToken);
     }
     
-    private async Task<double> GetUserRating(Guid userId, Guid productId,
+    private async Task<double> GetUserRating(Guid userId, Guid reviewId, 
         CancellationToken cancellationToken)
     {
-        var getRatingQuery = new GetUserRatingQuery(userId, productId);
+        var getRatingQuery = new GetUserRatingQuery(userId, reviewId);
         var rating = await _mediator.Send(getRatingQuery, cancellationToken);
         return rating?.Value ?? 1;
     }
@@ -62,6 +62,6 @@ public class GetReviewDtoQueryHandler
     {
         var getImagesByReviewIdQuery = new GetImageListByReviewIdQuery(reviewId);
         var images = await _mediator.Send(getImagesByReviewIdQuery, cancellationToken);
-        return images?.Select(i => i.Url).ToList();
+        return images.Select(i => i.Url).ToList();
     }
 }

@@ -3,8 +3,10 @@ import {HttpClient} from "@angular/common/http";
 import {FormControl, FormGroup, Validators} from "@angular/forms";
 import {ActivatedRoute, Router} from "@angular/router";
 import {ReviewFormModel} from "src/common/models/ReviewFormModel";
-import {formToFormData} from "src/common/functions/formToFormData";
 import {ReviewsService} from "../../common/services/reviews/reviews.service";
+import {ProductsService} from "../../common/services/products/products.service";
+import {firstValueFrom} from "rxjs";
+import { ProductModel } from 'src/common/models/ProductModel';
 
 @Component({
   selector: 'app-create-review',
@@ -15,22 +17,29 @@ export class CreateReviewComponent implements OnInit {
 
   waiter: boolean = true
   userId?: number;
+  products: ProductModel[] = []
 
   constructor(private activatedRoute: ActivatedRoute,
               private http: HttpClient,
               private router: Router,
-              private reviewService: ReviewsService) {
+              private reviewService: ReviewsService,
+              private productsService: ProductsService) {
 
   }
 
-  ngOnInit(): void {
+  async ngOnInit(): Promise<any> {
     this.getUserIdFromQueryParams()
+    await this.getAllProducts()
   }
 
-  getUserIdFromQueryParams(){
+  getUserIdFromQueryParams() {
     this.activatedRoute.params.subscribe({
       next: value => this.userId = value['userid']
     })
+  }
+
+  async getAllProducts() {
+    this.products = await firstValueFrom(this.productsService.getAll())
   }
 
   reviewForm: ReviewFormModel = new FormGroup({

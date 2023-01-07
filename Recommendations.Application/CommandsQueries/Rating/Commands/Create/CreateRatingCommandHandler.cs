@@ -1,5 +1,6 @@
 using MediatR;
 using Recommendations.Application.CommandsQueries.Product.Queries;
+using Recommendations.Application.CommandsQueries.Product.Queries.Get;
 using Recommendations.Application.CommandsQueries.User.Queries.Get;
 using Recommendations.Application.Interfaces;
 
@@ -22,7 +23,7 @@ public class CreateRatingCommandHandler : IRequestHandler<CreateRatingCommand, D
         var rating = new Domain.Rating
         {
             User = await GetUser(request.UserId, cancellationToken),
-            Value = request.RatingValue,
+            Value = 1,
             Product = await GetProduct(request.ProductId, cancellationToken)
         };
         await _context.Ratings.AddAsync(rating, cancellationToken);

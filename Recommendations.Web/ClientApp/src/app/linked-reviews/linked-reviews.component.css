@@ -1,0 +1,17 @@
+.linked-review {
+  color: #0a53be;
+  cursor: pointer;
+  padding: 8px;
+  border-radius: 5px;
+  transition: .2s all linear;
+}
+
+.linked-review:hover {
+  background: lightgrey;
+  transition: .2s all linear;
+}
+
+:host-context(.bootstrap-dark) .linked-review:hover {
+  color: white;
+  background: #191d21;
+}

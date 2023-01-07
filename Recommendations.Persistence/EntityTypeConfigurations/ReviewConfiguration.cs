@@ -19,9 +19,5 @@ public class ReviewConfiguration : IEntityTypeConfiguration<Review>
 
         builder.Property(review => review.AuthorRate)
             .HasDefaultValue(1);
-
-        builder.HasOne(rating => rating.Product)
-            .WithOne(product => product.Review)
-            .HasForeignKey<Product>(product => product.Id);
     }
 }

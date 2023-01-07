@@ -43,6 +43,7 @@ import {SearchPageComponent} from "./search-page/search-page.component";
 import {ReviewGridComponent} from "./reviews-grid/review-grid.component";
 import {NotFoundComponent} from "./not-found/not-found.component";
 import {AccessDeniedComponent} from "./access-denied/access-denied.component";
+import {LinkedReviewsComponent} from "./linked-reviews/linked-reviews.component";
 
 @NgModule({
   declarations: [
@@ -67,7 +68,8 @@ import {AccessDeniedComponent} from "./access-denied/access-denied.component";
     SearchPageComponent,
     ReviewGridComponent,
     NotFoundComponent,
-    AccessDeniedComponent
+    AccessDeniedComponent,
+    LinkedReviewsComponent
   ],
   imports: [
     BrowserModule.withServerTransition({appId: 'ng-cli-universal'}),

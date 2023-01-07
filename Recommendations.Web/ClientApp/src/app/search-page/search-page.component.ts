@@ -10,7 +10,7 @@ import {SearchService} from "../../common/services/search/search.service";
 })
 export class SearchPageComponent implements OnInit {
 
-  waiter!: Promise<boolean>
+  waiter: boolean = false
   reviews!: ReviewPreviewModel[]
   previousQuery!: string | null;
   currentQuery!: string | null;
@@ -41,7 +41,10 @@ export class SearchPageComponent implements OnInit {
       .subscribe({
         next: value => {
           this.reviews = value
-          this.waiter = Promise.resolve(true)
+          this.waiter = true
+        },
+        error: err => {
+          this.waiter = true
         }
       })
   }

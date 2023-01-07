@@ -7,16 +7,17 @@ using Recommendations.Web.Filters;
 namespace Recommendations.Web.Controllers;
 
 [ServiceFilter(typeof(UserAccessStatusValidationFilter))]
+[ServiceFilter(typeof(AdminRoleValidationFilter))]
 [ApiController]
 public class BaseController : ControllerBase
 {
-    protected readonly IMediator _mediator;   
-    protected readonly IMapper _mapper;
+    protected readonly IMediator Mediator;   
+    protected readonly IMapper Mapper;
 
     public BaseController(IMediator mediator, IMapper mapper)
     {
-        _mediator = mediator;
-        _mapper = mapper;
+        Mediator = mediator;
+        Mapper = mapper;
     }
 
     protected Guid CurrentUserId => User.Identity!.IsAuthenticated

@@ -8,7 +8,8 @@ import {state} from "@angular/animations";
 @Injectable()
 export class ErrorInterceptor implements HttpInterceptor {
 
-  constructor(private router: Router) {
+  constructor(private router: Router,
+              private userService: UserService) {
 
   }
 
@@ -21,9 +22,13 @@ export class ErrorInterceptor implements HttpInterceptor {
       catchError(error => {
         if (error.status === 401) {
           this.router.navigate(['/login'])
+          this.userService.isAuthenticated = false;
+          this.userService.isAdmin = false;
         }
         if (error.status === 403) {
           this.router.navigate(['/access-denied'])
+          this.userService.isAuthenticated = false;
+          this.userService.isAdmin = false;
         }
         if (error.status === 404) {
           this.router.navigate(['/not-found'])

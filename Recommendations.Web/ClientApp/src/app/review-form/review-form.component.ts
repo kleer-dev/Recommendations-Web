@@ -7,6 +7,7 @@ import {FormControl} from "@angular/forms";
 import {map, Observable} from "rxjs";
 import {TagModel} from "ngx-chips/core/tag-model";
 import {ReviewFormModel} from "src/common/models/ReviewFormModel";
+import { ProductModel } from 'src/common/models/ProductModel';
 
 @Component({
   selector: 'app-review-form',
@@ -17,7 +18,10 @@ export class ReviewFormComponent {
   @Input() @Output() files?: File[] = [];
   rate = 1;
   @Input() @Output() tags!: string[]
+  @Input() products: ProductModel[] = []
   categories!: string[]
+
+  selectedProduct = null
 
   @Input() @Output() reviewForm!: ReviewFormModel;
   @Output() onSubmitForm = new EventEmitter<boolean>();
@@ -37,6 +41,7 @@ export class ReviewFormComponent {
   }
 
   value: string = ""
+
   onChangeMarkdownEditor() {
     this.value = (this.reviewForm.get('description')!.value!).replace(/(?:\r\n|\r|\n)/g, `  \n`)
   }
@@ -79,9 +84,7 @@ export class ReviewFormComponent {
 
   onTagRemove(tag: any) {
     let index = this.tags.indexOf(tag)
-    if (index != -1) {
-      this.tags.splice(index, 1)
-    }
+    this.tags.splice(index, 1)
     this.reviewForm.patchValue({
       tags: this.tags
     })
@@ -94,7 +97,15 @@ export class ReviewFormComponent {
     })
   }
 
-  onSubmit(){
+  clearProductInForm(event: any) {
+    if (event.value === '') {
+      this.reviewForm.patchValue({
+        productName: null
+      })
+    }
+  }
+
+  onSubmit() {
     this.onSubmitForm.emit()
   }
 }

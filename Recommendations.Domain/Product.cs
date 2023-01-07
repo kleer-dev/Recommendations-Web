@@ -6,6 +6,6 @@ public class Product
     public string Name { get; set; }
     public double AverageRate { get; set; }
 
-    public Review Review { get; set; }
+    public List<Review> Reviews { get; set; } = new();
     public List<Rating> UserRatings { get; set; } = new();
 }

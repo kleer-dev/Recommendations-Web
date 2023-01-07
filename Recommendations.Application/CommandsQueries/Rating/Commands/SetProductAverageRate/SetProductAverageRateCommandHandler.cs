@@ -1,5 +1,5 @@
 using MediatR;
-using Recommendations.Application.CommandsQueries.Product.Queries;
+using Recommendations.Application.CommandsQueries.Product.Queries.Get;
 using Recommendations.Application.Interfaces;
 
 namespace Recommendations.Application.CommandsQueries.Rating.Commands.SetProductAverageRate;
