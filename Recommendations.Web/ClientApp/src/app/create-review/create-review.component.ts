@@ -6,7 +6,6 @@ import {ReviewFormModel} from "src/common/models/ReviewFormModel";
 import {ReviewsService} from "../../common/services/reviews/reviews.service";
 import {ProductsService} from "../../common/services/products/products.service";
 import {firstValueFrom} from "rxjs";
-import { ProductModel } from 'src/common/models/ProductModel';
 
 @Component({
   selector: 'app-create-review',
@@ -17,7 +16,7 @@ export class CreateReviewComponent implements OnInit {
 
   waiter: boolean = true
   userId?: number;
-  products: ProductModel[] = []
+  products: string[] = []
 
   constructor(private activatedRoute: ActivatedRoute,
               private http: HttpClient,
@@ -39,7 +38,8 @@ export class CreateReviewComponent implements OnInit {
   }
 
   async getAllProducts() {
-    this.products = await firstValueFrom(this.productsService.getAll())
+    this.products = (await firstValueFrom(this.productsService.getAll()))
+      .map(product => product.name)
   }
 
   reviewForm: ReviewFormModel = new FormGroup({

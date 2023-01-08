@@ -53,18 +53,17 @@
           <div class="product-container border-5 border border-opacity-100 p-3">
             <h6 class="mb-4">{{'ReviewForm.SelectOrCreateProduction' | translate}}</h6>
 
-            <ng-autocomplete class="ng-autocomplete" formControlName="productName"
-              [data]="products"
-              [searchKeyword]="keyword"
-              placeholder="{{'ReviewForm.SelectOrCreateProduction' | translate}}"
-              (selected)='selectEvent($event)'
-              (inputChanged)='onChangeSearch($event)'
-              (inputFocused)='onFocused($event)'
-              [itemTemplate]="itemTemplate">
+            <ng-autocomplete #productName formControlName="productName" class="ng-autocomplete"
+                             [data]="products"
+                             placeholder="{{'ReviewForm.SelectOrCreateProduction' | translate}}"
+                             (selected)='selectEvent($event)'
+                             (inputChanged)='onChangeSearch($event)'
+                             (inputFocused)='onFocused($event)'
+                             [itemTemplate]="itemTemplate">
             </ng-autocomplete>
 
             <ng-template #itemTemplate let-item>
-              <a [innerHTML]="item.name"></a>
+              <a [innerHTML]="item"></a>
             </ng-template>
 
             <div class="text-danger mt-2" *ngIf="reviewForm.controls.productName.hasError('minlength')&&

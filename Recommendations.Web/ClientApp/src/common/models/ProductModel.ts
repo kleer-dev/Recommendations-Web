@@ -1,4 +1,4 @@
 export interface ProductModel {
-    name: string,
-    averageRating: number
+  name: string
+  averageRating: number
 }
