@@ -5,6 +5,7 @@ import {ActivatedRoute, Router} from "@angular/router";
 import {ReviewsService} from "../../common/services/reviews/reviews.service";
 import {TagService} from "../../common/services/tag/tag-service";
 import {UserService} from "../../common/services/user/user.service";
+import {firstValueFrom} from "rxjs";
 
 @Component({
   selector: 'app-home',
@@ -31,15 +32,14 @@ export class HomeComponent {
     'count': new FormControl()
   })
 
-  ngOnInit() {
-    this.reviewService.getAllReviews()
-    this.tagService.getAllTags()
-      .subscribe({
-        next: (data) => {
-          this.tags = data
-          this.waiter = true
-        }
-      })
+  async ngOnInit() {
+    await this.reviewService.getAllReviews()
+    await this.getTags()
+  }
+
+  async getTags(){
+    this.tags = await firstValueFrom(this.tagService.getAllTags())
+    this.waiter = true
   }
 
   async getRecentReviews() {
@@ -66,11 +66,11 @@ export class HomeComponent {
     let count = this.countInput.get('count')?.value
     if (count == 0 || count == null) {
       this.reviewService.reviews = []
-      this.reviewService.getAllReviews()
+      await this.reviewService.getAllReviews()
     } else {
       await this.reviewService.setParams(this.reviewService.filtrate, count, this.reviewService.tag)
       this.reviewService.reviews = []
-      this.reviewService.getAllReviews()
+      await this.reviewService.getAllReviews()
     }
   }
 
@@ -79,6 +79,6 @@ export class HomeComponent {
     await this.reviewService.setParams(this.reviewService.filtrate,
       this.reviewService.count, tagName)
     this.reviewService.reviews = []
-    this.reviewService.getAllReviews()
+    await this.reviewService.getAllReviews()
   }
 }

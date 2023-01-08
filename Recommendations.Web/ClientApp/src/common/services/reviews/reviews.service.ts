@@ -4,7 +4,7 @@ import {ActivatedRoute, Router} from "@angular/router";
 import {ReviewPreviewModel} from "../../models/ReviewPreviewModel";
 import {FilteringParameters} from "../../consts/FilteringParameters";
 import {ReviewUserPageModel} from "../../models/ReviewUserPageModel";
-import {Observable} from "rxjs";
+import {firstValueFrom, Observable} from "rxjs";
 import {FormControl, FormGroup} from "@angular/forms";
 import {formToFormData} from "../../functions/formToFormData";
 import {ReviewModel} from "../../models/ReviewModel";
@@ -62,20 +62,15 @@ export class ReviewsService {
     })
   }
 
-  getAllReviews() {
+  async getAllReviews() {
     this.getParams()
 
     let getUrl = this.tag === undefined || this.tag === null
       ? `${this.baseUrl}/get-all?filtrate=${this.filtrate}&count=${this.count}`
       : `${this.baseUrl}/get-all?filtrate=${this.filtrate}&count=${this.count}&tag=${this.tag}`;
 
-    this.http.get<ReviewPreviewModel>(getUrl)
-      .subscribe({
-        next: data => {
-          this.reviews = data
-          this.waiter = true
-        }
-      });
+    this.reviews = await firstValueFrom(this.http.get<ReviewPreviewModel>(getUrl))
+    this.waiter = true
   }
 
   getReviewById(reviewId: number): Observable<ReviewModel> {
