@@ -128,5 +128,6 @@
   "AccessDenied": {
     "AccessDenied": "Access Denied",
     "RoleChanged": "Your role has been changed. Please re-login to your account."
-  }
+  },
+  "Redirecting": "Redirecting..."
 }

@@ -16,11 +16,11 @@ export class LoginCallbackComponent {
 
     this.http.get<boolean>('api/user/external-login-callback')
       .subscribe({
-        next: () => {
+        next: async () => {
           this.userService.isAuthenticated = true
-          this.userService.checkRole()
+          await this.userService.checkRole()
           this.router.navigate(['/'])
         }
-    });
+      });
   }
 }

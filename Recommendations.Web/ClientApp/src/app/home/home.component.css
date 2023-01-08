@@ -1,4 +1,4 @@
-.tag{
+.tag {
   display: flex;
   justify-content: center;
   align-items: center;
@@ -14,12 +14,14 @@
   max-height: 50px;
 }
 
-.tag:hover{
+.tag:hover {
   box-shadow: -1px 0px 8px 0px rgba(4, 8, 9, 0.5);
   transition: .1s all linear;
 }
 
-.tag-container{
+.tag-container {
+  display: flex;
+  justify-content: center;
   overflow-y: auto;
   height: auto;
   max-height: 250px;
