@@ -62,7 +62,7 @@ export class CreateReviewComponent implements OnInit {
     description: new FormControl('', [
       Validators.required,
       Validators.minLength(100),
-      Validators.maxLength(20000)
+      Validators.maxLength(5000)
     ]),
     authorRate: new FormControl(1),
     images: new FormControl([new File([], '')])

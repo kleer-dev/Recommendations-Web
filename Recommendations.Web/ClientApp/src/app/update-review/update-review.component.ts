@@ -64,7 +64,7 @@ export class UpdateReviewComponent implements OnInit {
             description: new FormControl(data.description, [
               Validators.required,
               Validators.minLength(100),
-              Validators.maxLength(20000)
+              Validators.maxLength(5000)
             ]),
             authorRate: new FormControl(data.authorRate),
             images: new FormControl(this.files)

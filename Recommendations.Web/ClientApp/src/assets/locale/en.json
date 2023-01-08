@@ -28,7 +28,7 @@
     "ProductNameIsRequired": "Product name is required",
     "CategoryIsRequired": "Category is required",
     "TagsAreRequired": "Tags are required",
-    "MaxLength20000": "Max length - 20 000",
+    "MaxLength5000": "Max length - 5 000",
     "MinLength100": "Min length - 100",
     "MaxLength100": "Max length - 100",
     "DescriptionIsRequired": "Description is required",
@@ -39,7 +39,7 @@
     "AccountBlocked": "Your account has been blocked"
   },
   "ReviewForm": {
-    "AddImage": "Add Image (max - 512kb)",
+    "AddImage": "Add Image (max - 5bm)",
     "ReviewTitle": "Review Title",
     "ProductName": "Product name",
     "Category": "Category",
