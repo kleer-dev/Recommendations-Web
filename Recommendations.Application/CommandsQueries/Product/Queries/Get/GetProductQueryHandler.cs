@@ -22,7 +22,7 @@ public class GetProductQueryHandler
             .Include(p => p.UserRatings)
             .FirstOrDefaultAsync(p => p.Id == request.ProductId, cancellationToken);
         if (product is null)
-            throw new NotFoundException("The product not found");
+            throw new NotFoundException(nameof(Product), request.ProductId);
         
         return product;
     }

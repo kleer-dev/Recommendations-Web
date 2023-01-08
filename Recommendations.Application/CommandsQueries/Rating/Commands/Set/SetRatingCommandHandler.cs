@@ -26,8 +26,8 @@ public class SetRatingCommandHandler : IRequestHandler<SetRatingCommand, Unit>
         var rating = await GetRating(request.UserId, request.ReviewId, cancellationToken) 
                      ?? await CreateRating(request.UserId, review.Product.Id, cancellationToken);
         rating.Value = request.Value;
-        
         await UpdateAverageRate(review.Product.Id, cancellationToken);
+        
         _context.Ratings.Update(rating);
         await _context.SaveChangesAsync(cancellationToken);
 

@@ -23,7 +23,7 @@ public class SetUserRoleCommandHandler : IRequestHandler<SetUserRoleCommand, Uni
         CancellationToken cancellationToken)
     {
         if (request.Role != Roles.User && request.Role != Roles.Admin)
-            throw new NotFoundException($"The role '{request.Role}' does not exist");
+            throw new NotFoundException("Role", request.Role);
         var user = await GetUser(_userManager.Users, request.UserId, cancellationToken);
         var userRoles = await _userManager.GetRolesAsync(user);
         
@@ -37,7 +37,7 @@ public class SetUserRoleCommandHandler : IRequestHandler<SetUserRoleCommand, Uni
         CancellationToken cancellationToken)
     {
         var user = await users.FirstOrDefaultAsync(u => u.Id == userId, cancellationToken)
-                   ?? throw new NotFoundException($"The user with id: {userId} not found");
+                   ?? throw new NotFoundException(nameof(Domain.User), userId);
 
         return user;
     }

@@ -31,10 +31,9 @@ public class UserAccessStatusValidationFilter : Attribute, IAsyncActionFilter
             await next();
             return;
         }
-
         try
         {
-            var user = await GetUser(userId!.Value);
+            var user = await GetUser(userId.Value);
             if (user.AccessStatus == UserAccessStatuses.Blocked)
             {
                 await _signInManager.SignOutAsync();

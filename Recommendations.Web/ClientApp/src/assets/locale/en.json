@@ -30,6 +30,7 @@
     "TagsAreRequired": "Tags are required",
     "MaxLength20000": "Max length - 20 000",
     "MinLength100": "Min length - 100",
+    "MaxLength100": "Max length - 100",
     "DescriptionIsRequired": "Description is required",
     "CommentMaxLength": "Max length - 400",
     "UserExist": "A user with the same email or login already exists",

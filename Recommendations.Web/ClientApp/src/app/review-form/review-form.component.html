@@ -71,6 +71,11 @@
               {{'Validation.MinLength5' | translate}}
             </div>
 
+            <div class="text-danger mt-2" *ngIf="reviewForm.controls.productName.hasError('maxlength')&&
+            reviewForm.controls['productName'].touched">
+              {{'Validation.MaxLength100' | translate}}
+            </div>
+
             <div class="text-danger mt-2" *ngIf="reviewForm.controls.productName.hasError('required') &&
             reviewForm.controls['productName'].touched">
               {{'Validation.ProductNameIsRequired' | translate}}

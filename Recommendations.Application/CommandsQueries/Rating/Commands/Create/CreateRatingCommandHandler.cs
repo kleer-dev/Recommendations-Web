@@ -23,7 +23,6 @@ public class CreateRatingCommandHandler : IRequestHandler<CreateRatingCommand, D
         var rating = new Domain.Rating
         {
             User = await GetUser(request.UserId, cancellationToken),
-            Value = 1,
             Product = await GetProduct(request.ProductId, cancellationToken)
         };
         await _context.Ratings.AddAsync(rating, cancellationToken);

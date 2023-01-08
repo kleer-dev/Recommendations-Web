@@ -29,7 +29,7 @@ public class UserLoginQueryHandler : IRequestHandler<UserLoginQuery, Unit>
 
     private async Task<Domain.User> CheckUser(UserLoginQuery request)
     {
-        var user = await GetUserByEmail(request);
+        var user = await GetUserByEmail(request.Email);
         await CheckUserPassword(user, request.Password);
         if (user.AccessStatus == UserAccessStatuses.Blocked)
             throw new AccessDeniedException($"The user with id: {user.Id} has been blocked");
@@ -37,11 +37,11 @@ public class UserLoginQueryHandler : IRequestHandler<UserLoginQuery, Unit>
         return user;
     }
 
-    private async Task<Domain.User> GetUserByEmail(UserLoginQuery request)
+    private async Task<Domain.User> GetUserByEmail(string email)
     {
-        var user = await _userManager.FindByEmailAsync(request.Email);
+        var user = await _userManager.FindByEmailAsync(email);
         if (user is null)
-            throw new NotFoundException("The user not found");
+            throw new NotFoundException(nameof(User), email);
 
         return user;
     }
