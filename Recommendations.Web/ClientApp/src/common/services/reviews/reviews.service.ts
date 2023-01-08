@@ -23,7 +23,7 @@ export class ReviewsService {
   tag: string | undefined
   public reviews: any;
 
-  waiter!: Promise<boolean>
+  waiter: boolean = false
 
   constructor(private http: HttpClient, private activateRoute: ActivatedRoute,
               private router: Router) {
@@ -31,7 +31,7 @@ export class ReviewsService {
   }
 
   async setParams(filtrate?: string | null, count?: number | undefined, tag?: string | undefined) {
-    this.waiter = Promise.resolve(false)
+    this.waiter = false
     this.filtrate = filtrate;
     this.count = count;
     this.tag = tag;
@@ -65,7 +65,7 @@ export class ReviewsService {
   getAllReviews() {
     this.getParams()
 
-    let getUrl = this.tag === undefined
+    let getUrl = this.tag === undefined || this.tag === null
       ? `${this.baseUrl}/get-all?filtrate=${this.filtrate}&count=${this.count}`
       : `${this.baseUrl}/get-all?filtrate=${this.filtrate}&count=${this.count}&tag=${this.tag}`;
 
@@ -73,7 +73,7 @@ export class ReviewsService {
       .subscribe({
         next: data => {
           this.reviews = data
-          this.waiter = Promise.resolve(true)
+          this.waiter = true
         }
       });
   }

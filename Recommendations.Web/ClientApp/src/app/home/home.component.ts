@@ -76,7 +76,6 @@ export class HomeComponent {
     let tagName = event.target.value
     await this.reviewService.setParams(this.reviewService.filtrate,
       this.reviewService.count, tagName)
-    await this.reviewService.getParams()
     this.reviewService.getAllReviews()
   }
 }
