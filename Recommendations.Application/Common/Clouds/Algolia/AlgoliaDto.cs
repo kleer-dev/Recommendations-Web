@@ -26,6 +26,9 @@ public class AlgoliaDto : IMapWith<Domain.Review>
                 o => o.MapFrom(u => u.Product.Name))
             .ForMember(u => u.AverageRating,
                 o => o.MapFrom(u => u.Product.AverageRate))
+            .ForMember(u => u.Tags,
+                o => o.MapFrom(u => u.Tags
+                    .Select(t => t.Name)))
             .ForMember(u => u.CommentTexts,
                 o => o.MapFrom(u => u.Comments
                     .Select(c => c.Text)));
