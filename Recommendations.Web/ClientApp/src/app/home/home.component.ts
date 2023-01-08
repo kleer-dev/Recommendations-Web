@@ -29,10 +29,12 @@ export class HomeComponent {
   })
 
   countInput = new FormGroup({
-    'count': new FormControl()
+    'count': new FormControl(10)
   })
 
   async ngOnInit() {
+    this.reviewService.getParams()
+    await this.reviewService.changeRoute()
     await this.reviewService.getAllReviews()
     await this.getTags()
   }
@@ -59,7 +61,7 @@ export class HomeComponent {
     await this.reviewService.setParams(this.reviewService.filtrate,
       this.reviewService.count, undefined)
     this.reviewService.reviews = []
-    this.reviewService.getAllReviews()
+    await this.reviewService.getAllReviews()
   }
 
   async checkCountInput() {
@@ -68,8 +70,8 @@ export class HomeComponent {
       this.reviewService.reviews = []
       await this.reviewService.getAllReviews()
     } else {
-      await this.reviewService.setParams(this.reviewService.filtrate, count, this.reviewService.tag)
       this.reviewService.reviews = []
+      await this.reviewService.setParams(this.reviewService.filtrate, count, this.reviewService.tag)
       await this.reviewService.getAllReviews()
     }
   }

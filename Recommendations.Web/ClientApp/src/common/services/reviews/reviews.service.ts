@@ -19,7 +19,7 @@ export class ReviewsService {
   readonly baseUrl: string = "api/reviews"
 
   filtrate?: string | null = FilteringParameters.recent;
-  count?: number | undefined;
+  count?: number | undefined = 10;
   tag: string | undefined
   public reviews: any;
 
@@ -27,7 +27,6 @@ export class ReviewsService {
 
   constructor(private http: HttpClient, private activateRoute: ActivatedRoute,
               private router: Router) {
-
   }
 
   async setParams(filtrate?: string | null, count?: number | undefined, tag?: string | undefined) {
@@ -53,7 +52,7 @@ export class ReviewsService {
   }
 
   async changeRoute() {
-    this.router.navigate(['/'], {
+    await this.router.navigate(['/'], {
       queryParams: {
         'filtrate': this.filtrate,
         'count': this.count,
