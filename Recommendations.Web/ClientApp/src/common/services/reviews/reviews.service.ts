@@ -4,7 +4,7 @@ import {ActivatedRoute, Router} from "@angular/router";
 import {ReviewPreviewModel} from "../../models/ReviewPreviewModel";
 import {FilteringParameters} from "../../consts/FilteringParameters";
 import {ReviewUserPageModel} from "../../models/ReviewUserPageModel";
-import {firstValueFrom, Observable} from "rxjs";
+import {firstValueFrom, lastValueFrom, Observable} from "rxjs";
 import {FormControl, FormGroup} from "@angular/forms";
 import {formToFormData} from "../../functions/formToFormData";
 import {ReviewModel} from "../../models/ReviewModel";
@@ -20,7 +20,7 @@ export class ReviewsService {
 
   filtrate?: string | null = FilteringParameters.recent;
   count?: number | undefined = 10;
-  tag: string | undefined
+  tag: string | undefined = undefined
   public reviews: any;
 
   waiter: boolean = false
@@ -47,7 +47,7 @@ export class ReviewsService {
     if (this.filtrate === undefined || this.count === undefined) {
       this.filtrate = FilteringParameters.recent;
       this.count = 100
-      this.tag = ''
+      this.tag = undefined
     }
   }
 
@@ -64,11 +64,11 @@ export class ReviewsService {
   async getAllReviews() {
     this.getParams()
 
-    let getUrl = this.tag === undefined || this.tag === null
+    let getUrl = this.tag === undefined
       ? `${this.baseUrl}/get-all?filtrate=${this.filtrate}&count=${this.count}`
       : `${this.baseUrl}/get-all?filtrate=${this.filtrate}&count=${this.count}&tag=${this.tag}`;
 
-    this.reviews = await firstValueFrom(this.http.get<ReviewPreviewModel>(getUrl))
+    this.reviews = await lastValueFrom(this.http.get<ReviewPreviewModel>(getUrl))
     this.waiter = true
   }
 
