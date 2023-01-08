@@ -14,7 +14,7 @@
       <div class="col-lg-12 p-0 m-0 h-100 w-100 row mb-3 d-flex justify-content-center">
         <div class="row w-100 p-0 m-0">
           <h6>{{'ReviewForm.AddImage' | translate}}</h6>
-          <ngx-dropzone [maxFileSize]="524288" [multiple]="true" [accept]="'image/*'" class="w-100
+          <ngx-dropzone [maxFileSize]="5242880" [multiple]="true" [accept]="'image/*'" class="w-100
               d-flex justify-content-center" (change)="onSelectImage($event)">
             <ngx-dropzone-image-preview *ngFor="let file of files"
                                         [file]="file!" class="w-100"
@@ -128,8 +128,8 @@
     <div class="row w-100 d-flex justify-content-center p-0 m-0">
       <div class="col-lg-6 h-100 row mb-2 p-0 m-0 d-flex justify-content-center">
         <h6>{{'ReviewForm.Description' | translate}}</h6>
-        <div class="text-danger mb-2" *ngIf="reviewForm.controls.description!.value!.length > 20000">
-          {{'Validation.MaxLength20000' | translate}}
+        <div class="text-danger mb-2" *ngIf="reviewForm.controls.description!.value!.length > 5000">
+          {{'Validation.MaxLength5000' | translate}}
         </div>
         <div class="text-danger mb-2" *ngIf="reviewForm.controls.description!.value!.length < 100
                                                 && reviewForm.controls['description'].touched">

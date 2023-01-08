@@ -8,7 +8,10 @@ public class CategoriesInitializer
 {
     private readonly IRecommendationsDbContext _context;
 
-    private readonly string[] _categoriesName = { "Movies", "Games", "Books" };
+    private readonly string[] _categoriesName =
+    {
+        "Movies", "Games", "Books", "Cars", "Devices", "Software"
+    };
 
     public CategoriesInitializer(IRecommendationsDbContext context)
     {
@@ -17,20 +20,16 @@ public class CategoriesInitializer
 
     public async Task InitializeAsync(CancellationToken cancellationToken)
     {
-        if (await CheckExistence())
-            return;
-
-        var categories = _categoriesName
+        var allCategories = await _context.Categories
+            .Select(c => c.Name)
+            .ToListAsync(cancellationToken);
+        var newCategories = _categoriesName
+            .Where(newCategory => allCategories
+                .All(category => category != newCategory))
             .Select(categoryName => new Category { Name = categoryName })
             .ToList();
-        
-        await _context.Categories.AddRangeAsync(categories, cancellationToken);
-        await _context.SaveChangesAsync(cancellationToken);
-    }
 
-    private async Task<bool> CheckExistence()
-    {
-        return await _context.Categories
-            .AnyAsync(c => _categoriesName.Contains(c.Name));
+        await _context.Categories.AddRangeAsync(newCategories, cancellationToken);
+        await _context.SaveChangesAsync(cancellationToken);
     }
 }

@@ -46,13 +46,13 @@ export class ReviewsService {
 
     if (this.filtrate === undefined || this.count === undefined) {
       this.filtrate = FilteringParameters.recent;
-      this.count = 10
+      this.count = 100
       this.tag = undefined
     }
   }
 
   async changeRoute() {
-    await this.router.navigate(['/'], {
+    this.router.navigate(['/'], {
       queryParams: {
         'filtrate': this.filtrate,
         'count': this.count,
@@ -98,11 +98,11 @@ export class ReviewsService {
     return this.http.put(this.baseUrl, formToFormData(form))
   }
 
-  getReviewForUpdate(reviewId: number) : Observable<UpdateReviewModel> {
+  getReviewForUpdate(reviewId: number): Observable<UpdateReviewModel> {
     return this.http.get<UpdateReviewModel>(`${this.baseUrl}/get-update-review/${reviewId}`)
   }
 
-  getLinkedReviews(reviewId: number) : Observable<LinkedReviewModel[]> {
+  getLinkedReviews(reviewId: number): Observable<LinkedReviewModel[]> {
     return this.http.get<LinkedReviewModel[]>(`${this.baseUrl}/get-linked-reviews/${reviewId}`)
   }
 }

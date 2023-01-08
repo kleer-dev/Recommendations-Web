@@ -29,7 +29,7 @@ export class HomeComponent {
   })
 
   countInput = new FormGroup({
-    'count': new FormControl(10)
+    'count': new FormControl(100)
   })
 
   async ngOnInit() {
