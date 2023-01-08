@@ -34,10 +34,10 @@ export class LoginComponent {
   onSubmit() {
     this.userService.login(this.loginForm)
       .subscribe({
-        next: () => {
-          this.router.navigate(['/'])
-          this.userService.isAuthenticated = true
-          this.userService.checkRole()
+         next: async () => {
+           this.userService.isAuthenticated = true
+           await this.userService.checkRole()
+           this.router.navigate(['/'])
         },
         error: err => {
           if (err.status === 404)

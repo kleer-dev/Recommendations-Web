@@ -7,9 +7,9 @@ namespace Recommendations.Web.Controllers;
 
 [ApiController]
 [Route("api/products")]
-public class ProductionController : BaseController
+public class ProductController : BaseController
 {
-    public ProductionController(IMediator mediator, IMapper mapper)
+    public ProductController(IMediator mediator, IMapper mapper)
         : base(mediator, mapper) { }
 
     [HttpGet("get-all")]

@@ -1,4 +1,4 @@
-import {Component, EventEmitter, Input, Output} from "@angular/core";
+import {Component, ElementRef, EventEmitter, Input, Output, ViewChild} from "@angular/core";
 import {HttpClient} from "@angular/common/http";
 import {Router} from "@angular/router";
 import {CategoryService} from "src/common/services/category/category-service";
@@ -7,7 +7,6 @@ import {FormControl} from "@angular/forms";
 import {map, Observable} from "rxjs";
 import {TagModel} from "ngx-chips/core/tag-model";
 import {ReviewFormModel} from "src/common/models/ReviewFormModel";
-import { ProductModel } from 'src/common/models/ProductModel';
 
 @Component({
   selector: 'app-review-form',
@@ -18,13 +17,14 @@ export class ReviewFormComponent {
   @Input() @Output() files?: File[] = [];
   rate = 1;
   @Input() @Output() tags!: string[]
-  @Input() products: ProductModel[] = []
+  @Input() products: string[] = []
   categories!: string[]
 
-  selectedProduct = null
+  keyword = 'name';
 
   @Input() @Output() reviewForm!: ReviewFormModel;
   @Output() onSubmitForm = new EventEmitter<boolean>();
+  @ViewChild('productName') private productName!: ElementRef;
 
   constructor(private http: HttpClient, private router: Router,
               private categoryService: CategoryService,
@@ -97,17 +97,22 @@ export class ReviewFormComponent {
     })
   }
 
-  clearProductInForm(event: any) {
-    if (event.value === '') {
-      this.reviewForm.patchValue({
-        productName: null
-      })
-    }
-  }
-
   onSubmit() {
     this.onSubmitForm.emit()
   }
+
+  selectEvent(item: any) {
+
+  }
+
+  onChangeSearch(search: string) {
+
+  }
+
+  onFocused(e: any) {
+
+  }
 }
+
 
 

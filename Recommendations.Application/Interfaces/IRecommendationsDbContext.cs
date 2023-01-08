@@ -17,7 +17,6 @@ public interface IRecommendationsDbContext
     public DbSet<Image> Images { get; set; }
 
     ChangeTracker ChangeTracker { get; }
-    EntityEntry<TEntity> Entry<TEntity>(TEntity entity) where TEntity : class;
 
     Task<int> SaveChangesAsync(CancellationToken cancellationToken);
 }

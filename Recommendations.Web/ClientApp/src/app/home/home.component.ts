@@ -5,6 +5,7 @@ import {ActivatedRoute, Router} from "@angular/router";
 import {ReviewsService} from "../../common/services/reviews/reviews.service";
 import {TagService} from "../../common/services/tag/tag-service";
 import {UserService} from "../../common/services/user/user.service";
+import {firstValueFrom} from "rxjs";
 
 @Component({
   selector: 'app-home',
@@ -28,18 +29,19 @@ export class HomeComponent {
   })
 
   countInput = new FormGroup({
-    'count': new FormControl()
+    'count': new FormControl(10)
   })
 
-  ngOnInit() {
-    this.reviewService.getAllReviews()
-    this.tagService.getAllTags()
-      .subscribe({
-        next: (data) => {
-          this.tags = data
-          this.waiter = true
-        }
-      })
+  async ngOnInit() {
+    this.reviewService.getParams()
+    await this.reviewService.changeRoute()
+    await this.reviewService.getAllReviews()
+    await this.getTags()
+  }
+
+  async getTags(){
+    this.tags = await firstValueFrom(this.tagService.getAllTags())
+    this.waiter = true
   }
 
   async getRecentReviews() {
@@ -58,17 +60,19 @@ export class HomeComponent {
     this.reviewService.tag = undefined
     await this.reviewService.setParams(this.reviewService.filtrate,
       this.reviewService.count, undefined)
-    this.reviewService.getAllReviews()
+    this.reviewService.reviews = []
+    await this.reviewService.getAllReviews()
   }
 
   async checkCountInput() {
     let count = this.countInput.get('count')?.value
     if (count == 0 || count == null) {
-      this.reviewService.getParams()
-      this.reviewService.getAllReviews()
+      this.reviewService.reviews = []
+      await this.reviewService.getAllReviews()
     } else {
+      this.reviewService.reviews = []
       await this.reviewService.setParams(this.reviewService.filtrate, count, this.reviewService.tag)
-      this.reviewService.getAllReviews()
+      await this.reviewService.getAllReviews()
     }
   }
 
@@ -76,7 +80,7 @@ export class HomeComponent {
     let tagName = event.target.value
     await this.reviewService.setParams(this.reviewService.filtrate,
       this.reviewService.count, tagName)
-    await this.reviewService.getParams()
-    this.reviewService.getAllReviews()
+    this.reviewService.reviews = []
+    await this.reviewService.getAllReviews()
   }
 }

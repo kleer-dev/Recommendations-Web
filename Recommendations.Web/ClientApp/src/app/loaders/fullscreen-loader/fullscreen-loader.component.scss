@@ -141,11 +141,10 @@ html {
   top: 0;
   left: 0;
   font-family: Roboto, Arial;
-  color: #ADAFB6;
   display: flex;
   justify-content: center;
   align-items: center;
-  background: #171717;
+  background: #ffffff;
   .dribbble {
     position: fixed;
     display: block;
@@ -156,4 +155,8 @@ html {
       height: 28px;
     }
   }
+}
+
+:host-context(.bootstrap-dark) .loader{
+  background: #171717;
 }

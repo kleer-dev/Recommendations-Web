@@ -29,7 +29,7 @@ public class GetUpdateReviewQueryHandler
             .Include(r => r.Images)
             .FirstOrDefaultAsync(r => r.Id == request.ReviewId, cancellationToken);
         if (review is null)
-            throw new NotFoundException("The review not found");
+            throw new NotFoundException(nameof(Review), request.ReviewId);
 
         return _mapper.Map<GetUpdateReviewDto>(review);
     }

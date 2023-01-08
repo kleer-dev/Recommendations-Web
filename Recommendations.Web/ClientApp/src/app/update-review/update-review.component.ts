@@ -1,14 +1,11 @@
 import {Component, OnInit} from '@angular/core';
 import {HttpClient} from "@angular/common/http";
-import {FormBuilder, FormControl, FormGroup, Validators} from "@angular/forms";
+import {FormControl, FormGroup, Validators} from "@angular/forms";
 import {ActivatedRoute, Router} from "@angular/router";
-import {formToFormData} from "src/common/functions/formToFormData";
 import {UpdateReviewModel} from "../../common/models/UpdateReviewModel";
 import {ReviewFormModel} from "../../common/models/ReviewFormModel";
-import {Log} from "oidc-client";
 import {ReviewsService} from "../../common/services/reviews/reviews.service";
 import {firstValueFrom} from "rxjs";
-import {ProductModel} from "../../common/models/ProductModel";
 import {ProductsService} from "../../common/services/products/products.service";
 import {ImageService} from "../../common/services/images/image-service";
 
@@ -25,7 +22,7 @@ export class UpdateReviewComponent implements OnInit {
   userId: number | null = null
   files: File[] = []
   reviewForm!: ReviewFormModel
-  products: ProductModel[] = []
+  products: string[] = []
 
   constructor(private http: HttpClient, private router: Router,
               private activatedRoute: ActivatedRoute,
@@ -85,6 +82,7 @@ export class UpdateReviewComponent implements OnInit {
 
   onSubmitForm() {
     this.waiter = false;
+    console.log(this.reviewForm)
     this.reviewService.updateReview(this.reviewForm)
       .subscribe({
         next: _ => window.history.back(),
@@ -99,7 +97,8 @@ export class UpdateReviewComponent implements OnInit {
   }
 
   async getAllProducts() {
-    this.products = await firstValueFrom(this.productsService.getAll())
+    this.products = (await firstValueFrom(this.productsService.getAll()))
+      .map(product => product.name)
   }
 }
 

@@ -4,7 +4,7 @@ import {ActivatedRoute, Router} from "@angular/router";
 import {ReviewPreviewModel} from "../../models/ReviewPreviewModel";
 import {FilteringParameters} from "../../consts/FilteringParameters";
 import {ReviewUserPageModel} from "../../models/ReviewUserPageModel";
-import {Observable} from "rxjs";
+import {firstValueFrom, Observable} from "rxjs";
 import {FormControl, FormGroup} from "@angular/forms";
 import {formToFormData} from "../../functions/formToFormData";
 import {ReviewModel} from "../../models/ReviewModel";
@@ -19,19 +19,18 @@ export class ReviewsService {
   readonly baseUrl: string = "api/reviews"
 
   filtrate?: string | null = FilteringParameters.recent;
-  count?: number | undefined;
+  count?: number | undefined = 10;
   tag: string | undefined
   public reviews: any;
 
-  waiter!: Promise<boolean>
+  waiter: boolean = false
 
   constructor(private http: HttpClient, private activateRoute: ActivatedRoute,
               private router: Router) {
-
   }
 
   async setParams(filtrate?: string | null, count?: number | undefined, tag?: string | undefined) {
-    this.waiter = Promise.resolve(false)
+    this.waiter = false
     this.filtrate = filtrate;
     this.count = count;
     this.tag = tag;
@@ -53,7 +52,7 @@ export class ReviewsService {
   }
 
   async changeRoute() {
-    this.router.navigate(['/'], {
+    await this.router.navigate(['/'], {
       queryParams: {
         'filtrate': this.filtrate,
         'count': this.count,
@@ -62,20 +61,15 @@ export class ReviewsService {
     })
   }
 
-  getAllReviews() {
+  async getAllReviews() {
     this.getParams()
 
-    let getUrl = this.tag === undefined
+    let getUrl = this.tag === undefined || this.tag === null
       ? `${this.baseUrl}/get-all?filtrate=${this.filtrate}&count=${this.count}`
       : `${this.baseUrl}/get-all?filtrate=${this.filtrate}&count=${this.count}&tag=${this.tag}`;
 
-    this.http.get<ReviewPreviewModel>(getUrl)
-      .subscribe({
-        next: data => {
-          this.reviews = data
-          this.waiter = Promise.resolve(true)
-        }
-      });
+    this.reviews = await firstValueFrom(this.http.get<ReviewPreviewModel>(getUrl))
+    this.waiter = true
   }
 
   getReviewById(reviewId: number): Observable<ReviewModel> {

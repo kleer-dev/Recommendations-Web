@@ -60,6 +60,7 @@
                    [rows]="rows">
 
       <ngx-datatable-column [canAutoResize]="false"
+                            prop="reviewTitle"
                             name="{{'Profile.ReviewTitle' | translate}}">
         <ng-template let-row="row" ngx-datatable-cell-template>
           {{row.reviewTitle}}
@@ -67,6 +68,7 @@
       </ngx-datatable-column>
 
       <ngx-datatable-column [canAutoResize]="false"
+                            prop="creationDate"
                             name="{{'Profile.CreationDate' | translate}}">
         <ng-template let-row="row" ngx-datatable-cell-template>
           {{row.creationDate | date:'dd.MM.YY, HH:mm':'UTC+3'}}
@@ -74,6 +76,7 @@
       </ngx-datatable-column>
 
       <ngx-datatable-column [canAutoResize]="false"
+                            prop="category"
                             name="{{'Profile.Category' | translate}}">
         <ng-template let-row="row" ngx-datatable-cell-template>
           {{row.category}}
@@ -81,6 +84,7 @@
       </ngx-datatable-column>
 
       <ngx-datatable-column [canAutoResize]="false"
+                            prop="product"
                             name="{{'Profile.Product' | translate}}">
         <ng-template let-row="row" ngx-datatable-cell-template>
           {{row.product}}
@@ -88,6 +92,7 @@
       </ngx-datatable-column>
 
       <ngx-datatable-column [canAutoResize]="false"
+                            prop="likesCount"
                             name="{{'Profile.LikesCount' | translate}}">
         <ng-template let-row="row" ngx-datatable-cell-template>
           {{row.likesCount}}
@@ -95,6 +100,7 @@
       </ngx-datatable-column>
 
       <ngx-datatable-column [canAutoResize]="false"
+                            prop="commentsCount"
                             name="{{'Profile.CommentsCount' | translate}}">
         <ng-template let-row="row" ngx-datatable-cell-template>
           {{row.commentsCount}}
@@ -102,13 +108,14 @@
       </ngx-datatable-column>
 
       <ngx-datatable-column [canAutoResize]="false"
+                            prop="averageRate"
                             name="{{'Profile.AverageRate' | translate}}">
         <ng-template let-row="row" ngx-datatable-cell-template>
-          {{row.averageRate}}
+          {{row.averageRate.toFixed(1)}}
         </ng-template>
       </ngx-datatable-column>
 
-      <ngx-datatable-column [sortable]="true"
+      <ngx-datatable-column [sortable]="false"
                             [minWidth]="350"
                             name="{{'Profile.Actions' | translate}}">
         <ng-template let-row="row" ngx-datatable-cell-template>

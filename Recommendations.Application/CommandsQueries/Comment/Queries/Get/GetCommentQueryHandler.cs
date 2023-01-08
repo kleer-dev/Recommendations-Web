@@ -24,7 +24,7 @@ public class GetCommentQueryHandler : IRequestHandler<GetCommentQuery, GetCommen
             .Include(c => c.User)
             .FirstOrDefaultAsync(c => c.Id == request.CommentId, cancellationToken);
         if (comment is null)
-            throw new NotFoundException("The comment not found");
+            throw new NotFoundException(nameof(Comment), request.CommentId);
 
         return _mapper.Map<GetCommentDto>(comment);
     }

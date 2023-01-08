@@ -35,9 +35,9 @@ export class UserService {
   }
 
   getRole(): Observable<boolean> {
-    return this.http.get<UserModel>(`${this.baseUrl}/get-info`)
+    return this.http.get<RoleModel>(`${this.baseUrl}/get-role`)
       .pipe(map((user) => {
-        if (user.role !== Roles.admin) {
+        if (user.roleName !== Roles.admin) {
           this.isAdmin = false
           return false;
         }

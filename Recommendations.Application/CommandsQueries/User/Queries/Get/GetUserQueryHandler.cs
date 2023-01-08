@@ -22,7 +22,7 @@ public class GetUserQueryHandler : IRequestHandler<GetUserQuery, Domain.User>
             .Include(r => r.Likes)
             .FirstOrDefaultAsync(r => r.Id == request.UserId, cancellationToken);
         if (user is null)
-            throw new NotFoundException("The user not found");
+            throw new NotFoundException(nameof(User), request.UserId);
 
         return user;
     }

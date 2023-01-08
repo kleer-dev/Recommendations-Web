@@ -25,9 +25,9 @@ public class GetReviewsByParamQueryHandler
     {
         var reviews = request.Filtrate switch
         {
-            FilteringParameters.MostRated =>
+            FiltrateParameters.MostRated =>
                 await GetMostRatedReviews(request.Count, cancellationToken),
-            FilteringParameters.Recent =>
+            FiltrateParameters.Recent =>
                 await GetRecentReviews(request.Count, cancellationToken),
             _ => throw new ArgumentOutOfRangeException()
         };

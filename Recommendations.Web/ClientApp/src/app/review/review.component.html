@@ -7,7 +7,7 @@
 
 
     <div class="mb-3 w-100 p-0 m-0">
-      <div class="d-flex align-items-center justify-content-between">
+      <div class="d-flex gap-4 align-items-center flex-wrap justify-content-between">
         <div class="d-flex flex-column">
           <span class="wrap">
             {{'ReviewPage.Author' | translate}} {{review.authorName}} ({{review.authorLikesCount}})
@@ -79,11 +79,12 @@
         </div>
       </div>
 
-      <app-linked-reviews class="w-100 p-0 m-0 mb-3 mt-3"
+      <app-linked-reviews *ngIf="linkedReviews.length > 0"
+                          class="w-100 p-0 m-0 mt-3"
                           [linkedReviews]="linkedReviews">
       </app-linked-reviews>
 
-      <h6 class="mb-2 wrap">{{'ReviewPage.ProductName' | translate}} {{review.productName}}</h6>
+      <h6 class="mb-2 wrap mt-3">{{'ReviewPage.ProductName' | translate}} {{review.productName}}</h6>
       <h6 class="mb-2 wrap">{{'ReviewPage.Category' | translate}} {{review.category}}</h6>
       <h6 class="mb-2 wrap">{{'ReviewPage.AuthorRating' | translate}} {{review.authorRate}}</h6>
       <h6 class="wrap">{{'ReviewPage.Tags' | translate}} {{review.tags}}</h6>

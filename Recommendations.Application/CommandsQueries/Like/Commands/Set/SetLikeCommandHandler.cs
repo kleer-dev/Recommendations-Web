@@ -34,18 +34,18 @@ public class SetLikeCommandHandler : IRequestHandler<SetLikeCommand, Guid>
         return like.Id;
     }
 
-    private async Task<Domain.Review> GetReview(Guid reviewId,
-        CancellationToken cancellationToken)
-    {
-        var getReviewQuery = new GetReviewQuery(reviewId);
-        return await _mediator.Send(getReviewQuery, cancellationToken);
-    }
-
     private async Task<Domain.Like?> GetLike(Guid userId, Guid reviewId,
         CancellationToken cancellationToken)
     {
         var getLikeQuery = new GetLikeQuery(userId, reviewId);
         return await _mediator.Send(getLikeQuery, cancellationToken);
+    }
+    
+    private async Task<Domain.Review> GetReview(Guid reviewId,
+        CancellationToken cancellationToken)
+    {
+        var getReviewQuery = new GetReviewQuery(reviewId);
+        return await _mediator.Send(getReviewQuery, cancellationToken);
     }
     
     private async Task<Domain.Like> CreateLike(Guid userId, Guid reviewId,

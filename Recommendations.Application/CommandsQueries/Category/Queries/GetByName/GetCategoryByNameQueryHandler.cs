@@ -18,7 +18,7 @@ public class GetCategoryByNameQueryHandler : IRequestHandler<GetCategoryByNameQu
         var category = await _context.Categories
             .FirstOrDefaultAsync(c => c.Name == request.Name, cancellationToken);
         if (category is null)
-            throw new NotFoundException("The category not found");
+            throw new NotFoundException(nameof(Category), request.Name);
 
         return category;
     }

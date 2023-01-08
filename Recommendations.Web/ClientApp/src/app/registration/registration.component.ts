@@ -47,8 +47,9 @@ export class RegistrationComponent {
   onSubmit() {
     this.userService.registration(this.registrationForm)
       .subscribe({
-        next: () => {
+        next: async () => {
           this.userService.isAuthenticated = true
+          await this.userService.checkRole()
           this.router.navigate(['/'])
         },
         error: err => {

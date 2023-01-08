@@ -53,28 +53,32 @@
           <div class="product-container border-5 border border-opacity-100 p-3">
             <h6 class="mb-4">{{'ReviewForm.SelectOrCreateProduction' | translate}}</h6>
 
-            <select formControlName="productName"
-                    *ngIf="productInput.value.length < 1"
-                    class="form-select mb-3" aria-label="Default select example">
-              <option [selected]="true"
-                      [value]="product.name"
-                      *ngFor="let product of products">
-                {{product.name}}
-              </option>
-            </select>
+            <ng-autocomplete #productName formControlName="productName" class="ng-autocomplete"
+                             [data]="products"
+                             placeholder="{{'ReviewForm.SelectOrCreateProduction' | translate}}"
+                             (selected)='selectEvent($event)'
+                             (inputChanged)='onChangeSearch($event)'
+                             (inputFocused)='onFocused($event)'
+                             [itemTemplate]="itemTemplate">
+            </ng-autocomplete>
 
-            <input (blur)="clearProductInForm($event.target)" #productInput maxlength="100"
-                   formControlName="productName"
-                   placeholder="{{'ReviewForm.EnterProductName' | translate}}"
-                   class="form-control" type="text">
-
-            <div class="text-danger mt-2" *ngIf="reviewForm.controls.productName.errors?.required">
-              {{'Validation.ProductNameIsRequired' | translate}}
-            </div>
+            <ng-template #itemTemplate let-item>
+              <a [innerHTML]="item"></a>
+            </ng-template>
 
             <div class="text-danger mt-2" *ngIf="reviewForm.controls.productName.hasError('minlength')&&
             reviewForm.controls['productName'].touched">
               {{'Validation.MinLength5' | translate}}
+            </div>
+
+            <div class="text-danger mt-2" *ngIf="reviewForm.controls.productName.hasError('maxlength')&&
+            reviewForm.controls['productName'].touched">
+              {{'Validation.MaxLength100' | translate}}
+            </div>
+
+            <div class="text-danger mt-2" *ngIf="reviewForm.controls.productName.hasError('required') &&
+            reviewForm.controls['productName'].touched">
+              {{'Validation.ProductNameIsRequired' | translate}}
             </div>
           </div>
         </div>
@@ -148,5 +152,3 @@
   </form>
 
 </div>
-
-
