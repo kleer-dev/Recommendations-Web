@@ -58,16 +58,18 @@ export class HomeComponent {
     this.reviewService.tag = undefined
     await this.reviewService.setParams(this.reviewService.filtrate,
       this.reviewService.count, undefined)
+    this.reviewService.reviews = []
     this.reviewService.getAllReviews()
   }
 
   async checkCountInput() {
     let count = this.countInput.get('count')?.value
     if (count == 0 || count == null) {
-      this.reviewService.getParams()
+      this.reviewService.reviews = []
       this.reviewService.getAllReviews()
     } else {
       await this.reviewService.setParams(this.reviewService.filtrate, count, this.reviewService.tag)
+      this.reviewService.reviews = []
       this.reviewService.getAllReviews()
     }
   }
@@ -76,6 +78,7 @@ export class HomeComponent {
     let tagName = event.target.value
     await this.reviewService.setParams(this.reviewService.filtrate,
       this.reviewService.count, tagName)
+    this.reviewService.reviews = []
     this.reviewService.getAllReviews()
   }
 }

@@ -21,6 +21,8 @@ export class ReviewFormComponent {
   @Input() products: ProductModel[] = []
   categories!: string[]
 
+  keyword = 'name';
+
   selectedProduct = null
 
   @Input() @Output() reviewForm!: ReviewFormModel;
@@ -108,6 +110,20 @@ export class ReviewFormComponent {
   onSubmit() {
     this.onSubmitForm.emit()
   }
+
+  selectEvent(item: any) {
+    // do something with selected item
+  }
+
+  onChangeSearch(search: string) {
+    // fetch remote data from here
+    // And reassign the 'data' which is binded to 'data' property.
+  }
+
+  onFocused(e: any) {
+    // do something
+  }
 }
+
 
 

@@ -36,3 +36,52 @@
 .product-container {
   border-radius: 5px;
 }
+
+
+::ng-deep ng-autocomplete .autocomplete-container {
+  box-shadow: none !important;
+  border-radius: 5px !important;
+  font-weight: 500;
+}
+
+::ng-deep ng-autocomplete .autocomplete-container .suggestions-container {
+  border-radius: 5px !important;
+}
+
+::ng-deep ng-autocomplete .autocomplete-container .input-container input {
+  border-radius: 5px !important;
+  box-shadow: none !important;
+  border: 1px solid lightgrey;
+  font-weight: 500;
+}
+
+::ng-deep ng-autocomplete .ng-star-inserted {
+  border-radius: 5px !important;
+}
+
+:host-context(.bootstrap-dark) ::ng-deep ng-autocomplete .autocomplete-container .input-container input {
+  background: black;
+  color: white;
+}
+
+:host-context(.bootstrap-dark) ::ng-deep ng-autocomplete .autocomplete-container .suggestions-container {
+  background: black;
+  color: white;
+}
+
+:host-context(.bootstrap-dark) select {
+  background: black;
+  color: white;
+}
+
+:host-context(.bootstrap) ::ng-deep tag-input-form form .ng2-tag-input__text-input {
+  border: 1px solid lightgrey;
+  border-radius: 5px;
+}
+
+:host-context(.bootstrap-dark) ::ng-deep tag-input-form form .ng2-tag-input__text-input {
+  background: black;
+  border-radius: 5px;
+  color: white;
+  border: 1px solid lightgrey;
+}

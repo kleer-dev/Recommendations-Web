@@ -15,45 +15,44 @@
                    [rowHeight]="60"
                    [rows]="users">
 
-      <ngx-datatable-column [canAutoResize]="false" name="Id">
+      <ngx-datatable-column [canAutoResize]="false" name="Id" prop="id">
         <ng-template let-row="row" ngx-datatable-cell-template>
           {{row.id}}
         </ng-template>
       </ngx-datatable-column>
 
-      <ngx-datatable-column [canAutoResize]="false" name="{{'Profile.UserName' | translate}}">
+      <ngx-datatable-column [canAutoResize]="false" prop="userName" name="{{'Profile.UserName' | translate}}">
         <ng-template let-row="row" ngx-datatable-cell-template>
           {{row.userName}}
         </ng-template>
       </ngx-datatable-column>
 
-      <ngx-datatable-column [canAutoResize]="false" name="{{'Profile.Email' | translate}}">
+      <ngx-datatable-column [canAutoResize]="false" prop="email" name="{{'Profile.Email' | translate}}">
         <ng-template let-row="row" ngx-datatable-cell-template>
           {{row.email}}
         </ng-template>
       </ngx-datatable-column>
 
-      <ngx-datatable-column [canAutoResize]="false" name="{{'Profile.LikesCount' | translate}}">
+      <ngx-datatable-column [canAutoResize]="false" prop="likesCount" name="{{'Profile.LikesCount' | translate}}">
         <ng-template let-row="row" ngx-datatable-cell-template>
           {{row.likesCount}}
         </ng-template>
       </ngx-datatable-column>
 
-      <ngx-datatable-column [canAutoResize]="false" name="{{'Profile.Role' | translate}}">
+      <ngx-datatable-column [canAutoResize]="false" prop="role" name="{{'Profile.Role' | translate}}">
         <ng-template let-row="row" ngx-datatable-cell-template>
           {{row.role}}
         </ng-template>
       </ngx-datatable-column>
 
-      <ngx-datatable-column [canAutoResize]="false" name="{{'Profile.AccessStatus' | translate}}">
+      <ngx-datatable-column [canAutoResize]="false" prop="accessStatus" name="{{'Profile.AccessStatus' | translate}}">
         <ng-template let-row="row" ngx-datatable-cell-template>
           {{row.accessStatus}}
         </ng-template>
       </ngx-datatable-column>
 
-      <ngx-datatable-column [sortable]="true"
+      <ngx-datatable-column [sortable]="false"
                             [headerClass]="'text-center'"
-
                             name="{{'Profile.Actions' | translate}}">
         <ng-template let-row="row" ngx-datatable-cell-template>
          <div class="d-flex justify-content-center align-items-center w-100">

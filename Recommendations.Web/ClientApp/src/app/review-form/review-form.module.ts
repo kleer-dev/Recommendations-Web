@@ -8,6 +8,7 @@ import {NgbModule} from "@ng-bootstrap/ng-bootstrap";
 import {NgxDropzoneModule} from "ngx-dropzone";
 import {NgForOf, NgIf} from "@angular/common";
 import {TranslateModule} from "@ngx-translate/core";
+import {AutocompleteLibModule} from "angular-ng-autocomplete";
 
 @NgModule({
     imports: [
@@ -20,7 +21,8 @@ import {TranslateModule} from "@ngx-translate/core";
         ReactiveFormsModule,
         NgIf,
         NgForOf,
-        TranslateModule
+        TranslateModule,
+        AutocompleteLibModule
     ],
   exports: [ReviewFormComponent],
   declarations: [
