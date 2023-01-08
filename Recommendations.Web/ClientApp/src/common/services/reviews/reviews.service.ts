@@ -47,7 +47,7 @@ export class ReviewsService {
     if (this.filtrate === undefined || this.count === undefined) {
       this.filtrate = FilteringParameters.recent;
       this.count = 100
-      this.tag = undefined
+      this.tag = ''
     }
   }
 
