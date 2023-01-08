@@ -76,7 +76,8 @@
     "Comments": "Comments:",
     "LeaveComment": "Leave your comment:",
     "Send": "Send",
-    "LinkedReviews": "Show linked reviews"
+    "LinkedReviews": "Show linked reviews",
+    "Pdf": "Export to PDF"
   },
   "HomePage": {
     "TagCloud": "Tag cloud:",
