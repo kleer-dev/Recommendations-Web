@@ -10,6 +10,7 @@ import {ReviewsService} from "../../common/services/reviews/reviews.service";
 import {firstValueFrom} from "rxjs";
 import {ProductModel} from "../../common/models/ProductModel";
 import {ProductsService} from "../../common/services/products/products.service";
+import {ImageService} from "../../common/services/images/image-service";
 
 @Component({
   selector: 'app-update-review',
@@ -29,7 +30,8 @@ export class UpdateReviewComponent implements OnInit {
   constructor(private http: HttpClient, private router: Router,
               private activatedRoute: ActivatedRoute,
               private reviewService: ReviewsService,
-              private productsService: ProductsService) {
+              private productsService: ProductsService,
+              private imageService: ImageService) {
 
   }
 
@@ -39,9 +41,9 @@ export class UpdateReviewComponent implements OnInit {
     this.reviewId = this.activatedRoute.snapshot.params['id']
     this.reviewService.getReviewForUpdate(this.reviewId)
       .subscribe({
-        next: data => {
+        next: async data => {
           this.review = data
-          this.getImages(data.imagesUrls)
+          await this.getImages(data.imagesUrls)
           this.tags = data.tags
           this.reviewForm = new FormGroup({
             reviewId: new FormControl(this.reviewId),
@@ -93,12 +95,7 @@ export class UpdateReviewComponent implements OnInit {
   }
 
   async getImages(urls: string[]) {
-    let images = await Promise.all(urls.map(url =>
-      this.http.get(url, {responseType: 'blob'}).toPromise()));
-    this.files = images.map((image, index) => {
-      return new File([<BlobPart>image], `${index}.${image!.type}`,
-        {type: `image/png`});
-    });
+    this.files = await this.imageService.getImages(this.files, urls)
   }
 
   async getAllProducts() {
