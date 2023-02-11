@@ -1,0 +1,136 @@
+<app-fullscreen-loader *ngIf="!waiter"></app-fullscreen-loader>
+
+<div *ngIf="waiter" class="row w-100 m-0 p-0">
+
+  <h5 class="w-100 d-flex justify-content-center mb-3">{{userData.userName}} ({{userData.likesCount}})</h5>
+
+  <div *ngIf="!userId" class="mb-3 m-0 p-0 mb-3">
+    <h5>{{'Profile.AccountActions' | translate}}</h5>
+    <button [routerLink]="['/logout']" class="btn btn-primary mr-2">{{'Profile.Logout' | translate}}</button>
+  </div>
+
+  <div class="row mb-3 w-100 p-0 m-0">
+    <h5 class="m-0 p-0 mb-2">{{'Profile.Filtration' | translate}}</h5>
+    <form class="w-100 m-0 p-0" [formGroup]="filterForm" (ngSubmit)="updateFilter()">
+       <div class="col-md-5 m-0 p-0 mb-2">
+       <select id="filterType" class="form-select mr-2" formControlName="filterType">
+         <option value="null" disabled="true" [selected]="true">
+           {{'Profile.SelectFilterType' | translate}}
+         </option>
+         <option value="reviewTitle">
+           {{'Profile.ReviewTitle' | translate}}
+         </option>
+         <option value="creationDate">{{'Profile.CreationDate' | translate}}</option>
+         <option value="category">{{'Profile.Category' | translate}}</option>
+         <option value="product">{{'Profile.Product' | translate}}</option>
+         <option value="likesCount">{{'Profile.LikesCount' | translate}}</option>
+         <option value="commentsCount">{{'Profile.CommentsCount' | translate}}</option>
+         <option value="averageRate">{{'Profile.AverageRate' | translate}}</option>
+       </select>
+     </div>
+     <div class="col-md-5 m-0 p-0 mb-2">
+       <input *ngIf="filterForm.get('filterType')!.value !== 'creationDate'"
+              class="form-control mr-2" placeholder="{{'Profile.EnterFilterText' | translate}}"
+              formControlName="filterValue" type="text" value="">
+
+       <input *ngIf="filterForm.get('filterType')!.value === 'creationDate'"
+              class="form-control mr-2" placeholder="{{'Profile.EnterFilterText' | translate}}"
+              formControlName="filterValue" type="date" value="">
+     </div>
+      <div class="col m-0 p-0 w-100">
+        <input class="btn btn-primary mr-2" type="submit" value="{{'Profile.Filter' | translate}}">
+        <button class="btn btn-danger"
+                type="button"
+                (click)="resetFiltration()">{{'Profile.Reset' | translate}}</button>
+      </div>
+    </form>
+  </div>
+
+  <div class="d-flex justify-content-between m-0 p-0">
+    <div class="fw-semibold fs-5 d-flex align-items-center">{{'Profile.Reviews' | translate}}</div>
+    <a class="btn btn-success text-white" *ngIf="userId" [routerLink]="['/create-review', userId]">{{'Profile.New' | translate}}</a>
+    <a class="btn btn-success text-white" *ngIf="!userId" [routerLink]="['/create-review']">{{'Profile.New' | translate}}</a>
+  </div>
+
+  <div class="row w-100 m-0 p-0">
+    <ngx-datatable class="bootstrap  p-0 m-0"
+                   [scrollbarH]="true"
+                   [columnMode]="ColumnMode.flex"
+                   [rowHeight]="60"
+                   [rows]="rows">
+
+      <ngx-datatable-column [canAutoResize]="false"
+                            prop="reviewTitle"
+                            name="{{'Profile.ReviewTitle' | translate}}">
+        <ng-template let-row="row" ngx-datatable-cell-template>
+          {{row.reviewTitle}}
+        </ng-template>
+      </ngx-datatable-column>
+
+      <ngx-datatable-column [canAutoResize]="false"
+                            prop="creationDate"
+                            name="{{'Profile.CreationDate' | translate}}">
+        <ng-template let-row="row" ngx-datatable-cell-template>
+          {{row.creationDate | date:'dd.MM.YY, HH:mm':'UTC+3'}}
+        </ng-template>
+      </ngx-datatable-column>
+
+      <ngx-datatable-column [canAutoResize]="false"
+                            prop="category"
+                            name="{{'Profile.Category' | translate}}">
+        <ng-template let-row="row" ngx-datatable-cell-template>
+          {{row.category}}
+        </ng-template>
+      </ngx-datatable-column>
+
+      <ngx-datatable-column [canAutoResize]="false"
+                            prop="product"
+                            name="{{'Profile.Product' | translate}}">
+        <ng-template let-row="row" ngx-datatable-cell-template>
+          {{row.product}}
+        </ng-template>
+      </ngx-datatable-column>
+
+      <ngx-datatable-column [canAutoResize]="false"
+                            prop="likesCount"
+                            name="{{'Profile.LikesCount' | translate}}">
+        <ng-template let-row="row" ngx-datatable-cell-template>
+          {{row.likesCount}}
+        </ng-template>
+      </ngx-datatable-column>
+
+      <ngx-datatable-column [canAutoResize]="false"
+                            prop="commentsCount"
+                            name="{{'Profile.CommentsCount' | translate}}">
+        <ng-template let-row="row" ngx-datatable-cell-template>
+          {{row.commentsCount}}
+        </ng-template>
+      </ngx-datatable-column>
+
+      <ngx-datatable-column [canAutoResize]="false"
+                            prop="averageRate"
+                            name="{{'Profile.AverageRate' | translate}}">
+        <ng-template let-row="row" ngx-datatable-cell-template>
+          {{row.averageRate.toFixed(1)}}
+        </ng-template>
+      </ngx-datatable-column>
+
+      <ngx-datatable-column [sortable]="false"
+                            [minWidth]="350"
+                            name="{{'Profile.Actions' | translate}}">
+        <ng-template let-row="row" ngx-datatable-cell-template>
+          <div class="h-100 d-flex justify-content-center align-items-center">
+            <button type="button"
+                    (click)="deleteReview(row.reviewId)"
+                    class="btn btn-danger mr-2">{{'Profile.Delete' | translate}}</button>
+            <button [routerLink]="['/update-review', row.reviewId]"
+                    class="btn btn-success mr-2">{{'Profile.Update' | translate}}</button>
+            <button [routerLink]="['/review', row.reviewId]"
+                    class="btn btn-primary">{{'Profile.View' | translate}}</button>
+          </div>
+        </ng-template>
+      </ngx-datatable-column>
+
+    </ngx-datatable>
+  </div>
+</div>

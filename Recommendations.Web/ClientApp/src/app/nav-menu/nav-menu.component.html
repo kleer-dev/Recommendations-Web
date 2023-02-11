@@ -1,11 +1,16 @@
+<link rel="stylesheet"
+      href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200"/>
+
 <header>
   <nav
-    class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-3"
+    class="navbar navbar-expand-lg navbar-toggleable-lg navbar-light border-bottom box-shadow mb-3"
   >
+
     <div class="container">
-      <a class="navbar-brand" [routerLink]="['/']">Recommendations.Web</a>
+      <a class="navbar-brand ml-3 navbar-btn" [routerLink]="['/']">Recommendations</a>
+
       <button
-        class="navbar-toggler"
+        class="navbar-toggler btn-outline-secondary mb-2"
         type="button"
         data-toggle="collapse"
         data-target=".navbar-collapse"
@@ -13,32 +18,69 @@
         [attr.aria-expanded]="isExpanded"
         (click)="toggle()"
       >
-        <span class="navbar-toggler-icon"></span>
+        <span class="material-symbols-outlined btn-outline-secondary">menu</span>
       </button>
+
       <div
-        class="navbar-collapse collapse d-sm-inline-flex justify-content-end"
+        class="navbar-collapse collapse d-lg-inline-flex justify-content-end"
         [ngClass]="{ show: isExpanded }"
       >
-        <ul class="navbar-nav flex-grow">
-          <li
-            class="nav-item"
-            [routerLinkActive]="['link-active']"
-            [routerLinkActiveOptions]="{ exact: true }"
-          >
-            <a class="nav-link text-dark" [routerLink]="['/']">Home</a>
+        <ul class="navbar-nav flex-grow navbar-items">
+
+          <li class="d-flex justify-content-center ">
+            <app-search class="mr-3 w-100 m-0 p-0 d-flex justify-content-center"></app-search>
           </li>
-          <li class="nav-item" [routerLinkActive]="['link-active']">
-            <a class="nav-link text-dark" [routerLink]="['/counter']"
-              >Counter</a
-            >
+
+          <li class="d-flex mr-3">
+            <div class="d-flex align-items-center">{{'Header.Theme' | translate}}</div>
+            <app-theme-toggle></app-theme-toggle>
           </li>
-          <li class="nav-item" [routerLinkActive]="['link-active']">
-            <a class="nav-link text-dark" [routerLink]="['/fetch-data']"
-              >Fetch data</a
-            >
+
+          <li class="mr-3 d-flex align-items-center">
+            <language-dropdown></language-dropdown>
           </li>
+
+          <li *ngIf="userService.isAuthenticated" class="nav-item mr-3"
+              [routerLinkActive]="['link-active']">
+            <a class="navbar-btn" [routerLink]="['/profile']">
+              {{'Header.Profile' | translate}}
+            </a>
+          </li>
+
+          <li *ngIf="userService.isAdmin && userService.isAuthenticated" class="nav-item mr-3"
+              [routerLinkActive]="['link-active']">
+            <a class="navbar-btn" [routerLink]="['/admin-profile']">
+              {{'Header.AdminPanel' | translate}}
+            </a>
+          </li>
+
+          <li *ngIf="!userService.isAuthenticated" class="nav-item mr-3"
+              [routerLinkActive]="['link-active']">
+            <a class="navbar-btn" [routerLink]="['/login']">
+              {{'Header.Login' | translate}}
+            </a>
+          </li>
+
+          <li *ngIf="!userService.isAuthenticated" class="nav-item mr-3"
+              [routerLinkActive]="['link-active']">
+            <a class="navbar-btn" [routerLink]="['/registration']">
+              {{'Header.Registration' | translate}}
+            </a>
+          </li>
+
         </ul>
       </div>
     </div>
+
+
   </nav>
 </header>
+
+
+
+
+
+
+
+
+

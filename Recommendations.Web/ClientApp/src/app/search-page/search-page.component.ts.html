@@ -1,0 +1,18 @@
+<div class="w-100 m-0 p-0 row d-flex justify-content-center">
+
+  <app-data-loader class="h-100 w-100" *ngIf="!this.waiter"></app-data-loader>
+
+  <h5 class="w-100 d-flex justify-content-center mb-3">
+    {{'SearchPage.SearchResults' | translate}}
+  </h5>
+  <div *ngIf="this.waiter" class="row h-100 w-100 d-flex align-items-center justify-content-center p-0 m-0" >
+
+    <h6 class="w-100 d-flex justify-content-center mt-2"
+        *ngIf="reviews.length === 0">
+      {{'SearchPage.NothingWasFound' | translate}}
+    </h6>
+
+    <app-reviews-grid [ReviewForm]="reviewForm" [reviews]="reviews"></app-reviews-grid>
+
+  </div>
+</div>

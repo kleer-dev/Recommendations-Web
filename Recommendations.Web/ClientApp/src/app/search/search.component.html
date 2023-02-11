@@ -1,0 +1,9 @@
+<form class="d-flex justify-content-center align-items-center w-100"
+      [formGroup]="searchForm"
+      (ngSubmit)="search()">
+  <div class="input-group">
+    <input formControlName="search" type="text" class="form-control">
+    <button [disabled]="!searchForm.valid" type="submit"
+            class="btn btn-success "> {{'Header.Search' | translate}}</button>
+  </div>
+</form>

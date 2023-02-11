@@ -1,0 +1,58 @@
+:host {
+  border-radius: 5px;
+  border: 1px solid lightgrey;
+  outline: none;
+  display: flex;
+  color: white;
+  flex-direction: column;
+
+  .text-editor {
+    padding-left: 15px;
+    padding-right: 15px;
+    width: 100% !important;
+    resize: none;
+    //min-height: 200px !important;
+    max-height: 700px !important;
+    height: 500px !important;
+    overflow-y: auto;
+    border-color: transparent;
+
+
+    &:focus {
+      outline: none;
+      border: transparent;
+    }
+  }
+
+  &.focus {
+    border: 1px solid lightgrey;
+  }
+}
+
+markdown-toolbar{
+  display: flex;
+  flex-wrap: wrap;
+  padding: 5px;
+
+  .btn{
+    margin: 5px;
+  }
+}
+
+textarea{
+  background: none;
+  margin-bottom: 15px;
+}
+
+:host-context(.bootstrap) textarea {
+  color: black;
+}
+
+:host-context(.bootstrap-dark) textarea {
+  color: white;
+}
+
+
+
+
+

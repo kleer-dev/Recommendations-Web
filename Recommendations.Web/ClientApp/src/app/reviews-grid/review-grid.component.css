@@ -1,0 +1,52 @@
+.review{
+  display: flex;
+  justify-content: space-around;
+  border: 1px solid lightgrey;
+  border-radius: 5px;
+  padding: 15px;
+  max-width: 300px;
+  min-width: 300px;
+  min-height: 450px;
+  max-height: 450px;
+  height: auto !important;
+}
+
+.review-img{
+  max-width: 100%;
+  width: auto;
+  max-height: 120px;
+  border: 1px solid #3f3f3f;
+  border-radius: 5px;
+}
+
+.wrap{
+  -webkit-hyphens: auto;
+  -moz-hyphens: auto;
+  -ms-hyphens: auto;
+  hyphens: auto;
+  overflow-wrap: break-word;
+}
+
+.control-btn{
+  width: 120px;
+}
+
+.clip{
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  max-width: 250px;
+}
+
+#count-input{
+  width: auto;
+  max-width: 150px;
+  height: 100%;
+}
+
+.review-container {
+  width: 100%;
+  display: flex;
+  justify-content: flex-start;
+  flex-wrap: wrap;
+}

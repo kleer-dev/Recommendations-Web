@@ -1,0 +1,131 @@
+<app-fullscreen-loader *ngIf="!waiter"></app-fullscreen-loader>
+
+<div *ngIf="waiter" #htmlToPdf class="container w-100 d-flex justify-content-center
+ align-items-center m-0 p-0 row d-flex justify-content-center">
+
+  <div class="row d-flex justify-content-center w-100">
+
+
+    <div class="mb-3 w-100 p-0 m-0">
+      <div class="d-flex gap-4 align-items-center flex-wrap justify-content-between">
+        <div class="d-flex flex-column">
+          <span class="wrap">
+            {{'ReviewPage.Author' | translate}} {{review.authorName}} ({{review.authorLikesCount}})
+          </span>
+          <span class="wrap">
+            {{'ReviewPage.CreationDate' | translate}} {{review.creationDate | date:'dd.MM.YY, HH:mm':'UTC+3'}}
+          </span>
+        </div>
+
+        <div class="h-100">
+          <button (click)="downloadPdf()" class="btn btn-success">{{'ReviewPage.Pdf' | translate}}</button>
+        </div>
+      </div>
+    </div>
+
+    <div *ngIf="review.imagesUrls.length > 0" id="carouselExample"
+         class="carousel slide mb-3 d-flex justify-content-center">
+      <div class="carousel-inner">
+        <div class="carousel-item" [ngClass]="{'active': i === 0}"
+             *ngFor="let image of review.imagesUrls; let i = index">
+          <img src="{{image}}" class="d-block mx-auto" alt="...">
+        </div>
+      </div>
+      <button class="carousel-control-prev bg-opacity-50" type="button" data-bs-target="#carouselExample"
+              data-bs-slide="prev">
+        <div class="slider-icon">
+          <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" class="bi bi-arrow-left"
+               viewBox="0 0 16 16">
+            <path fill-rule="evenodd"
+                  d="M15 8a.5.5 0 0 0-.5-.5H2.707l3.147-3.146a.5.5 0 1 0-.708-.708l-4 4a.5.5 0 0 0 0 .708l4 4a.5.5 0 0 0 .708-.708L2.707 8.5H14.5A.5.5 0 0 0 15 8z"/>
+          </svg>
+        </div>
+      </button>
+      <button class="carousel-control-next" type="button" data-bs-target="#carouselExample" data-bs-slide="next">
+        <div class="slider-icon">
+          <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" class="bi bi-arrow-right"
+               viewBox="0 0 16 16">
+            <path fill-rule="evenodd"
+                  d="M1 8a.5.5 0 0 1 .5-.5h11.793l-3.147-3.146a.5.5 0 0 1 .708-.708l4 4a.5.5 0 0 1 0 .708l-4 4a.5.5 0 0 1-.708-.708L13.293 8.5H1.5A.5.5 0 0 1 1 8z"/>
+          </svg>
+        </div>
+      </button>
+    </div>
+
+    <div class="row d-flex flex-column p-0 mb-2">
+      <div class="title-container">
+        <div class="rating-bar mt-2 mb-3 m-0 p-0">
+          <div class="d-flex flex-column">
+            <span>{{'ReviewPage.RateProduct' | translate}}</span>
+            <ngb-rating class="no-print" (rateChange)="onRateChange($event)"
+                        style="font-size: 25px; padding: 0" [max]="5" [(rate)]="rate" [readonly]="false"></ngb-rating>
+          </div>
+
+          <div class="h-100 d-flex justify-content-center align-items-center flex-column">
+            <button [style.background]="this.review.isLike === true ? 'green' : 'black'"
+                    id="likeBtn" (click)="onLike()" class="btn">
+              <svg style="color: white" xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
+                   class="bi bi-heart-fill" viewBox="0 0 16 16">
+                <path fill-rule="evenodd" d="M8 1.314C12.438-3.248 23.534 4.735 8 15-7.534 4.736 3.562-3.248 8 1.314z"/>
+              </svg>
+            </button>
+            <span>{{review.likesCount}}</span>
+          </div>
+        </div>
+
+        <div>
+          <h4 id="review-title" class="mb-2 wrap">{{review.reviewTitle}}</h4>
+          <div class="wrap">{{'ReviewPage.AverageRating' | translate}} {{review.averageRate.toFixed(1)}}</div>
+        </div>
+      </div>
+
+      <app-linked-reviews *ngIf="linkedReviews.length > 0"
+                          class="w-100 p-0 m-0 mt-3"
+                          [linkedReviews]="linkedReviews">
+      </app-linked-reviews>
+
+      <h6 class="mb-2 wrap mt-3">{{'ReviewPage.ProductName' | translate}} {{review.productName}}</h6>
+      <h6 class="mb-2 wrap">{{'ReviewPage.Category' | translate}} {{review.category}}</h6>
+      <h6 class="mb-2 wrap">{{'ReviewPage.AuthorRating' | translate}} {{review.authorRate}}</h6>
+      <h6 class="wrap">{{'ReviewPage.Tags' | translate}} {{review.tags}}</h6>
+    </div>
+
+  </div>
+
+  <div class="row mb-3 m-0 p-0">
+    <div class="description wrap">
+      <h5>{{'ReviewPage.Description' | translate}}</h5>
+      <markdown class="wrap" [data]='review.description'></markdown>
+    </div>
+  </div>
+
+  <div class="row mb-3 no-print m-0 p-0">
+    <h5 class="mb-2">{{'ReviewPage.Comments' | translate}}</h5>
+
+    <div class="write-comment-container mb-3">
+      <h6 class="mb-2">{{'ReviewPage.LeaveComment' | translate}}</h6>
+      <div class="text-danger mb-2" *ngIf="commentForm.controls.commentText.hasError('maxlength') &&
+            commentForm.controls['commentText'].touched">
+        {{'Validation.CommentMaxLength' | translate}}
+      </div>
+      <form class="w-100 p-0 m-0 d-flex flex-column" [formGroup]="commentForm" (ngSubmit)="sendComment()">
+        <textarea formControlName="commentText" id="comment" class="mb-2"></textarea>
+        <input [disabled]="!commentForm.valid" (click)="sendComment()" type="button" class="btn btn-success"
+               value="{{'ReviewPage.Send' | translate}}">
+      </form>
+    </div>
+
+    <div class="comments-container no-print">
+
+      <div class="comment mb-2" *ngFor="let comment of this.signalrService.comments">
+        <span class="comment-head mb-2">
+          <div class="mr-3 wrap">{{comment.authorName}} ({{comment.authorLikesCount}})</div>
+          <div class="wrap">{{comment.creationDate | date:'dd.MM.YY, HH:mm':'UTC+3'}}</div>
+        </span>
+        <div class="comment-text-container wrap">
+          {{comment.text}}
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

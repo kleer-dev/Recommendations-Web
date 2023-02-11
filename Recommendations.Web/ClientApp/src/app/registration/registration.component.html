@@ -1,0 +1,116 @@
+<div class="w-100 d-flex justify-content-center align-items-center">
+
+  <form [formGroup]="registrationForm" (ngSubmit)="onSubmit()" class="col-lg-4 p-0 m-0 w-100">
+
+    <h3 class="d-flex justify-content-center">{{'Forms.Titles.Registration' | translate}}</h3>
+
+    <div class="col w-100 d-flex justify-content-around mb-3">
+      <div class="fw-semibold">{{'Forms.Titles.AlreadyHaveAnAccount' | translate}}
+        <a routerLink="/login">{{'Forms.Titles.SignIn' | translate}}</a>
+      </div>
+    </div>
+
+    <div *ngIf="error === 'exist'" class="text-danger text-center d-flex justify-content-center mb-2">
+      {{'Validation.UserExist' | translate}}
+    </div>
+
+    <div class="col mb-2">
+      <label for="validationCustom01" class="form-label fw-semibold">{{'Forms.Titles.Login' | translate}}</label>
+      <input formControlName="login" maxlength="50" type="text" class="form-control" id="validationCustom01" required>
+      <div class="text-danger" *ngIf="registrationForm.controls.login.errors?.required &&
+                   registrationForm.controls['login'].touched">
+        {{'Validation.LoginIsRequired' | translate}}
+      </div>
+      <div class="text-danger"
+           *ngIf="registrationForm.controls.login.errors?.minlength &&
+            registrationForm.controls['login'].touched">
+        {{'Validation.MinimumLengthIs4Symbols' | translate}}
+      </div>
+    </div>
+
+    <div class="col mb-2">
+      <label for="validationCustomUsername" class="form-label fw-semibold">
+        {{'Forms.Titles.Email' | translate}}
+      </label>
+      <div class="input-group has-validation">
+        <span class="input-group-text" id="inputGroupPrepend">@</span>
+        <input formControlName="email" type="text" class="form-control" id="validationCustomUsername"
+               aria-describedby="inputGroupPrepend"
+               required>
+      </div>
+
+      <div class="text-danger" *ngIf="registrationForm.controls.email.errors?.required &&
+            registrationForm.controls['email'].touched">
+        {{'Validation.EmailIsRequired' | translate}}
+      </div>
+      <div class="text-danger" *ngIf="registrationForm.controls.email.errors?.email &&
+                  registrationForm.controls['email'].touched">
+        {{'Validation.IsNotAnEmail' | translate}}
+      </div>
+    </div>
+
+    <div class="col mb-2">
+      <label for="validationCustom03" class="form-label fw-semibold">
+        {{'Forms.Titles.Password' | translate}}
+      </label>
+      <input formControlName="password" type="password" class="form-control" id="validationCustom03">
+
+      <div class="text-danger" *ngIf="registrationForm.controls.password.errors?.required &&
+                                    registrationForm.controls['password'].touched">
+        {{'Validation.PasswordIsRequired' | translate}}
+      </div>
+      <div class="text-danger" *ngIf="registrationForm.controls.password.errors?.minlength &&
+                                  registrationForm.controls['password'].touched">
+        {{'Validation.MinimumLengthIs4Symbols' | translate}}
+      </div>
+    </div>
+
+    <div class="col mb-3">
+      <label for="validationCustom03" class="form-label fw-semibold">
+        {{'Forms.Titles.PasswordConfirmation' | translate}}
+      </label>
+      <input formControlName="passwordConfirmation" type="password"
+             class="form-control" id="validationCustom04" required
+      >
+
+      <div class="text-danger" *ngIf="registrationForm.controls['passwordConfirmation'].errors?.required &&
+                            registrationForm.controls['passwordConfirmation'].touched">
+        {{'Validation.PasswordsConfirmationIsRequired' | translate}}
+      </div>
+
+      <div class="text-danger" *ngIf="registrationForm.hasError('notSame') &&
+                            registrationForm.controls['passwordConfirmation'].touched">
+        {{'Validation.PasswordsDoNotMatch' | translate}}
+      </div>
+    </div>
+
+    <div class="col-12 m-0 p-0 w-100  row d-flex justify-content-center">
+
+      <div class="col-12 row w-100 m-0 p-0 d-flex justify-content-center">
+        <div class="col">
+          <div class="form-check">
+            <input formControlName="remember" class="form-check-input" type="checkbox" value="false" id="invalidCheck">
+            <label class="form-check-label fw-semibold" for="invalidCheck">
+              {{'Forms.Titles.RememberMe' | translate}}
+            </label>
+          </div>
+        </div>
+      </div>
+
+    </div>
+
+    <div class="col-12 mt-3">
+      <input [disabled]="!registrationForm.valid" class="btn btn-primary w-100" value="{{'Forms.Titles.SignUp' | translate}}" type="submit">
+    </div>
+
+    <div class="col-12 flex-column mt-2">
+      <span class="w-100 d-flex justify-content-center fw-semibold">
+        {{'Forms.Titles.OrSignInWith' | translate}}
+      </span>
+    </div>
+
+    <app-external-login></app-external-login>
+
+  </form>
+
+</div>

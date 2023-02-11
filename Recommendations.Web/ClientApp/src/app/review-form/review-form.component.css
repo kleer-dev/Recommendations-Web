@@ -1,0 +1,87 @@
+.ng2-tag-input {
+  background: #e01a76;
+  border-radius: 10px;
+}
+
+.markdown-div {
+  min-height: 608px !important;
+  max-height: 608px !important;
+  overflow-y: auto !important;
+  height: auto;
+  border-radius: 3px;
+  border: 1px solid lightgrey;
+  padding-left: 10px;
+  padding-right: 10px;
+  width: 95%;
+}
+
+::ng-deep :host-context(.bootstrap-dark) ngx-dropzone {
+  background: #101010;
+}
+
+::ng-deep ngx-dropzone-image-preview img {
+  max-width: 100%;
+  height: auto;
+}
+
+::ng-deep markdown p {
+  width: 100%;
+  -webkit-hyphens: auto;
+  -moz-hyphens: auto;
+  -ms-hyphens: auto;
+  hyphens: auto;
+  overflow-wrap: break-word;
+}
+
+.product-container {
+  border-radius: 5px;
+}
+
+
+::ng-deep ng-autocomplete .autocomplete-container {
+  box-shadow: none !important;
+  border-radius: 5px !important;
+  font-weight: 500;
+}
+
+::ng-deep ng-autocomplete .autocomplete-container .suggestions-container {
+  border-radius: 5px !important;
+}
+
+::ng-deep ng-autocomplete .autocomplete-container .input-container input {
+  border-radius: 5px !important;
+  box-shadow: none !important;
+  border: 1px solid lightgrey;
+  font-weight: 500;
+}
+
+::ng-deep ng-autocomplete .ng-star-inserted {
+  border-radius: 5px !important;
+}
+
+:host-context(.bootstrap-dark) ::ng-deep ng-autocomplete .autocomplete-container .input-container input {
+  background: black;
+  color: white;
+}
+
+:host-context(.bootstrap-dark) ::ng-deep ng-autocomplete .autocomplete-container .suggestions-container {
+  background: black;
+  color: white;
+}
+
+:host-context(.bootstrap-dark) select {
+  background: black;
+  color: white;
+}
+
+:host-context(.bootstrap) ::ng-deep tag-input-form form .ng2-tag-input__text-input {
+  border: 1px solid lightgrey;
+  border-radius: 5px;
+}
+
+:host-context(.bootstrap-dark) ::ng-deep tag-input-form form .ng2-tag-input__text-input {
+  background: black;
+  border-radius: 5px;
+  color: white;
+  border: 1px solid lightgrey;
+}

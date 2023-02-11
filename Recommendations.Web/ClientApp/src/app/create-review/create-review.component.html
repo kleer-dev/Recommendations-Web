@@ -1,0 +1,11 @@
+<app-fullscreen-loader *ngIf="!waiter"></app-fullscreen-loader>
+
+<div class="row mb-2">
+  <h3 class="d-flex justify-content-center align-items-center">{{'ReviewForm.CreateReview' | translate}}</h3>
+</div>
+
+<app-review-form *ngIf="waiter" (onSubmitForm)="onSubmitForm()"
+                 [reviewForm]="reviewForm"
+                 [tags]="[]"
+                 [products]="products">
+</app-review-form>

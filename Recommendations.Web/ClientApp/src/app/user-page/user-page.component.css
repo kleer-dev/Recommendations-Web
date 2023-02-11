@@ -1,0 +1,4 @@
+:host-context(.bootstrap-dark) select {
+  background: black;
+  color: white;
+}

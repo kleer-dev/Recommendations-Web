@@ -1,0 +1,154 @@
+<div class="w-100 d-flex justify-content-center align-items-center m-0 p-0 row d-flex justify-content-center">
+
+  <form class="d-flex justify-content-center align-items-center flex-column" (input)="onChangeMarkdownEditor()"
+        [formGroup]="reviewForm" (ngSubmit)="onSubmit()">
+
+    <div class="col w-100 d-flex justify-content-center mb-3">
+      <input [disabled]="!reviewForm.valid"
+             class="d-flex justify-content-center align-items-center w-25 btn btn-primary mt-2"
+             value="{{'ReviewForm.Send' | translate}}" type="submit">
+    </div>
+
+
+    <div class="row d-flex justify-content-center mt-3 w-100  p-0 m-0">
+      <div class="col-lg-12 p-0 m-0 h-100 w-100 row mb-3 d-flex justify-content-center">
+        <div class="row w-100 p-0 m-0">
+          <h6>{{'ReviewForm.AddImage' | translate}}</h6>
+          <ngx-dropzone [maxFileSize]="5242880" [multiple]="true" [accept]="'image/*'" class="w-100
+              d-flex justify-content-center" (change)="onSelectImage($event)">
+            <ngx-dropzone-image-preview *ngFor="let file of files"
+                                        [file]="file!" class="w-100"
+                                        [removable]="true"
+                                        (removed)="onRemoveImage(file)"
+            >
+            </ngx-dropzone-image-preview>
+            <ngx-dropzone-label *ngIf="files!.length === 0"
+                                class="w-100">{{'ReviewForm.AddImage' | translate}}
+            </ngx-dropzone-label>
+          </ngx-dropzone>
+        </div>
+        <div class="row w-100 m-0 p-0">
+          <ngb-rating class="w-100 m-0 p-0" formControlName="authorRate" (rateChange)="onRateChange($event)"
+                      style="font-size: 25px" [max]="10" [(rate)]="rate" [readonly]="false"></ngb-rating>
+        </div>
+      </div>
+
+
+      <div class="col-lg-12 mb-2 p-0 m-0 w-100">
+        <div class="col mb-2  p-0 m-0">
+          <h6>{{'ReviewForm.ReviewTitle' | translate}}</h6>
+          <input maxlength="100" formControlName="title" class="form-control" type="text">
+          <div class="text-danger" *ngIf="reviewForm.controls.title.errors?.required &&
+            reviewForm.controls['title'].touched">
+            {{'Validation.TitleIsRequired' | translate}}
+          </div>
+
+          <div class="text-danger" *ngIf="reviewForm.controls.title.hasError('minlength')&&
+            reviewForm.controls['title'].touched">
+            {{'Validation.MinLength5' | translate}}
+          </div>
+        </div>
+
+        <div class="col mt-3 mb-3 p-0 m-0">
+          <div class="product-container border-5 border border-opacity-100 p-3">
+            <h6 class="mb-4">{{'ReviewForm.SelectOrCreateProduction' | translate}}</h6>
+
+            <ng-autocomplete #productName formControlName="productName" class="ng-autocomplete"
+                             [data]="products"
+                             placeholder="{{'ReviewForm.SelectOrCreateProduction' | translate}}"
+                             (selected)='selectEvent($event)'
+                             (inputChanged)='onChangeSearch($event)'
+                             (inputFocused)='onFocused($event)'
+                             [itemTemplate]="itemTemplate">
+            </ng-autocomplete>
+
+            <ng-template #itemTemplate let-item>
+              <a [innerHTML]="item"></a>
+            </ng-template>
+
+            <div class="text-danger mt-2" *ngIf="reviewForm.controls.productName.hasError('minlength')&&
+            reviewForm.controls['productName'].touched">
+              {{'Validation.MinLength5' | translate}}
+            </div>
+
+            <div class="text-danger mt-2" *ngIf="reviewForm.controls.productName.hasError('maxlength')&&
+            reviewForm.controls['productName'].touched">
+              {{'Validation.MaxLength100' | translate}}
+            </div>
+
+            <div class="text-danger mt-2" *ngIf="reviewForm.controls.productName.hasError('required') &&
+            reviewForm.controls['productName'].touched">
+              {{'Validation.ProductNameIsRequired' | translate}}
+            </div>
+          </div>
+        </div>
+
+        <div class="col mb-2 p-0 m-0">
+          <h6>{{'ReviewForm.Category' | translate}}</h6>
+          <select required formControlName="categoryName" class="form-select">
+            <option *ngFor="let category of categories" value="{{category}}">
+              {{category}}
+            </option>
+
+          </select>
+          <div class="text-danger" *ngIf="reviewForm.controls.categoryName.errors?.required &&
+            reviewForm.controls['categoryName'].touched">
+            {{'Validation.CategoryIsRequired' | translate}}
+          </div>
+        </div>
+
+        <div class="col mb-3 p-0 m-0">
+          <h6>{{'ReviewForm.Tags' | translate}}</h6>
+          <div id="tag-block">
+            <div class="form-group">
+
+              <tag-input secondaryPlaceholder="{{'ReviewForm.EnterTag' | translate}}"
+                         (onRemove)="onTagRemove($event)" (onAdd)="onTagAdd($event)"
+                         [ngModel]="tags" [ngModelOptions]="{standalone: true}"
+                         class=".tag-input" theme="dark" [onlyFromAutocomplete]="false">
+                <tag-input-dropdown
+                  [autocompleteObservable]="requestAutocompleteTags" displayBy="name"
+                  identifyBy="name">
+                </tag-input-dropdown>
+              </tag-input>
+
+            </div>
+
+            <div class="text-danger" *ngIf="reviewForm.controls.tags.errors?.required">
+              {{'Validation.TagsAreRequired' | translate}}
+            </div>
+          </div>
+        </div>
+
+
+      </div>
+    </div>
+
+
+    <div class="row w-100 d-flex justify-content-center p-0 m-0">
+      <div class="col-lg-6 h-100 row mb-2 p-0 m-0 d-flex justify-content-center">
+        <h6>{{'ReviewForm.Description' | translate}}</h6>
+        <div class="text-danger mb-2" *ngIf="reviewForm.controls.description!.value!.length > 5000">
+          {{'Validation.MaxLength5000' | translate}}
+        </div>
+        <div class="text-danger mb-2" *ngIf="reviewForm.controls.description!.value!.length < 100
+                                                && reviewForm.controls['description'].touched">
+          {{'Validation.MinLength100' | translate}}
+        </div>
+        <div class="text-danger mb-2" *ngIf="reviewForm.controls.description.errors?.required &&
+                                      reviewForm.controls['description'].touched">
+          {{'Validation.DescriptionIsRequired' | translate}}
+        </div>
+        <markdown-editor [control]="descriptionRawControl"></markdown-editor>
+      </div>
+
+      <div class="col-lg-6  p-0 m-0 h-100 row d-flex justify-content-center">
+        <h6>{{'ReviewForm.MarkdownPreview' | translate}}</h6>
+        <div class="markdown-div ">
+          <markdown [data]='value'></markdown>
+        </div>
+      </div>
+    </div>
+  </form>
+
+</div>

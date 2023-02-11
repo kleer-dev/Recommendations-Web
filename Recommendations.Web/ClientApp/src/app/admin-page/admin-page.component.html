@@ -1,0 +1,100 @@
+<app-fullscreen-loader *ngIf="!waiter"></app-fullscreen-loader>
+
+<div *ngIf="waiter" class="row w-100 m-0 p-0">
+
+  <div class="d-flex justify-content-between mb-2 m-0 p-0">
+    <div class="fw-semibold w-100 fs-5 d-flex justify-content-center align-items-center">
+      {{'Profile.Users' | translate}}
+    </div>
+  </div>
+
+  <div class="row w-100 m-0 p-0">
+    <ngx-datatable class="bootstrap w-100 p-0 m-0"
+                   [scrollbarH]="true"
+                   [columnMode]="ColumnMode.flex"
+                   [rowHeight]="60"
+                   [rows]="users">
+
+      <ngx-datatable-column [canAutoResize]="false" name="Id" prop="id">
+        <ng-template let-row="row" ngx-datatable-cell-template>
+          {{row.id}}
+        </ng-template>
+      </ngx-datatable-column>
+
+      <ngx-datatable-column [canAutoResize]="false" prop="userName" name="{{'Profile.UserName' | translate}}">
+        <ng-template let-row="row" ngx-datatable-cell-template>
+          {{row.userName}}
+        </ng-template>
+      </ngx-datatable-column>
+
+      <ngx-datatable-column [canAutoResize]="false" prop="email" name="{{'Profile.Email' | translate}}">
+        <ng-template let-row="row" ngx-datatable-cell-template>
+          {{row.email}}
+        </ng-template>
+      </ngx-datatable-column>
+
+      <ngx-datatable-column [canAutoResize]="false" prop="likesCount" name="{{'Profile.LikesCount' | translate}}">
+        <ng-template let-row="row" ngx-datatable-cell-template>
+          {{row.likesCount}}
+        </ng-template>
+      </ngx-datatable-column>
+
+      <ngx-datatable-column [canAutoResize]="false" prop="role" name="{{'Profile.Role' | translate}}">
+        <ng-template let-row="row" ngx-datatable-cell-template>
+          {{row.role}}
+        </ng-template>
+      </ngx-datatable-column>
+
+      <ngx-datatable-column [canAutoResize]="false" prop="accessStatus" name="{{'Profile.AccessStatus' | translate}}">
+        <ng-template let-row="row" ngx-datatable-cell-template>
+          {{row.accessStatus}}
+        </ng-template>
+      </ngx-datatable-column>
+
+      <ngx-datatable-column [sortable]="false"
+                            [headerClass]="'text-center'"
+                            name="{{'Profile.Actions' | translate}}">
+        <ng-template let-row="row" ngx-datatable-cell-template>
+         <div class="d-flex justify-content-center align-items-center w-100">
+           <button [routerLink]="['/profile', row.id]"
+                   class="btn btn-primary mr-2">
+             {{'Profile.View' | translate}}
+           </button>
+
+           <button (click)="deleteUser(row.id)" class="btn btn-danger mr-2">
+             {{'Profile.Delete' | translate}}
+           </button>
+
+           <div class="btn-group mr-2" role="group" aria-label="Basic mixed styles example">
+             <button (click)="blockUser(row.id)"
+                     type="button"
+                     class="btn btn-dark">
+               {{'Profile.Block' | translate}}
+             </button>
+             <button (click)="unblockUser(row.id)"
+                     type="button"
+                     class="btn btn-success">
+               {{'Profile.Unblock' | translate}}
+             </button>
+           </div>
+
+           <div class="btn-group mr-2" role="group" aria-label="Basic mixed styles example">
+             <button (click)="setRole(row.id, userRole)"
+                     type="button"
+                     class="btn btn-dark">
+               User
+             </button>
+             <button (click)="setRole(row.id, adminRole)"
+                     type="button"
+                     class="btn btn-success">
+               Admin
+             </button>
+           </div>
+
+         </div>
+        </ng-template>
+      </ngx-datatable-column>
+
+    </ngx-datatable>
+  </div>
+</div>

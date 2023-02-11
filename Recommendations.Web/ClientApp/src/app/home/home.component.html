@@ -1,14 +1,46 @@
-<h1>Hello, world!</h1>
-<p>Welcome to your new single-page application, built with:</p>
-<ul>
-  <li><a href='https://get.asp.net/'>ASP.NET Core</a> and <a href='https://msdn.microsoft.com/en-us/library/67ef8sbd.aspx'>C#</a> for cross-platform server-side code</li>
-  <li><a href='https://angular.io/'>Angular</a> and <a href='http://www.typescriptlang.org/'>TypeScript</a> for client-side code</li>
-  <li><a href='http://getbootstrap.com/'>Bootstrap</a> for layout and styling</li>
-</ul>
-<p>To help you get started, we've also set up:</p>
-<ul>
-  <li><strong>Client-side navigation</strong>. For example, click <em>Counter</em> then <em>Back</em> to return here.</li>
-  <li><strong>Angular CLI integration</strong>. In development mode, there's no need to run <code>ng serve</code>. It runs in the background automatically, so your client-side resources are dynamically built on demand and the page refreshes when you modify any file.</li>
-  <li><strong>Efficient production builds</strong>. In production mode, development-time features are disabled, and your <code>dotnet publish</code> configuration automatically invokes <code>ng build</code> to produce minified, ahead-of-time compiled JavaScript files.</li>
-</ul>
-<p>The <code>ClientApp</code> subdirectory is a standard Angular CLI application. If you open a command prompt in that directory, you can run any <code>ng</code> command (e.g., <code>ng test</code>), or use <code>npm</code> to install extra packages into it.</p>
+<app-fullscreen-loader *ngIf="!waiter"></app-fullscreen-loader>
+
+<div *ngIf="waiter" class="w-100 m-0 p-0 row d-flex justify-content-center">
+
+  <div class="row w-100 d-flex justify-content-center align-items-center mb-3 m-0">
+    <div class="d-flex justify-content-between align-items-center mb-2">
+      <h6 class="d-flex w-100 justify-content-center ">{{'HomePage.TagCloud' | translate}}</h6>
+      <button type="button"
+              class="btn btn-danger"
+              (click)="resetTag()">
+        {{'HomePage.Reset' | translate}}
+      </button>
+    </div>
+
+    <div class="flex-wrap tag-container d-flex flex-row w-100">
+      <input (click)="onTagSelect($event)"
+             *ngFor="let tag of tags"
+             type="button"
+             class="tag btn text-white"
+             value="{{tag.name}}">
+    </div>
+  </div>
+
+  <div class="container d-flex justify-content-center mb-2 flex-wrap">
+    <button
+        (click)="getRecentReviews()"
+       class="btn btn-outline-success control-btn mr-2 mb-2">
+      {{'HomePage.Recent' | translate}}
+    </button>
+    <button
+       (click)="getMostRatedReviews()"
+       class="btn btn-outline-success control-btn mr-2 mb-2">
+      {{'HomePage.MostRated' | translate}}
+    </button>
+    <form [formGroup]="countInput" class=" mb-2">
+      <input (change)="checkCountInput()" min="1" formControlName="count" value=""  type="number"
+             class="form-control" id="count-input" placeholder="{{'HomePage.Count' | translate}}">
+    </form>
+  </div>
+
+
+  <app-data-loader class="h-100 w-100" *ngIf="!this.reviewService.waiter"></app-data-loader>
+
+  <app-reviews-grid [ReviewForm]="reviewForm" [reviews]="reviewService.reviews"></app-reviews-grid>
+
+</div>
